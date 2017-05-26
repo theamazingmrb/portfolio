@@ -141,7 +141,9 @@ iframe{
 /*!------------------------------------------------------------------
 [Typography]
 */
-
+.blue{
+	color: blue;
+}
 a{
 	color:#111;
 	-webkit-transition:all 0.125s cubic-bezier( 0.3, 0.1, 0.58, 1 );

@@ -128,7 +128,8 @@ iframe{
 }
 
 .info-box {
-		margin-top: 30px !important;
+	margin-top: 15% !important;
+	padding-right: 10%;
 
 }
 
@@ -173,10 +174,15 @@ iframe{
 	}
 }
 
-.container-custom{
-	max-width:1170px;
-	margin:0 auto;
-}
+	.container-custom{
+		max-width:1170px;
+		margin:0 auto;
+	}
+
+	div#accordion a:hover {
+		background-color: lightgray;
+	}
+
 /*!------------------------------------------------------------------
 [Typography]
 */

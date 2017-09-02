@@ -57,6 +57,11 @@ img{
 	max-width:100%;
 	height:auto;
 }
+
+.right {
+	padding-left: 100px !important;
+}
+
 #click_text{
 	color: blue;
 	padding-left: 125px;
@@ -109,6 +114,33 @@ iframe{
 .wrapper{
 	position:relative;
 	margin-left:250px;
+}
+
+.pull-right {
+	float: right;
+}
+.pull-left {
+	float: left;
+}
+
+.spacing-top {
+	margin-top: 20%;
+}
+
+.box {
+	border: 1px solid !important;
+	padding-left: 10%;
+	height: 500px;
+}
+
+.cover {
+	background-image: url("assets/images/artsysplash.png");
+	padding: 0px !important;
+	background-position: cover cover !important;
+}
+
+.black {
+	color: #141823;
 }
 
 @media (max-width: 991px){

@@ -86,7 +86,7 @@
 					</li>
 
 					<li>
-					<a target="_blank" href="https://drive.google.com/file/d/0B88aPqQT14V7aEZzTERqZDhTb2s/view?usp=sharing">Resume</a>
+					<a target="_blank" href="https://drive.google.com/file/d/1McDIMZ17QdEY7uQwN91Fl_x0KsPkIbOM/view?usp=sharing	">Resume</a>
 
 					</li>
 
@@ -150,6 +150,8 @@
 					</div>
 				</div>
 				<!-- /FILTERS -->
+				<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
 
 				<div class="works-grid-wrapper">
 
@@ -710,6 +712,26 @@
 	<script src="assets/js/submenu-fix.js"></script>
 	<script src="assets/js/contact.js"></script>
 	<script src="assets/js/custom.js"></script>
+	<script type="text/javascript">
+		// When the user scrolls down 20px from the top of the document, show the button
+
+		window.onscroll = function() {scrollFunction()};
+
+		function scrollFunction() {
+		    if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+		        document.getElementById("myBtn").style.display = "block";
+		    } else {
+		        document.getElementById("myBtn").style.display = "none";
+		    }
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+
+		function topFunction() {
+		    document.body.scrollTop = 0; // For Safari
+		    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+	</script>
 
 </body>
 </html>

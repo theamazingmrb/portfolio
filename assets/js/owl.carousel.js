@@ -1215,11 +1215,11 @@ if (typeof Object.create !== "function") {
             function addHeight() {
                 var $currentItem = $(base.$owlItems[base.currentItem]).height();
                 base.wrapperOuter.css("height", $currentItem + "px");
-                if (!base.wrapperOuter.hasClass("autoHeight")) {
-                    window.setTimeout(function () {
-                        base.wrapperOuter.addClass("autoHeight");
-                    }, 0);
-                }
+                // if (!base.wrapperOuter.hasClass("autoHeight")) {
+                //     window.setTimeout(function () {
+                //         base.wrapperOuter.addClass("autoHeight");
+                //     }, 0);
+                // }
             }
 
             function checkImage() {

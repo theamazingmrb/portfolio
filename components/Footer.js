@@ -8,7 +8,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <p>Powered by <span className='font-bold text-gray-900'>House Of Heidelberg</span></p>
+          <p className='z-50'>Powered by <span className='font-bold text-gray-900'>House Of Heidelberg</span></p>
           {/* <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" /> */}
         </a>
       </footer>

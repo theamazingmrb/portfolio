@@ -7,7 +7,7 @@ import { useState } from 'react';
 const Layout = ({children}) => {
     const [open, setOpen] = useState(false);
 
-    return (<div className="bg-red-100 ccontainer">
+    return (<div className="bg-gray-500 flex flex-col justify-between min-h-screen">
         <Nav />
         <Burger open={open} setOpen={setOpen} />
         <BurgerNav open={open} setOpen={setOpen} />

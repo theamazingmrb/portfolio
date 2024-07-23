@@ -116,7 +116,7 @@ export default async function Home() {
             Ready to start a project?
           </h2>
           <p className="text-lg md:text-xl mb-8">
-            Let's create something amazing together.
+            Let&apos;s create something amazing together.
           </p>
           <Link
             href="/contact"

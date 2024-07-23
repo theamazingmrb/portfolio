@@ -5,25 +5,25 @@ import AnimatedSection from "@/components/AnimatedSection";
 import TopCategories from "@/components/TopCategories";
 import { getSortedPostsData, PostData } from "@/lib/posts";
 
-export default function Home() {
+export default async function Home() {
   const allPostsData: PostData[] = getSortedPostsData();
 
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen bg-gray-900 text-white">
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden px-4">
         <div className="z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+          <h1 className="text-5xl md:text-7xl font-bold mb-4">
             Welcome to My Portfolio
           </h1>
-          <p className="text-lg md:text-xl mb-8">
+          <p className="text-xl md:text-2xl mb-8">
             Developer. Designer. Creator.
           </p>
           <Link
             href="/projects"
-            className="bg-blue-500 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-blue-600 transition duration-300"
+            className="bg-blue-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-600 transition duration-300"
           >
             Explore My Work
           </Link>
@@ -35,6 +35,7 @@ export default function Home() {
             fill
             style={{ objectFit: "cover" }}
             priority
+            className="opacity-50"
           />
         </div>
       </section>
@@ -42,7 +43,7 @@ export default function Home() {
       {/* Feature Sections */}
       <AnimatedSection
         animationType="fadeInUp"
-        className="py-12 md:py-20 bg-gray-100"
+        className="py-12 md:py-20 bg-gray-100 text-black"
       >
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">
@@ -64,7 +65,7 @@ export default function Home() {
 
       <AnimatedSection
         animationType="fadeInLeft"
-        className="py-12 md:py-20 bg-white"
+        className="py-12 md:py-20 bg-white text-black"
       >
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">Blog</h2>
@@ -87,7 +88,7 @@ export default function Home() {
 
       <AnimatedSection
         animationType="fadeInRight"
-        className="py-12 md:py-20 bg-gray-100"
+        className="py-12 md:py-20 bg-gray-100 text-black"
       >
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">
@@ -129,7 +130,7 @@ export default function Home() {
   );
 }
 
-function BlogPostCard({ title, excerpt, link }: { title: string; excerpt: string, link: string }) {
+function BlogPostCard({ title, excerpt, link }: { title: string; excerpt: string; link: string }) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-semibold mb-2">{title}</h3>

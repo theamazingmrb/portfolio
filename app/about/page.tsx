@@ -68,7 +68,7 @@ export default function AboutPage() {
               <div className="md:w-2/3 md:pl-12">
                 <h2 className="text-3xl font-bold mb-4">About Me</h2>
                 <p className="text-lg mb-4">
-                  I'm a passionate software engineer and educator with a knack
+                  I&apos;m a passionate software engineer and educator with a knack
                   for creating innovative solutions and nurturing the next
                   generation of developers. With experience ranging from
                   startups to established companies, I bring a diverse skill set

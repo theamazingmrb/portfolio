@@ -45,7 +45,7 @@ export default function ContactPage() {
         <section className="relative h-64 md:h-96 flex items-center justify-center overflow-hidden px-4 bg-gray-900 text-white">
           <div className="z-10 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">Contact Me</h1>
-            <p className="text-lg md:text-xl">I'd love to hear from you!</p>
+            <p className="text-lg md:text-xl">I&apos;d love to hear from you!</p>
           </div>
         </section>
 
@@ -59,7 +59,7 @@ export default function ContactPage() {
               <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md text-center">
                 <h2 className="text-2xl font-semibold mb-4">Thank You!</h2>
                 <p className="mb-4">
-                  Your message has been sent successfully. I'll get back to you
+                  Your message has been sent successfully. I&apos;ll get back to you
                   soon.
                 </p>
                 <button

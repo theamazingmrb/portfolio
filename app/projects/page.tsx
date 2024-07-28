@@ -87,7 +87,7 @@ export default function ProjectsPage() {
             Interested in collaboration?
           </h2>
           <p className="text-lg md:text-xl mb-8">
-            Let's discuss how we can work together on your next project.
+            Let&apos;s discuss how we can work together on your next project.
           </p>
           <Link
             href="/contact"

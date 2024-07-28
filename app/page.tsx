@@ -4,22 +4,26 @@ import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import TopCategories from "@/components/TopCategories";
 import { getSortedPostsData, PostData } from "@/lib/posts";
+import { ProjectCard } from "@/components/ProjectCard";
+import { SkillGroup } from "@/components/SkillGroup";
 
 export default async function Home() {
   const allPostsData: PostData[] = getSortedPostsData();
 
   return (
     <main className="min-h-screen bg-gray-900 text-white">
-      <Navbar />
+      <div className="max-w-6xl mx-auto">
+        <Navbar />
+      </div>
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden px-4">
         <div className="z-10 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-4">
-            Welcome to My Portfolio
+            Billie P Heidelberg
           </h1>
           <p className="text-xl md:text-2xl mb-8">
-            Developer. Designer. Creator.
+            Full Stack Developer | Educator | Technical Co-Founder
           </p>
           <Link
             href="/projects"
@@ -50,20 +54,39 @@ export default async function Home() {
             Latest Projects
           </h2>
           <p className="text-lg md:text-xl mb-8 md:mb-12 max-w-2xl mx-auto">
-            Discover my most recent work, showcasing innovation and creativity
-            in web development.
+            Explore my recent work, showcasing innovation in web development and
+            startup technology.
           </p>
-          <Image
-            src="/project-preview.png"
-            alt="Project Preview"
-            width={800}
-            height={450}
-            className="rounded-lg shadow-xl mx-auto max-w-full h-auto"
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <ProjectCard
+              title="TOLO"
+              description="A virality engine helping content creators get discovered fast. Features innovative algorithms for fair content promotion."
+              image="/projects/tolo-preview.png"
+              link="/projects/tolo"
+            />
+            <ProjectCard
+              title="Candid"
+              description="An ENM network app for the non-monogamous community. Includes features like verification, discovery, events, and vouching system."
+              image="/projects/candid-preview.png"
+              link="/projects/candid-preview.png"
+            />
+            <ProjectCard
+              title="Airbnb Ambassador Site"
+              description="Redesigned key components of the affiliate management platform for improved navigation and aesthetics."
+              image="/projects/airbnb.png"
+              link="/projects/airbnb"
+            />
+            {/* <ProjectCard
+              title="Drink Drank LA"
+              description="A Mongo/Express/EJS application using Yelp API to track and display bars in your area."
+              image="/projects/drink-drank-la.png"
+              link="/projects/drink-drank-la"
+            /> */}
+          </div>
         </div>
       </AnimatedSection>
 
-      <AnimatedSection
+      {/* <AnimatedSection
         animationType="fadeInLeft"
         className="py-12 md:py-20 bg-white text-black"
       >
@@ -84,24 +107,37 @@ export default async function Home() {
             ))}
           </div>
         </div>
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       <AnimatedSection
         animationType="fadeInRight"
-        className="py-12 md:py-20 bg-gray-100 text-black"
+        className="py-12 md:py-20 bg-white text-black"
       >
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">
             Skills & Expertise
           </h2>
           <p className="text-lg md:text-xl mb-8 md:mb-12 max-w-2xl mx-auto">
-            A snapshot of my technical skills and areas of expertise.
+            A comprehensive overview of my technical skills and areas of
+            expertise.
           </p>
-          <div className="flex flex-wrap justify-center gap-8">
-            <SkillIcon name="React" icon="react.png" />
-            <SkillIcon name="Node.js" icon="node.png" />
-            <SkillIcon name="TypeScript" icon="ts.png" />
-            <SkillIcon name="AWS" icon="aws.png" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <SkillGroup
+              title="Front-end"
+              skills={["React", "Next.js", "Tailwind CSS", "HTML5/CSS3"]}
+            />
+            <SkillGroup
+              title="Back-end"
+              skills={["Node.js", "Express", "Django", "GraphQL"]}
+            />
+            <SkillGroup
+              title="Databases"
+              skills={["MongoDB", "PostgreSQL", "Supabase", "Hasura"]}
+            />
+            <SkillGroup
+              title="Other"
+              skills={["Docker", "Git", "ETL Processes", "Responsive Design"]}
+            />
           </div>
         </div>
       </AnimatedSection>
@@ -130,7 +166,15 @@ export default async function Home() {
   );
 }
 
-function BlogPostCard({ title, excerpt, link }: { title: string; excerpt: string; link: string }) {
+function BlogPostCard({
+  title,
+  excerpt,
+  link,
+}: {
+  title: string;
+  excerpt: string;
+  link: string;
+}) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-semibold mb-2">{title}</h3>

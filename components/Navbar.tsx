@@ -47,8 +47,8 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden mt-4 space-y-2">
           <NavLink href="/">Home</NavLink>
-          <NavLink href="/notes">Notes</NavLink>
-          <NavLink href="/articles">Articles</NavLink>
+          {/* <NavLink href="/notes">Notes</NavLink>
+          <NavLink href="/articles">Articles</NavLink> */}
           <NavLink href="/projects">Projects</NavLink>
           <NavLink href="/about">About Me</NavLink>
           <NavLink href="/contact">Contact</NavLink>

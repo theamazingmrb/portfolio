@@ -12,10 +12,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-gray-900 text-white">
-      <div className="max-w-6xl mx-auto">
-        <Navbar />
-      </div>
-
+      <Navbar />
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden px-4">
         <div className="z-10 text-center">

@@ -65,14 +65,14 @@ export default async function Home() {
               title="Candid"
               description="An ENM network app for the non-monogamous community. Includes features like verification, discovery, events, and vouching system."
               image="/projects/candid-preview.png"
-              link="/projects/candid-preview.png"
+              link="/projects/candid"
             />
-            <ProjectCard
+            {/* <ProjectCard
               title="Airbnb Ambassador Site"
-              description="Redesigned key components of the affiliate management platform for improved navigation and aesthetics."
+              description="A site and portal for ambassadors to refer others and earn money."
               image="/projects/airbnb.png"
               link="/projects/airbnb"
-            />
+            /> */}
             {/* <ProjectCard
               title="Drink Drank LA"
               description="A Mongo/Express/EJS application using Yelp API to track and display bars in your area."

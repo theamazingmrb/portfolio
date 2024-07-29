@@ -60,7 +60,6 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* Projects Section */}
       <AnimatedSection
         animationType="fadeInUp"
         className="py-12 md:py-20 bg-gray-100"

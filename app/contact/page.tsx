@@ -8,6 +8,8 @@ import Footer from "@/components/Footer";
 
 export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,19 +26,50 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
-    // Reset form
+    setIsSubmitting(true);
+    setSubmissionError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setSubmissionError(
+        error instanceof Error
+          ? error.message
+          : "Failed to send message. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetForm = () => {
     setFormData({ name: "", email: "", subject: "", message: "" });
+    setSubmissionError("");
+    setIsSubmitted(false);
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900">
       <Head>
-        <title>Contact</title>
-        <meta name="description" content="Contact page description" />
+        <title>Contact Billie Heidelberg Jr.</title>
+        <meta
+          name="description"
+          content="Get in touch with Billie Heidelberg Jr. - Full Stack Developer, Educator, and Technical Co-Founder"
+        />
       </Head>
       <Navbar />
 
@@ -45,7 +78,9 @@ export default function ContactPage() {
         <section className="relative h-64 md:h-96 flex items-center justify-center overflow-hidden px-4 bg-gray-900 text-white">
           <div className="z-10 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">Contact Me</h1>
-            <p className="text-lg md:text-xl">I&apos;d love to hear from you!</p>
+            <p className="text-lg md:text-xl">
+              I&apos;d love to hear from you!
+            </p>
           </div>
         </section>
 
@@ -59,11 +94,11 @@ export default function ContactPage() {
               <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md text-center">
                 <h2 className="text-2xl font-semibold mb-4">Thank You!</h2>
                 <p className="mb-4">
-                  Your message has been sent successfully. I&apos;ll get back to you
-                  soon.
+                  Your message has been sent successfully. I&apos;ll get back to
+                  you soon.
                 </p>
                 <button
-                  onClick={() => setIsSubmitted(false)}
+                  onClick={resetForm}
                   className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-600 transition duration-300"
                 >
                   Send Another Message
@@ -75,6 +110,11 @@ export default function ContactPage() {
                 className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md"
               >
                 <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
+                {submissionError && (
+                  <p className="text-red-500 mb-4" role="alert">
+                    {submissionError}
+                  </p>
+                )}
                 <div className="mb-4">
                   <label
                     htmlFor="name"
@@ -90,6 +130,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
+                    aria-required="true"
                   />
                 </div>
                 <div className="mb-4">
@@ -107,6 +148,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
+                    aria-required="true"
                   />
                 </div>
                 <div className="mb-4">
@@ -124,6 +166,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
+                    aria-required="true"
                   />
                 </div>
                 <div className="mb-6">
@@ -141,13 +184,15 @@ export default function ContactPage() {
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
+                    aria-required="true"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-600 transition duration-300"
+                  className="w-full bg-blue-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-600 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             )}

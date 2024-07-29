@@ -34,7 +34,7 @@ export default async function Home() {
         </div>
         <div className="absolute inset-0 z-0">
           <Image
-            src="/hero-background.png"
+            src="/hero-background.jpg"
             alt="Background"
             fill
             style={{ objectFit: "cover" }}

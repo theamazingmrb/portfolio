@@ -68,11 +68,13 @@ export default function AboutPage() {
               <div className="md:w-2/3 md:pl-12">
                 <h2 className="text-3xl font-bold mb-4">About Me</h2>
                 <p className="text-lg mb-4">
-                  I&apos;m a passionate software engineer and educator with a knack
-                  for creating innovative solutions and nurturing the next
-                  generation of developers. With experience ranging from
-                  startups to established companies, I bring a diverse skill set
-                  and a problem-solving mindset to every project.
+                  I am a highly skilled and passionate Full Stack Developer,
+                  Educator, and Technical Co-Founder. With a robust background
+                  in creating innovative solutions, I excel at nurturing the
+                  next generation of developers. My journey has taken me from
+                  startups to established companies, where I have consistently
+                  delivered high-quality results through my diverse skill set
+                  and problem-solving mindset.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <button
@@ -168,56 +170,56 @@ export default function AboutPage() {
                     company: "TOLO",
                     period: "October 2022 - Present",
                     description:
-                      "Leading the development of a revolutionary content discovery app, implementing innovative algorithms, and managing cross-functional teams.",
+                      "As a Technical Co-Founder at TOLO, I spearhead the development of a groundbreaking content discovery app. I lead the implementation of innovative algorithms and manage cross-functional teams to ensure the app's scalability, security, and seamless user experience. My role involves aligning technology strategies with business goals to significantly enhance content visibility and user engagement.",
                   },
                   {
                     title: "Full Stack Developer / Contractor",
                     company: "Candid",
                     period: "2023 - Present",
                     description:
-                      "Leading the development of an app designed for the non-monogamous, kink, and polyamorous community, ensuring a diverse and inclusive user experience.",
+                      "At Candid, I lead the development of an app tailored for the non-monogamous, kink, and polyamorous community. My responsibilities include creating new features, improving existing functionalities, and ensuring the platform's scalability and security to provide a diverse and inclusive user experience.",
                   },
                   {
                     title: "Software Development Instructor",
                     company: "General Assembly",
                     period: "October 2020 - Present",
                     description:
-                      "Guiding aspiring developers through an intensive software development program, adapting curriculum, and fostering a supportive learning environment.",
+                      "At General Assembly, I have successfully taught over 200+ students in an intensive software development program. I adapt the curriculum to meet the needs of diverse learners, fostering a supportive learning environment that prepares students for successful careers in technology.",
                   },
                   {
                     title: "Training Business Partner (Technical Writer)",
                     company: "InvestCloud Inc.",
                     period: "2021 - Present",
                     description:
-                      "Focusing on technical writing, developing training materials, and ensuring the effective communication of technical concepts to both technical and non-technical stakeholders.",
+                      "In my role as a Training Business Partner at InvestCloud Inc., I focus on technical writing and developing comprehensive training materials. I ensure the effective communication of complex technical concepts to both technical and non-technical stakeholders, enhancing the overall learning experience.",
                   },
                   {
                     title: "Integration Developer",
                     company: "InvestCloud Inc.",
                     period: "December 2019 - 2021",
                     description:
-                      "Developed ETL scripts, designed RESTful APIs, and resolved complex data quality issues for financial services platforms. Currently, serving as a Training Business Partner, focusing on technical writing and developing training materials.",
+                      "As an Integration Developer, I developed ETL scripts, designed RESTful APIs, and resolved complex data quality issues for financial services platforms. My work involved ensuring seamless data integration and maintaining high data quality standards.",
                   },
                   {
                     title: "Front End Developer",
                     company: "InvestCloud Inc.",
                     period: "July 2018 - December 2019",
                     description:
-                      "Developed and implemented digital advertising solutions, enhancing brand interactions and consumer engagement.",
+                      "In my role as a Front End Developer, I developed and implemented digital advertising solutions, enhancing brand interactions and consumer engagement. My focus was on creating responsive and interactive user interfaces that elevate the user experience.",
                   },
                   {
                     title: "Jr Front End Developer",
                     company: "BBDO Los Angeles",
                     period: "October 2017 - July 2018",
                     description:
-                      "Developed and implemented digital advertising solutions, enhancing brand interactions and consumer engagement.",
+                      "At BBDO Los Angeles, I developed and implemented award-winning digital advertising solutions, enhancing brand interactions and consumer engagement. My role involved collaborating with creative teams to deliver high-quality digital campaigns.",
                   },
                   {
                     title: "Full Stack Developer/Contractor",
                     company: "Airbnb",
                     period: "June 2017 - August 2017",
                     description:
-                      "Redesigned key components of the affiliate management platform to improve navigation and aesthetic coherence.",
+                      "During my tenure at Airbnb, I redesigned key components of the affiliate management platform to improve navigation and aesthetic coherence. My contributions significantly enhanced the user experience and streamlined platform functionalities.",
                   },
                 ].map((job, index) => (
                   <div

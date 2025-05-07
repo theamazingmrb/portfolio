@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Billie Heidelberg's Portfolio",
-  description: "A Website by Billie Heidelberg",
+  title: "Billie Heidelberg | Full Stack Developer & Technical Leader",
+  description: "Full Stack Developer with expertise in React, TypeScript, and Node.js. 7+ years of experience building scalable web applications and leading development teams.",
+  keywords: "full stack developer, React developer, TypeScript, Node.js, web development, software engineer, technical leader",
 };
 
 export default function RootLayout({
@@ -16,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

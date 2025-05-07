@@ -15,6 +15,14 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: "smart-trader",
+    title: "Smart Trader",
+    description:
+      "AI-powered trading journal with analytics and trade performance insights for professional traders.",
+    image: "/projects/smart-trader.png",
+    details: "Smart Trader is a professional-grade trading journal application I developed for active traders and financial professionals. Built with Next.js, TypeScript, and Supabase, this platform helps traders track their performance, analyze patterns, and improve their strategies through data-driven insights and AI analysis.\n\nAs the lead developer on this project, I implemented several innovative features including customizable trade journaling with support for various setup types (FVG, order blocks, etc.), a comprehensive performance analytics dashboard with advanced filtering capabilities, and AI-powered trade analysis using OpenAI's GPT-4 model that provides personalized feedback on trade execution and risk management.\n\nThe application features enterprise-level security with row-level security policies in Supabase, ensuring each trader's data remains private and protected. The responsive design works seamlessly across desktop and mobile devices, allowing traders to journal and analyze their trades from anywhere.\n\nTechnologies used: Next.js, TypeScript, Tailwind CSS, Supabase (PostgreSQL), OpenAI API, and Chart.js for data visualization.",
+  },
+  {
     id: "tolo",
     title: "TOLO",
     description:
@@ -30,6 +38,15 @@ const projects: Project[] = [
     image: "/projects/candid-preview.png",
     details:
       "Candid is the ultimate app designed for the non-monogamous, kink, and polyamorous community. It offers a diverse community open to all genders and sexual identities, allowing users to discover who they really are. Features include verification, discovery, events, and a unique vouching system.",
+  },
+  {
+    id: "investcloud",
+    title: "InvestCloud Projects",
+    description:
+      "Front-end development for major financial institutions and internal tools.",
+    image: "/logos/IC-Logo.svg",
+    details:
+      "At InvestCloud, I worked on multiple projects developing front-end solutions for major financial institutions. I focused on creating responsive, user-friendly interfaces that integrated seamlessly with complex backend systems. My work included building interactive dashboards, data visualization tools, and client-facing portals that handled sensitive financial information with the highest security standards.\n\nI collaborated with cross-functional teams to implement custom solutions for clients like Raymond James and Neuberger Berman, ensuring their specific requirements were met while maintaining the overall system architecture. I also contributed to enhancing the developer onboarding program by creating comprehensive documentation and reusable templates.\n\nTechnologies used: JavaScript, HTML, CSS, GraphQL, SQL, and various API integrations.",
   },
   {
     id: "airbnb",
@@ -53,7 +70,7 @@ const projects: Project[] = [
     id: "artsy",
     title: "Artsy",
     description: "A community for artists to share, view, and sell their work.",
-    image: "/projects/artsy-preview.png",
+    image: "/projects/artsy-preview.jpg",
     details:
       "Artsy is a community for artists. With Artsy, artists have the ability to share their work, view other people's work, and post best practices and tips on their profiles. Users can also share their opinions on other users' art through comments. Users will also have the ability to post prices for their art so that they can sell it on Artsy as well (in the post title).",
   },

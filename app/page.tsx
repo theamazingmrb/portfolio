@@ -49,11 +49,11 @@ export default async function Home() {
             Billie P Heidelberg
           </h1>
           
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <span className="inline-block px-4 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-full animate-pulse">
               ✓ Available for Hire
             </span>
-          </div>
+          </div> */}
           
           <p className="text-xl md:text-2xl mb-6 text-gray-300">
             <span className="font-semibold text-white">Full Stack Developer</span> | <span className="font-semibold text-white">Educator</span> | <span className="font-semibold text-white">Team Leader</span>
@@ -257,24 +257,20 @@ export default async function Home() {
         className="relative overflow-hidden py-16 md:py-24"
       >
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-purple-900 opacity-90"></div>
-          <Image
-            src="/cta-background.jpg"
-            alt="Background"
-            fill
-            style={{ objectFit: "cover" }}
-            className="opacity-40"
-          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-purple-900"></div>
+          {/* Add animated particles effect */}
+          <div className="absolute inset-0 animate-pulse-slow opacity-30 bg-gradient-to-tr from-blue-500/20 via-purple-500/20 to-pink-500/20"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-gray-900/70"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 md:p-12 rounded-2xl shadow-2xl border border-white/10">
+          <div className="max-w-4xl mx-auto bg-gray-900/60 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-2xl border border-white/20 hover:border-white/30 transition-all duration-500">
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
                 Let&apos;s Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Extraordinary</span>
               </h2>
               <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-                Looking for a skilled developer to join your team or help with a project? I'm always open to discussing new opportunities and exciting challenges.
+                Looking for a skilled developer to join your team or help with a project? I&apos;m always open to discussing new opportunities and exciting challenges.
               </p>
             </div>
             

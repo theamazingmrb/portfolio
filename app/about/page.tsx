@@ -30,6 +30,22 @@ interface Skill {
 // Data
 const experiences: Experience[] = [
   {
+    title: "Founder & Lead Developer",
+    company: "Smart Trader",
+    period: "January 2025 - Present",
+    description:
+      "Created an AI-powered trading journal application that helps traders track performance, analyze patterns, and improve trading discipline.",
+    achievements: [
+      "Designed and built a full-stack application using Next.js, TypeScript, and Supabase",
+      "Integrated OpenAI's API for trade analysis and performance insights",
+      "Implemented candlestick charting with ApexCharts for visual trade analysis",
+      "Created a responsive UI with Tailwind CSS for optimal user experience",
+    ],
+    technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI API", "Tailwind CSS"],
+    companyUrl: "https://smarttrader.dev",
+    logo: "/logos/smart-trader-logo.svg",
+  },
+  {
     title: "Lead Full Stack Developer",
     company: "Candid",
     period: "January 2023 - Present",
@@ -45,7 +61,7 @@ const experiences: Experience[] = [
     companyUrl: "https://simmr.co",
   },
   {
-    title: "Technical Co-Founder",
+    title: "Team Leader",
     company: "TOLO",
     period: "October 2022 - March 2024",
     description:
@@ -58,7 +74,6 @@ const experiences: Experience[] = [
     ],
     technologies: ["React Native", "AWS", "Supabase", "Node.js"],
     companyUrl: "https://toloapp.com",
-    logo: "/companies/tolo-logo.png",
   },
   {
     title: "Technical Trainer",
@@ -72,8 +87,9 @@ const experiences: Experience[] = [
       "Liaise with production support teams to resolve escalated issues",
       "Design RESTful web APIs to seamlessly extract client data from existing CRM systems",
     ],
-    technologies: ["JavaScript", "SQL", "RESTful APIs", "ETL Tools", "CRM Integration"],
+    technologies: ["Java", "Glassfish", "SQL", "RESTful APIs", "ETL Tools", "CRM Integration"],
     companyUrl: "https://www.investcloud.com",
+    logo: "/logos/IC-Logo.svg",
   },
   {
     title: "Software Immersive Instructor",
@@ -89,7 +105,6 @@ const experiences: Experience[] = [
     ],
     technologies: ["JavaScript", "React", "Node.js", "SQL", "AWS"],
     companyUrl: "https://generalassemb.ly",
-    logo: "/companies/ga-logo.webp",
   },
   {
     title: "Integration Developer",
@@ -103,8 +118,9 @@ const experiences: Experience[] = [
       "Designed RESTful web APIs to extract client data from existing CRM systems",
       "Focused on application development, database modeling, and integration development",
     ],
-    technologies: ["JavaScript", "SQL", "API Development", "ETL", "Database Modeling"],
+    technologies: ["Java","Groovy", "SQL", "API Development", "ETL", "Database Modeling"],
     companyUrl: "https://www.investcloud.com",
+    logo: "/logos/IC-Logo.svg",
   },
   {
     title: "Front End Developer",
@@ -120,6 +136,7 @@ const experiences: Experience[] = [
     ],
     technologies: ["JavaScript", "HTML/CSS", "React", "UI/UX", "Responsive Design"],
     companyUrl: "https://www.investcloud.com",
+    logo: "/logos/IC-Logo.svg",
   },
   {
     title: "Jr Front End Developer",
@@ -173,7 +190,15 @@ const skills: Skill[] = [
       { name: "AWS", level: 4 },
     ],
   },
-  // ... other categories
+  {
+    category: "Other",
+    items: [
+      { name: "Git/GitHub", level: 5 },
+      { name: "CI/CD", level: 4 },
+      { name: "Docker", level: 3 },
+      { name: "Testing", level: 4 },
+    ],
+  },
 ];
 
 // Skill Bar Component
@@ -254,7 +279,7 @@ export default function AboutPage() {
               </div>
 
               <div className="md:w-2/3">
-                <h2 className="text-3xl font-bold mb-6">Hi, I'm Billie 👋</h2>
+                <h2 className="text-3xl font-bold mb-6">Hi, I&apos;m Billie 👋</h2>
                 <p className="text-lg text-gray-700 mb-6">
                   I am a results-driven Full Stack Developer and Technical Leader with 7+ years of experience
                   architecting and implementing scalable web applications. My expertise spans React, TypeScript, Node.js,
@@ -290,6 +315,16 @@ export default function AboutPage() {
                     hover:bg-blue-800 transition duration-300"
                   >
                     <span>LinkedIn</span>
+                  </a>
+                  <a
+                    href="/documents/bheidelberg.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full 
+                    hover:bg-green-700 transition duration-300"
+                    aria-label="Download Resume"
+                  >
+                    <span>📄 Download Resume</span>
                   </a>
                 </div>
               </div>
@@ -347,22 +382,37 @@ export default function AboutPage() {
                       className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                     >
                       <div className="mb-4">
-                        <h4 className="text-xl font-bold">{exp.title}</h4>
-                        <div className="flex flex-wrap items-center gap-2 text-gray-600">
-                          {exp.companyUrl ? (
-                            <a
-                              href={exp.companyUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="hover:text-blue-600"
-                            >
-                              {exp.company}
-                            </a>
-                          ) : (
-                            <span>{exp.company}</span>
+                        <div className="flex items-center gap-4 mb-2">
+                          {exp.logo && (
+                            <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                              <Image 
+                                src={exp.logo} 
+                                alt={`${exp.company} logo`} 
+                                width={48} 
+                                height={48} 
+                                className="object-contain"
+                              />
+                            </div>
                           )}
-                          <span>•</span>
-                          <span>{exp.period}</span>
+                          <div>
+                            <h4 className="text-xl font-bold">{exp.title}</h4>
+                            <div className="flex flex-wrap items-center gap-2 text-gray-600">
+                              {exp.companyUrl ? (
+                                <a
+                                  href={exp.companyUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:text-blue-600"
+                                >
+                                  {exp.company}
+                                </a>
+                              ) : (
+                                <span>{exp.company}</span>
+                              )}
+                              <span>•</span>
+                              <span>{exp.period}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
@@ -401,14 +451,14 @@ export default function AboutPage() {
             {/* Skills Tab */}
             {activeTab === "skills" && (
               <AnimatedSection animationType="fadeIn">
-                <h3 className="text-2xl font-bold mb-8">Technical Skills</h3>
-                <div className="grid md:grid-cols-2 gap-10">
+                <h3 className="text-2xl font-bold mb-8">Skills & Expertise</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {skills.map((skillGroup, index) => (
                     <div
                       key={index}
-                      className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                      className="bg-white p-6 rounded-lg shadow-md"
                     >
-                      <h4 className="text-xl font-bold mb-4">
+                      <h4 className="text-xl font-bold mb-4 text-blue-600">
                         {skillGroup.category}
                       </h4>
                       <div>
@@ -431,17 +481,27 @@ export default function AboutPage() {
               <AnimatedSection animationType="fadeIn">
                 <h3 className="text-2xl font-bold mb-8">Teaching Experience</h3>
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                  <h4 className="text-xl font-bold mb-4">
-                    My Teaching Philosophy
-                  </h4>
-                  <p className="text-gray-700 mb-6">
-                    I believe that learning to code is about more than syntax and
-                    algorithms – it's about building problem-solving abilities
-                    and creative thinking. My teaching approach focuses on
-                    practical, hands-on learning with real-world projects that
-                    inspire students to push beyond their comfort zones and
-                    discover their potential as developers.
-                  </p>
+                  <div className="mb-6">
+                    <h4 className="text-xl font-bold mb-2">
+                      My Teaching Philosophy
+                    </h4>
+                    <p className="text-gray-700 mb-4">
+                      As an educator, I believe in creating an inclusive,
+                      supportive learning environment where students feel
+                      empowered to take risks and learn from their mistakes. My
+                      teaching approach combines practical, hands-on coding
+                      exercises with conceptual understanding to ensure students
+                      develop both technical skills and problem-solving
+                      abilities.
+                    </p>
+                    <p className="text-gray-700">
+                      I focus on real-world applications and industry best
+                      practices, preparing students for the challenges they&apos;ll
+                      face in their professional careers. I strive to inspire
+                      students to push beyond their comfort zones and discover
+                      their potential as developers.
+                    </p>
+                  </div>
 
                   <h4 className="text-xl font-bold mb-4">What I Teach</h4>
                   <div className="grid md:grid-cols-2 gap-6">
@@ -460,16 +520,7 @@ export default function AboutPage() {
                       </h5>
                       <p className="text-gray-700">
                         Advanced topics including state management, authentication,
-                        serverless architectures, and optimization techniques.
-                      </p>
-                    </div>
-                    <div className="border border-gray-200 rounded-lg p-4">
-                      <h5 className="font-semibold mb-2">
-                        Software Engineering Principles
-                      </h5>
-                      <p className="text-gray-700">
-                        Best practices for code organization, testing,
-                        continuous integration, and collaborative development.
+                        API integration, and responsive design principles.
                       </p>
                     </div>
                     <div className="border border-gray-200 rounded-lg p-4">
@@ -477,8 +528,17 @@ export default function AboutPage() {
                         Career Development
                       </h5>
                       <p className="text-gray-700">
-                        Portfolio building, technical interview preparation, and
-                        industry networking strategies.
+                        Technical interview preparation, portfolio development,
+                        and job search strategies for the tech industry.
+                      </p>
+                    </div>
+                    <div className="border border-gray-200 rounded-lg p-4">
+                      <h5 className="font-semibold mb-2">
+                        Team Collaboration
+                      </h5>
+                      <p className="text-gray-700">
+                        Version control with Git, agile methodologies, code
+                        reviews, and effective technical communication.
                       </p>
                     </div>
                   </div>

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -15,21 +16,40 @@ const config: Config = {
       },
       keyframes: {
         "fade-in-up": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(10px)",
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        'gradient-xy': {
+          '0%, 100%': {
+            'background-size': '400% 400%',
+            'background-position': 'left center',
           },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
+        'text': {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
           },
         },
       },
       animation: {
         "fade-in-up": "fade-in-up 0.5s ease-out",
+        'gradient-xy': 'gradient-xy 15s ease infinite',
+        'text': 'text 5s ease infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },
-  plugins: [],
+  plugins: [typography], 
+
 };
+
 export default config;

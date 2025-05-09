@@ -47,7 +47,7 @@ export default async function Blog() {
         </div>
       </AnimatedSection>
 
-      {/* Call to Action */}
+      {/* Call to Action
       <AnimatedSection
         animationType="fadeInLeft"
         className="bg-gray-900 text-white py-12 md:py-20"
@@ -67,7 +67,7 @@ export default async function Blog() {
           </Link>
         </div>
       </AnimatedSection>
-
+ */}
       <Footer />
     </main>
   );

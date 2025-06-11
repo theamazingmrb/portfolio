@@ -131,11 +131,11 @@ export default async function Home() {
               featured={true}
             />
             <ProjectCard
-              title="Candid"
-              description="An ENM network app for the non-monogamous community. Includes features like verification, discovery, events, and vouching system."
-              image="/projects/candid-preview.png"
-              link="/projects/candid"
-              tags={["React", "Node.js", "PostgreSQL"]}
+              title="Simmr"
+              description="The premier discovery and connection platform for the ethically non-monogamous community. Features include verification, discovery, events, and secure messaging."
+              image="/projects/simmr-preview.png"
+              link="/projects/simmr"
+              tags={["React", "Node.js", "PostgreSQL", "TypeScript"]}
               featured={true}
             />
           </div>

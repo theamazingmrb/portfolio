@@ -47,7 +47,7 @@ const experiences: Experience[] = [
   },
   {
     title: "Lead Full Stack Developer",
-    company: "Candid",
+    company: "Simmr",
     period: "January 2023 - Present",
     description:
       "Building a specialized social platform serving the non-monogamous, kink, and polyamorous communities, with a focus on security, privacy, and inclusivity.",

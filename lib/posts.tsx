@@ -17,45 +17,79 @@ export interface PostData {
 }
 
 function generateExcerpt(content: string): string {
+  // Remove markdown headers, horizontal rules, and other formatting
+  let cleanContent = content
+    // Remove frontmatter block
+    .replace(/^---[\s\S]*?---/g, '')
+    // Remove markdown headers
+    .replace(/^#+\s+/gm, '')
+    // Remove horizontal rules
+    .replace(/^[-*_]{3,}\s*$/gm, '')
+    // Remove markdown links and images
+    .replace(/!?\[[^\]]*\]\([^)]*\)/g, '')
+    // Remove inline code blocks
+    .replace(/`[^`]*`/g, '')
+    // Remove bold/italic markdown
+    .replace(/[*_]{1,3}([^*_]+)[*_]{1,3}/g, '$1')
+    // Remove extra whitespace and newlines
+    .replace(/\s+/g, ' ')
+    .trim();
+
   // Take the first 150 characters as an excerpt
-  const excerpt = content.substring(0, 150).trim();
-  return excerpt.length < content.length ? `${excerpt}...` : excerpt;
+  const excerpt = cleanContent.substring(0, 150).trim();
+  return excerpt.length < cleanContent.length ? `${excerpt}...` : excerpt;
 }
 
 export function getSortedPostsData(): PostData[] {
-  // Get file names under /blogs
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map(fileName => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, '');
+  try {
+    // Get file names under /blogs
+    const fileNames = fs.readdirSync(postsDirectory);
+    const allPostsData = fileNames.map(fileName => {
+      try {
+        if (!fileName.endsWith('.md')) return null;
+        
+        // Remove ".md" from file name to get id
+        const id = fileName.replace(/\.md$/, '');
 
-    // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+        // Read markdown file as string
+        const fullPath = path.join(postsDirectory, fileName);
+        const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
+        // Use gray-matter to parse the post metadata section
+        const matterResult = matter(fileContents);
+        
+        // Check if required fields exist
+        if (!matterResult.data.title || !matterResult.data.date) {
+          console.warn(`Missing required frontmatter in ${fileName}. Found:`, matterResult.data);
+          return null;
+        }
 
-    // Generate excerpt
-    const excerpt = generateExcerpt(matterResult.content);
+        // Generate excerpt
+        const excerpt = generateExcerpt(matterResult.content);
 
-    // Combine the data with the id
-    return {
-      id,
-      excerpt,
-      contentHtml: '',
-      ...(matterResult.data as { title: string; date: string }),
-    };
-  });
+        // Combine the data with the id
+        return {
+          id,
+          excerpt,
+          contentHtml: '',
+          title: matterResult.data.title,
+          date: matterResult.data.date,
+        };
+      } catch (error) {
+        console.error(`Error processing file ${fileName}:`, error);
+        return null;
+      }
+    });
 
-  // Sort posts by date
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+    // Filter out any null entries and sort posts by date
+    return allPostsData
+      .filter((post): post is PostData => post !== null)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+  } catch (error) {
+    console.error('Error reading blog posts directory:', error);
+    return [];
+  }
 }
 
 export async function getPostData(id: string): Promise<PostData> {

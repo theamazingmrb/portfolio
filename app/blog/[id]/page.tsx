@@ -68,19 +68,19 @@ export default async function Post({ params }: { params: { id: string } }) {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative py-16 bg-gray-900 text-white">
+      <section className="relative py-20 md:py-28 bg-gray-900 text-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{postData.title}</h1>
-            <div className="text-gray-300 mb-6">{formattedDate}</div>
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">{postData.title}</h1>
+            <div className="text-blue-200 text-lg">{formattedDate}</div>
           </div>
         </div>
       </section>
       
       {/* Content Section */}
-      <AnimatedSection animationType="fadeIn" className="py-12">
+      <AnimatedSection animationType="fadeIn" className="py-12 md:py-16 -mt-8 md:-mt-12">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6 md:p-10">
+          <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 md:p-12">
             <article className="prose prose-lg max-w-none
               prose-headings:text-gray-900 prose-headings:font-bold prose-headings:mt-8 prose-headings:mb-4
               prose-h1:text-3xl prose-h1:mb-6 

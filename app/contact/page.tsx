@@ -89,8 +89,8 @@ export default function ContactPage() {
           animationType="fadeInUp"
           className="py-8 md:py-12 bg-blue-50"
         >
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="bg-white p-8 rounded-lg shadow-md border-l-4 border-blue-500">
               <h2 className="text-2xl font-bold text-blue-700 mb-3">For Recruiters & Hiring Managers</h2>
               {/* <p className="text-gray-700 mb-4">
                 I&apos;m currently available for new opportunities in full-stack development and technical leadership roles. 
@@ -122,9 +122,9 @@ export default function ContactPage() {
           animationType="fadeInUp"
           className="py-12 md:py-20 bg-gray-100"
         >
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 max-w-4xl">
             {isSubmitted ? (
-              <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md text-center">
+              <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-2xl mx-auto">
                 <h2 className="text-2xl font-semibold mb-4">Thank You!</h2>
                 <p className="mb-4">
                   Your message has been sent successfully. I&apos;ll get back to
@@ -140,7 +140,7 @@ export default function ContactPage() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md"
+                className="bg-white p-8 rounded-lg shadow-md"
               >
                 <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
                 {submissionError && (

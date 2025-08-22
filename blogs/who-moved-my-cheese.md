@@ -1,6 +1,9 @@
 ---
 title: "What 'Who Moved My Cheese?' Taught Me About Personal Transformation"
 date: "2025-06-10"
+category: "Leadership"
+tags: ["Personal Growth", "Change Management", "Leadership", "Adaptability", "Book Review"]
+excerpt: "This short parable about four characters navigating a maze in search of cheese has profound wisdom about adaptability and personal transformation."
 ---
 
 There are books that entertain, and there are books that fundamentally shift your perspective with deceptively simple truths.

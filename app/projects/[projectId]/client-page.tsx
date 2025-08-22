@@ -10,9 +10,75 @@ interface ClientProjectPageProps {
   project: Project;
 }
 
+import { useState, useCallback, useEffect, useRef } from "react";
+
 export default function ClientProjectPage({ project }: ClientProjectPageProps) {
+  const [lightbox, setLightbox] = useState<null | { src: string; alt: string }>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
+
+  // Close on ESC
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
+
+  // Trap focus
+  useEffect(() => {
+    if (lightbox && lightboxRef.current) {
+      lightboxRef.current.focus();
+    }
+  }, [lightbox]);
+
+  const openLightbox = useCallback((src: string, alt: string) => {
+    setLightbox({ src, alt });
+  }, []);
+
+  const closeLightbox = useCallback(() => setLightbox(null), []);
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900">
+      {/* Lightbox Modal */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeIn"
+          tabIndex={-1}
+          ref={lightboxRef}
+          onClick={closeLightbox}
+          aria-modal="true"
+          role="dialog"
+        >
+          <div
+            className="relative max-w-3xl w-full mx-4 bg-transparent flex flex-col items-center"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={closeLightbox}
+              className="absolute top-2 right-2 text-white bg-black/60 rounded-full p-2 hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-blue-400 z-10"
+              aria-label="Close image preview"
+              autoFocus
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <Image
+              src={lightbox.src}
+              alt={lightbox.alt}
+              width={1200}
+              height={800}
+              className="w-full h-auto max-h-[80vh] object-contain rounded-xl shadow-2xl bg-white"
+              priority
+            />
+            <div className="mt-4 text-white text-center text-lg drop-shadow-lg max-w-2xl mx-auto">
+              {lightbox.alt}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative h-96 md:h-[32rem] flex items-center justify-center overflow-hidden px-4 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
@@ -80,32 +146,60 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
       </section>
 
       {/* Project Gallery */}
-      {project.images && project.images.length > 0 && (
+      {Array.isArray(project.images) && project.images.length > 0 && (
         <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="md:col-span-2">
-                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+              <span className="inline-block w-2 h-8 bg-blue-500 rounded-full mr-2"></span>Gallery
+            </h2>
+            <div className="grid grid-cols-1 gap-6">
+              {/* Main Image */}
+              <div className="relative w-full rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4 group transition-all duration-300 hover:shadow-2xl">
+                <div
+                  className="w-full h-[500px] relative cursor-pointer"
+                  tabIndex={0}
+                  aria-label="View full image"
+                  onClick={() => project.images?.[0] && openLightbox(project.images[0], `${project.title} - Main Screenshot`)}
+                  onKeyDown={e => { if ((e.key === 'Enter' || e.key === ' ') && project.images?.[0]) openLightbox(project.images[0], `${project.title} - Main Screenshot`); }}
+                  role="button"
+                >
                   <Image
                     src={project.images[0]}
                     alt={`${project.title} - Main Screenshot`}
                     fill
-                    className="object-cover"
+                    className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 80vw"
                     priority
                   />
-                </div>
+                  {/* Optional: Add caption support here if data available */}
+                </div> 
               </div>
-              {project.images.slice(1).map((img, idx) => (
-                <div key={idx} className="relative aspect-video rounded-xl overflow-hidden shadow-xl">
-                  <Image
-                    src={img}
-                    alt={`${project.title} - Screenshot ${idx + 2}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+              {/* Secondary Images */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.images.slice(1).map((img, idx) => (
+                  <div key={idx} className="relative w-full rounded-2xl overflow-hidden shadow group bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4 transition-all duration-300 hover:shadow-xl">
+                    <div
+                      className="w-full h-[400px] relative cursor-pointer"
+                      tabIndex={0}
+                      aria-label={`View screenshot ${idx + 2}`}
+                      onClick={() => img && openLightbox(img, `${project.title} - Screenshot ${idx + 2}`)}
+                      onKeyDown={e => { if ((e.key === 'Enter' || e.key === ' ') && img) openLightbox(img, `${project.title} - Screenshot ${idx + 2}`); }}
+                      role="button"
+                    >
+                      <Image
+                        src={img}
+                        alt={`${project.title} - Screenshot ${idx + 2}`}
+                        fill
+                        className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                      />
+                      {/* Optional: Add caption support here if data available */}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+            <div className="my-12 border-t border-gray-200"></div>
           </div>
         </section>
       )}
@@ -126,6 +220,39 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
             </div>
             
             <div className="space-y-8">
+              {/* Project Metrics */}
+              {project.metrics && project.metrics.length > 0 && (
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-100">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Key Metrics
+                  </h3>
+                  <div className="grid grid-cols-1 gap-3">
+                    {project.metrics.map((metric, idx) => (
+                      <div key={idx} className="flex items-center text-sm">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                        <span className="font-medium text-gray-900">{metric}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Business Impact */}
+              {project.businessImpact && (
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-100">
+                  <h3 className="text-lg font-semibold mb-3 text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Business Impact
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">{project.businessImpact}</p>
+                </div>
+              )}
+              
               {/* Tech Stack */}
               {project.techStack && project.techStack.length > 0 && (
                 <div>

@@ -1,8 +1,10 @@
 ---
-
 title: "Building Smart Trader: The AI-Powered Trading Journal That Transformed My Performance"
 date: "2025-05-05"
-------------------
+category: "Development"
+tags: ["Trading Technology", "AI", "Next.js", "TypeScript", "Product Development"]
+excerpt: "How I combined GPT, Supabase, and advanced candlestick analysis to build the trading companion that revealed my psychological blind spots and finally broke my destructive patterns."
+---
 
 How I combined GPT, Supabase, and advanced candlestick analysis to build the trading companion that revealed my psychological blind spots and finally broke my destructive patterns.
 

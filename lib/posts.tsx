@@ -14,6 +14,9 @@ export interface PostData {
   date: string;
   excerpt: string;
   contentHtml: string;
+  readingTime?: number;
+  tags?: string[];
+  category?: string;
 }
 
 function generateExcerpt(content: string): string {
@@ -35,9 +38,15 @@ function generateExcerpt(content: string): string {
     .replace(/\s+/g, ' ')
     .trim();
 
-  // Take the first 150 characters as an excerpt
-  const excerpt = cleanContent.substring(0, 150).trim();
+  // Take the first 180 characters as an excerpt
+  const excerpt = cleanContent.substring(0, 180).trim();
   return excerpt.length < cleanContent.length ? `${excerpt}...` : excerpt;
+}
+
+function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
 }
 
 export function getSortedPostsData(): PostData[] {
@@ -64,16 +73,20 @@ export function getSortedPostsData(): PostData[] {
           return null;
         }
 
-        // Generate excerpt
+        // Generate excerpt and reading time
         const excerpt = generateExcerpt(matterResult.content);
+        const readingTime = calculateReadingTime(matterResult.content);
 
         // Combine the data with the id
         return {
           id,
           excerpt,
           contentHtml: '',
+          readingTime,
           title: matterResult.data.title,
           date: matterResult.data.date,
+          tags: matterResult.data.tags || [],
+          category: matterResult.data.category || 'Development',
         };
       } catch (error) {
         console.error(`Error processing file ${fileName}:`, error);
@@ -105,14 +118,18 @@ export async function getPostData(id: string): Promise<PostData> {
     .process(matterResult.content);
   const contentHtml = processedContent.toString();
 
-  // Generate excerpt
+  // Generate excerpt and reading time
   const excerpt = generateExcerpt(matterResult.content);
+  const readingTime = calculateReadingTime(matterResult.content);
 
   // Combine the data with the id and contentHtml
   return {
     id,
     contentHtml,
     excerpt,
+    readingTime,
+    tags: matterResult.data.tags || [],
+    category: matterResult.data.category || 'Development',
     ...(matterResult.data as { title: string; date: string }),
   };
 }

@@ -8,6 +8,7 @@ export type ProjectCardProps = {
   link: string;
   tags?: string[];
   featured?: boolean;
+  metrics?: string[];
 };
 
 export function ProjectCard({
@@ -17,6 +18,7 @@ export function ProjectCard({
   link,
   tags = [],
   featured = false,
+  metrics = [],
 }: ProjectCardProps) {
   return (
     <div className={`group rounded-xl overflow-hidden transition-all duration-300 border border-gray-700 ${featured ? 'shadow-xl hover:shadow-2xl shadow-blue-500/20 hover:shadow-blue-500/30' : 'shadow-lg hover:shadow-xl'}`}>
@@ -53,6 +55,19 @@ export function ProjectCard({
                 {tag}
               </span>
             ))}
+          </div>
+        )}
+        {metrics.length > 0 && (
+          <div className="mb-4">
+            <h4 className="text-sm font-semibold text-gray-300 mb-2">Key Metrics:</h4>
+            <div className="grid grid-cols-2 gap-1 text-xs">
+              {metrics.slice(0, 4).map((metric, index) => (
+                <div key={index} className="text-green-400 flex items-center">
+                  <span className="mr-1">✓</span>
+                  <span>{metric}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
         <Link

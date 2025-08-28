@@ -30,95 +30,149 @@ export default function CodeBlocksHydration() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-
-    // Force black background on all code blocks
-    document.querySelectorAll('.code-block-wrapper, .code-block-wrapper pre, pre[class*="language-"]').forEach(el => {
-      if (el instanceof HTMLElement) {
-        el.style.backgroundColor = '#000';
-        el.style.background = '#000';
-      }
-    });
+    // Only run on client side
+    if (typeof window === 'undefined') return;
 
     // Find all code block wrappers
     const codeBlocks = document.querySelectorAll('.code-block-wrapper');
     
     codeBlocks.forEach((block) => {
-      if (!(block instanceof HTMLElement)) return;
-      
+      // Get code content and language from data attributes
       const code = block.getAttribute('data-code') || '';
-      const language = block.getAttribute('data-language') || '';
+      const language = block.getAttribute('data-language') || 'plaintext';
       
-      // Handle existing pre element if it exists
-      const existingPre = block.querySelector('pre');
-      if (existingPre) {
-        // Add line numbers class
-        existingPre.classList.add('line-numbers');
+      // Force black background styling
+      block.setAttribute('style', 'background-color: #000 !important; background: #000 !important; position: relative !important;');
+      
+      // Find or create pre element
+      let preElement = block.querySelector('pre');
+      
+      if (preElement) {
+        // If pre exists, ensure it has the right classes
+        preElement.className = `language-${language} line-numbers`;
         
-        // Make sure language class is applied
-        if (language) {
-          existingPre.classList.add(`language-${language}`);
-        }
+        // Find or create code element
+        let codeElement = preElement.querySelector('code');
         
-        // Get code element
-        const codeElement = existingPre.querySelector('code');
-        if (codeElement) {
-          // Make sure language class is applied to code element
-          if (language) {
-            codeElement.classList.add(`language-${language}`);
-          }
+        if (!codeElement) {
+          codeElement = document.createElement('code');
+          codeElement.className = `language-${language}`;
+          codeElement.textContent = code;
+          preElement.appendChild(codeElement);
+        } else {
+          // Ensure code element has the right class
+          codeElement.className = `language-${language}`;
         }
       } else {
-        // Create pre and code elements with line numbers
-        const preElement = document.createElement('pre');
-        preElement.className = `line-numbers language-${language}`;
+        // Create pre and code elements if they don't exist
+        preElement = document.createElement('pre');
+        preElement.className = `language-${language} line-numbers`;
         
         const codeElement = document.createElement('code');
         codeElement.className = `language-${language}`;
         codeElement.textContent = code;
         
-        // Append code to pre
         preElement.appendChild(codeElement);
         
         // Add pre to block
         block.appendChild(preElement);
       }
       
-      // Create copy button with improved styling
+      // Create and add copy button
       const copyButton = document.createElement('button');
       copyButton.className = 'copy-button';
       copyButton.setAttribute('aria-label', 'Copy code');
+      copyButton.setAttribute('title', 'Copy code');
+      copyButton.style.position = 'absolute';
+      copyButton.style.top = '0.75rem';
+      copyButton.style.right = '0.75rem';
+      copyButton.style.padding = '0.6rem 0.85rem';
+      copyButton.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+      copyButton.style.border = '2px solid rgba(255, 255, 255, 0.4)';
+      copyButton.style.borderRadius = '0.375rem';
+      copyButton.style.color = '#ffffff';
+      copyButton.style.fontSize = '0.9rem';
+      copyButton.style.fontWeight = '600';
+      copyButton.style.cursor = 'pointer';
+      copyButton.style.display = 'flex';
+      copyButton.style.alignItems = 'center';
+      copyButton.style.justifyContent = 'center';
+      copyButton.style.gap = '0.35rem';
+      copyButton.style.zIndex = '50';
+      copyButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+      copyButton.style.transition = 'all 0.2s ease';
+      copyButton.style.opacity = '1';
       copyButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-          <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
+        <span style="font-size: 1rem;">Copy</span>
       `;
       
-      // Add copy functionality
-      copyButton.addEventListener('click', () => {
-        navigator.clipboard.writeText(code);
-        
-        // Show copied state
-        copyButton.classList.add('copied');
-        copyButton.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-        `;
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-          copyButton.classList.remove('copied');
-          copyButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-              <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
-            </svg>
-          `;
-        }, 2000);
+      // Add hover effect
+      copyButton.addEventListener('mouseover', () => {
+        copyButton.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';
+        copyButton.style.transform = 'scale(1.05)';
+        copyButton.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.4)';
       });
       
+      copyButton.addEventListener('mouseout', () => {
+        copyButton.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+        copyButton.style.transform = 'scale(1)';
+        copyButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+      });
+
+      // Add click handler for copy button
+      copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(code).then(() => {
+          // Change button appearance to indicate success
+          copyButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <span style="color: #10b981;">Copied!</span>
+          `;
+          copyButton.style.borderColor = '#10b981';
+          copyButton.style.backgroundColor = 'rgba(16, 185, 129, 0.3)';
+          copyButton.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.5)';
+          copyButton.style.transform = 'scale(1.05)';
+          
+          // Show a temporary notification
+          const notification = document.createElement('div');
+          notification.textContent = 'Code copied to clipboard!';
+          notification.style.position = 'fixed';
+          notification.style.bottom = '20px';
+          notification.style.right = '20px';
+          notification.style.backgroundColor = 'rgba(16, 185, 129, 0.9)';
+          notification.style.color = 'white';
+          notification.style.padding = '10px 20px';
+          notification.style.borderRadius = '4px';
+          notification.style.zIndex = '9999';
+          notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+          document.body.appendChild(notification);
+          
+          setTimeout(() => {
+            // Remove notification after 2 seconds
+            if (document.body.contains(notification)) {
+              document.body.removeChild(notification);
+            }
+            
+            // Reset button appearance
+            copyButton.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            `;
+            copyButton.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            copyButton.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+            copyButton.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+            copyButton.style.transform = 'none';
+          }, 2000);
+        });
+      });
       // Add the button to the block if it doesn't already exist
       if (!block.querySelector('.copy-button')) {
         block.appendChild(copyButton);

@@ -97,7 +97,7 @@ pre[class*="language-"],
 /* Improve inline code styling */
 :not(pre) > code[class*="language-"],
 .prose code:not(pre code) {
-  background-color: rgba(148, 163, 184, 0.15) !important;
+  background-color: #000000 !important;
   color: #f1f5f9 !important;
   padding: 0.2rem 0.5rem;
   border-radius: 0.25rem;
@@ -106,8 +106,9 @@ pre[class*="language-"],
   word-break: break-word;
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.85em;
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: none !important;
   letter-spacing: -0.025em;
 }
 
@@ -216,32 +217,50 @@ pre > code[class*="language-"],
 /* Copy button styling */
 .code-block-wrapper button.copy-button {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0.25rem;
-  color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
+  gap: 0.35rem;
   transition: all 0.2s ease;
   backdrop-filter: blur(4px);
-  z-index: 2;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Copy button default state */
+.code-block-wrapper button.copy-button {
+  opacity: 0.9;
+}
+
+/* Copy button animation and visibility when code block is hovered */
+@keyframes subtle-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 
 .code-block-wrapper:hover button.copy-button {
   opacity: 1;
+  animation: subtle-pulse 2s infinite;
 }
 
+/* Copy button hover state */
 .code-block-wrapper button.copy-button:hover {
   background: rgba(255, 255, 255, 0.25);
   color: white;
   transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  animation: none; /* Stop animation on hover */
 }
 
 .code-block-wrapper button.copy-button:active {

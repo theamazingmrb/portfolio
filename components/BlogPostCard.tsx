@@ -7,6 +7,7 @@ interface BlogPostCardProps {
   title: string;
   date: string;
   excerpt: string;
+  readingTime: number;
   tags?: string[];
 }
 
@@ -15,10 +16,43 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
   title,
   date,
   excerpt,
+  readingTime,
   tags = [],
 }) => {
-  // Function to get a placeholder image based on post title keywords
-  const getPlaceholderImage = (title: string): string => {
+  // Function to get cover image for the blog post
+  const getCoverImage = (id: string, title: string): string => {
+    // Try to match with available article covers
+    const possibleImageNames = [
+      id,
+      id.replace(/-/g, '_'),
+      title.toLowerCase().replace(/\s+/g, '-'),
+      title.toLowerCase().replace(/\s+/g, '_')
+    ];
+    
+    // Check for specific known images
+    if (id === 'git-github-mastery' || title.toLowerCase().includes('git')) {
+      return '/articleCovers/git-and-github-mastery.png';
+    }
+    if (id === 'finding-clarity-in-chaos' || title.toLowerCase().includes('clarity')) {
+      return '/articleCovers/finding-clarity.png';
+    }
+    if (id === 'docker-express-api-mastery' || title.toLowerCase().includes('docker')) {
+      return '/articleCovers/docker-and-express.png';
+    }
+    if (title.toLowerCase().includes('typescript')) {
+      return '/articleCovers/getting-started-with-typescript.png';
+    }
+    if (title.toLowerCase().includes('react') || title.toLowerCase().includes('usecontext')) {
+      return '/articleCovers/master-react-usecontext.png';
+    }
+    if (title.toLowerCase().includes('baby') || title.toLowerCase().includes('tracker')) {
+      return '/articleCovers/baby-tracker.png';
+    }
+    if (title.toLowerCase().includes('cheese') || title.toLowerCase().includes('moved')) {
+      return '/articleCovers/who-moved-my-cheese.png';
+    }
+    
+    // Fallback to placeholder images
     const lowerTitle = title.toLowerCase();
     if (lowerTitle.includes('react') || lowerTitle.includes('javascript')) {
       return '/projects/react-app.png';
@@ -33,21 +67,13 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
     }
   };
 
-  // Calculate reading time based on excerpt length (rough estimate)
-  const calculateReadingTime = (text: string): number => {
-    const wordsPerMinute = 200;
-    const words = text.trim().split(/\s+/).length;
-    return Math.ceil(words / wordsPerMinute);
-  };
-
-  const readingTime = calculateReadingTime(excerpt);
   const formattedDate = formatDate(date);
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full">
       <div className="h-48 overflow-hidden">
         <img
-          src={getPlaceholderImage(title)}
+          src={getCoverImage(id, title)}
           alt={title}
           className="w-full h-full object-cover"
         />

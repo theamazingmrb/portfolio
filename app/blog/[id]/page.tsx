@@ -1,4 +1,5 @@
 import { getPostData, getAllPostIds } from '@/lib/posts';
+import { calculateReadingTime } from '@/lib/readingTime';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
@@ -6,11 +7,7 @@ import AnimatedSection from '@/components/AnimatedSection';
 import CodeBlocksHydration from '@/components/CodeBlocksHydration';
 import { Metadata } from 'next';
 
-function calculateReadingTime(text: string): number {
-  const wordsPerMinute = 200;
-  const words = text.trim().split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-}
+// Using the imported calculateReadingTime function from lib/posts
 
 // Generate metadata for the page
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {

@@ -93,3 +93,5 @@ const rehypeCodeButtons: Plugin<[Options?], Root> = (options: Options = {}) => {
     });
   };
 }
+
+export default rehypeCodeButtons;

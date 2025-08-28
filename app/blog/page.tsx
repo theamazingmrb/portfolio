@@ -9,12 +9,6 @@ import FeaturedPostCard from "@/components/FeaturedPostCard";
 import BlogPostCard from "@/components/BlogPostCard";
 import { useState, useEffect } from "react";
 
-function calculateReadingTime(text: string): number {
-  const wordsPerMinute = 200;
-  const words = text.trim().split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-}
-
 // Function to get all unique tags from posts
 function getAllUniqueTags(posts: PostData[]): string[] {
   const allTags = posts.flatMap(post => post.tags || []);
@@ -225,6 +219,7 @@ export default function Blog() {
               title={filteredPosts[0].title}
               date={filteredPosts[0].date}
               excerpt={filteredPosts[0].excerpt}
+              readingTime={filteredPosts[0].readingTime || 1}
               tags={filteredPosts[0].tags}
             />
           </div>
@@ -304,7 +299,7 @@ export default function Blog() {
                 {selectedTags.length > 0 && (
                   <button 
                     onClick={() => handleTagToggle('all')} 
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white roundedf-lg hover:bg-blue-700 transition-colors"
                   >
                     Clear filters
                   </button>
@@ -322,6 +317,7 @@ export default function Blog() {
                     title={post.title}
                     date={post.date}
                     excerpt={post.excerpt || ''}
+                    readingTime={post.readingTime || 1}
                     tags={post.tags}
                   />
                 ))}

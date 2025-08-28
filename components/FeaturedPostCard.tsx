@@ -7,6 +7,7 @@ interface FeaturedPostCardProps {
   title: string;
   date: string;
   excerpt: string;
+  readingTime: number;
   tags?: string[];
 }
 
@@ -15,6 +16,7 @@ const FeaturedPostCard: React.FC<FeaturedPostCardProps> = ({
   title,
   date,
   excerpt,
+  readingTime,
   tags = [],
 }) => {
   // Function to get a placeholder image based on post title keywords
@@ -23,7 +25,7 @@ const FeaturedPostCard: React.FC<FeaturedPostCardProps> = ({
     if (lowerTitle.includes('react') || lowerTitle.includes('javascript')) {
       return '/projects/react-app.png';
     } else if (lowerTitle.includes('docker') || lowerTitle.includes('container')) {
-      return '/projects/docker-express.png';
+      return '/articleCovers/featured/docker-mastery.png';
     } else if (lowerTitle.includes('git') || lowerTitle.includes('github')) {
       return '/projects/git-github.png';
     } else if (lowerTitle.includes('trading') || lowerTitle.includes('finance')) {
@@ -33,14 +35,6 @@ const FeaturedPostCard: React.FC<FeaturedPostCardProps> = ({
     }
   };
 
-  // Calculate reading time based on excerpt length (rough estimate)
-  const calculateReadingTime = (text: string): number => {
-    const wordsPerMinute = 200;
-    const words = text.trim().split(/\s+/).length;
-    return Math.ceil(words / wordsPerMinute);
-  };
-
-  const readingTime = calculateReadingTime(excerpt);
   const formattedDate = formatDate(date);
 
   return (

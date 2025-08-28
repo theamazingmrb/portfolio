@@ -7,7 +7,8 @@ import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
 import { rehype } from 'rehype';
-import { rehypeCodeButtons } from './rehype-code-buttons';
+import rehypeCodeButtons from './rehype-code-buttons';
+import { calculateReadingTime } from './readingTime';
 
 // IMPORTANT: This file uses Node.js modules and should only be imported in Server Components
 
@@ -35,7 +36,7 @@ function generateExcerpt(content: string, frontmatter: any): string {
   if (frontmatter.excerpt) {
     return frontmatter.excerpt;
   }
-  
+
   // Remove markdown headers, horizontal rules, and other formatting
   let cleanContent = content
     // Remove frontmatter block
@@ -61,24 +62,18 @@ function generateExcerpt(content: string, frontmatter: any): string {
   return excerpt.length < cleanContent.length ? `${excerpt}...` : excerpt;
 }
 
-function calculateReadingTime(content: string): number {
-  const wordsPerMinute = 200;
-  // Remove code blocks before counting words for more accurate reading time
-  const contentWithoutCode = content.replace(/```[\s\S]*?```/g, '');
-  const words = contentWithoutCode.trim().split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-}
+// Using calculateReadingTime imported from readingTime.ts
 
 async function generateTableOfContents(content: string): Promise<string> {
   // Process the content to generate a table of contents
   const processedContent = await remark()
     .use(remarkToc, { tight: true, maxDepth: 3 })
     .process(content);
-  
+
   // Extract just the TOC part
   const contentString = processedContent.toString();
   const tocMatch = contentString.match(/<nav class="toc">([\s\S]*?)<\/nav>/);
-  
+
   return tocMatch ? tocMatch[0] : '';
 }
 
@@ -89,7 +84,7 @@ export function getSortedPostsData(): PostData[] {
     const allPostsData = fileNames.map(fileName => {
       try {
         if (!fileName.endsWith('.md')) return null;
-        
+
         // Remove ".md" from file name to get id
         const id = fileName.replace(/\.md$/, '');
 
@@ -99,7 +94,7 @@ export function getSortedPostsData(): PostData[] {
 
         // Use gray-matter to parse the post metadata section
         const matterResult = matter(fileContents);
-        
+
         // Check if required fields exist
         if (!matterResult.data.title || !matterResult.data.date) {
           console.warn(`Missing required frontmatter in ${fileName}. Found:`, matterResult.data);
@@ -134,11 +129,11 @@ export function getSortedPostsData(): PostData[] {
 
     // Filter out any null entries and sort posts by date
     const validPosts = allPostsData.filter((post): post is PostData => post !== null);
-    
+
     return validPosts.sort((a, b) => {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
-      
+
   } catch (error) {
     console.error('Error reading blog posts directory:', error);
     return [];
@@ -151,7 +146,7 @@ export async function getPostData(id: string): Promise<PostData> {
 
   // Use gray-matter to parse the post metadata section
   const matterResult = matter(fileContents);
-  
+
   // Generate table of contents
   const tableOfContents = await generateTableOfContents(matterResult.content);
 
@@ -161,7 +156,7 @@ export async function getPostData(id: string): Promise<PostData> {
     .use(remarkToc, { tight: true }) // Add table of contents
     .use(html, { sanitize: false })
     .process(matterResult.content);
-    
+
   // Apply rehype plugins to add IDs to headings and code copy buttons
   const contentWithIds = await rehype()
     .use(rehypeSlug)
@@ -193,7 +188,7 @@ export async function getPostData(id: string): Promise<PostData> {
 
 export function getAllPostIds() {
   const fileNames = fs.readdirSync(postsDirectory);
-  
+
   return fileNames.map(fileName => {
     return {
       params: {

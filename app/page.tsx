@@ -263,7 +263,7 @@ export default async function Home() {
       </AnimatedSection>
 
       {/* Testimonials Section */}
-      <AnimatedSection
+      {/* <AnimatedSection
         animationType="fadeInUp"
         className="py-16 md:py-24 bg-gray-900 text-white"
       >
@@ -337,7 +337,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       {/* Certifications & Awards Section */}
       <AnimatedSection

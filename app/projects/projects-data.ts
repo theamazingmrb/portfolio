@@ -30,20 +30,21 @@ export const projects: Project[] = [
     url: "https://smarttrader.tech"
   },
   {
-    id: "tolo",
-    title: "TOLO",
-    description: "A platform helping underground artists and content creators gain visibility through fair algorithm-based content discovery.",
-    detailedDescription: "TOLO is a platform designed to help underground artists and content creators gain visibility through fair algorithm-based content discovery, providing tools for content distribution and audience engagement.",
-    contributions: [
-      "Led development of the React Native mobile app for iOS and Android",
-      "Architected the content recommendation algorithm",
-      "Scaled the platform to handle thousands of daily active users"
+    "id": "baby-tracker",
+    "title": "Baby Tracker",
+    "description": "A comprehensive, privacy-first baby tracking solution that helps parents monitor feedings, diapers, sleep, growth milestones, medications, and more.",
+    "detailedDescription": "Baby Tracker is a privacy-first, self-hostable solution that gives parents complete control over their baby's data. Built with Django REST Framework and PostgreSQL, this comprehensive API allows parents to track all aspects of their baby's development and get AI-powered insights to help establish healthy routines.",
+    "contributions": [
+      "Designed and implemented a multi-tenant architecture with robust security measures",
+      "Developed AI insights module for analyzing historical data and providing recommendations",
+      "Created comprehensive API documentation using OpenAPI (drf-spectacular)",
+      "Implemented Docker deployment for easy self-hosting on AWS EC2 or local environments"
     ],
-    technologies: ["React Native", "Node.js", "PostgreSQL", "AWS"],
-    challenges: "Building a fair and transparent algorithm that promotes quality content while maintaining platform performance at scale.",
-    outcomes: "Successfully launched the platform with a growing community of creators and users, with positive feedback on content discovery.",
-    image: "/projects/tolo-preview.png",
-    url: "https://tolo.live"
+    "technologies": ["Django", "Django REST Framework", "PostgreSQL", "JWT Authentication", "Docker", "Pandas", "OpenAPI", "Next.js", "Nginx", "Node.js"],
+    "challenges": "Building a secure, privacy-focused alternative to commercial baby tracking apps while maintaining feature parity and ensuring complete data isolation between users.",
+    "outcomes": "Created a fully-featured baby tracking solution that empowers parents with complete data ownership while delivering powerful insights to help establish healthy routines.",
+    "image": "/projects/baby-tracker.png",
+    "url": "https://babytracker.xyz"
   },
   {
     id: "simmr",
@@ -76,6 +77,22 @@ export const projects: Project[] = [
     outcomes: "Delivered robust financial solutions that improved data processing efficiency and provided better insights for financial advisors.",
     image: "/logos/IC-Logo.svg",
     url: "https://investcloud.com"
+  },
+  {
+    id: "tolo",
+    title: "TOLO",
+    description: "A platform helping underground artists and content creators gain visibility through fair algorithm-based content discovery.",
+    detailedDescription: "TOLO is a platform designed to help underground artists and content creators gain visibility through fair algorithm-based content discovery, providing tools for content distribution and audience engagement.",
+    contributions: [
+      "Led development of the React Native mobile app for iOS and Android",
+      "Architected the content recommendation algorithm",
+      "Scaled the platform to handle thousands of daily active users"
+    ],
+    technologies: ["React Native", "Node.js", "PostgreSQL", "AWS"],
+    challenges: "Building a fair and transparent algorithm that promotes quality content while maintaining platform performance at scale.",
+    outcomes: "Successfully launched the platform with a growing community of creators and users, with positive feedback on content discovery.",
+    image: "/projects/tolo-preview.png",
+    url: "https://tolo.live"
   },
   {
     id: "airbnb",

@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import AnimatedSection from '@/components/AnimatedSection';
+import CodeBlocksHydration from '@/components/CodeBlocksHydration';
 import { Metadata } from 'next';
 
 function calculateReadingTime(text: string): number {
@@ -15,21 +16,43 @@ function calculateReadingTime(text: string): number {
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const postData = await getPostData(params.id);
   
+  // Extract tags for keywords
+  const keywords = postData?.tags ? 
+    `${postData.tags.join(', ')}, development, trading technology, full stack, React, TypeScript, Node.js` : 
+    'development, trading technology, full stack, React, TypeScript, Node.js, team leadership, technical insights';
+  
+  // Determine canonical URL
+  const canonicalUrl = `https://billieheidelberg.com/blog/${params.id}`;
+  
   return {
     title: postData ? `${postData.title} | Billie Heidelberg Jr. Blog` : 'Blog Post | Billie Heidelberg Jr.',
     description: postData?.excerpt || 'Read insights on full-stack development, trading technology, and team leadership.',
-    keywords: 'development, trading technology, full stack, React, TypeScript, Node.js, team leadership, technical insights',
+    keywords: keywords,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: postData ? `${postData.title} | Billie Heidelberg Jr.` : 'Blog Post',
       description: postData?.excerpt || 'Read insights on full-stack development and technology.',
       type: 'article',
       publishedTime: postData?.date,
-      authors: ['Billie Heidelberg Jr.'],
+      modifiedTime: postData?.lastUpdated || postData?.date,
+      authors: [postData?.author || 'Billie Heidelberg Jr.'],
+      tags: postData?.tags || [],
+      images: postData?.coverImage ? [{
+        url: postData.coverImage,
+        width: 1200,
+        height: 630,
+        alt: `Cover image for ${postData?.title}`
+      }] : undefined,
+      url: canonicalUrl,
     },
     twitter: {
       card: 'summary_large_image',
       title: postData ? `${postData.title} | Billie Heidelberg Jr.` : 'Blog Post',
       description: postData?.excerpt || 'Read insights on full-stack development and technology.',
+      images: postData?.coverImage ? [postData.coverImage] : undefined,
+      creator: '@bheidelberg',
     },
   };
 }
@@ -40,24 +63,53 @@ export function generateStaticParams() {
   return paths.map(path => ({ id: path.params.id }));
 }
 
+// JSON-LD structured data component for blog posts
+function BlogPostJsonLd({ post, url }: { post: any, url: string }) {
+  const authorName = post.author || 'Billie Heidelberg Jr.';
+  const datePublished = post.date;
+  const dateModified = post.lastUpdated || post.date;
+  
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    'headline': post.title,
+    'description': post.excerpt,
+    'image': post.coverImage || 'https://billieheidelberg.com/me.png',
+    'datePublished': datePublished,
+    'dateModified': dateModified,
+    'author': {
+      '@type': 'Person',
+      'name': authorName,
+      'url': 'https://billieheidelberg.com/about'
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Billie Heidelberg Jr.',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://billieheidelberg.com/me.png'
+      }
+    },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': url
+    },
+    'keywords': post.tags?.join(', ') || '',
+    'wordCount': post.contentHtml ? post.contentHtml.split(/\s+/).length : 0,
+    'articleBody': post.excerpt
+  };
+
+  return (
+    <script 
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export default async function Post({ params }: { params: { id: string } }) {
   const postData = await getPostData(params.id);
-
-  if (!postData) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
-          <Link href="/blog" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-            Back to Blog
-          </Link>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  const canonicalUrl = `https://billieheidelberg.com/blog/${params.id}`;
 
   if (!postData) {
     return (
@@ -83,6 +135,8 @@ export default async function Post({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Add structured data for SEO */}
+      <BlogPostJsonLd post={postData} url={canonicalUrl} />
       
       <Navbar />
       
@@ -121,10 +175,10 @@ export default async function Post({ params }: { params: { id: string } }) {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-300">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <img src="/me.png" alt="Billie Heidelberg Jr." className="w-10 h-10 rounded-full object-cover" />
+                    <img src={postData.authorImage || "/me.png"} alt={postData.author || "Billie Heidelberg Jr."} className="w-10 h-10 rounded-full object-cover" />
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold text-white">Billie Heidelberg Jr.</div>
+                    <div className="font-semibold text-white">{postData.author || "Billie Heidelberg Jr."}</div>
                     <div className="text-sm text-gray-400">Full Stack Developer</div>
                   </div>
                 </div>
@@ -136,11 +190,23 @@ export default async function Post({ params }: { params: { id: string } }) {
                     </svg>
                     <time dateTime={postData.date}>{formattedDate}</time>
                   </div>
+                  {postData.lastUpdated && postData.lastUpdated !== postData.date && (
+                    <div className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.32 15.65 19 14.08 19 12.1h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58s9.14-3.47 12.65 0L21 3v7.12zM12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z"/>
+                      </svg>
+                      <span>Updated {new Date(postData.lastUpdated).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-1">
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <span>{calculateReadingTime(postData.contentHtml)} min read</span>
+                    <span>{postData.readingTime || calculateReadingTime(postData.contentHtml)} min read</span>
                   </div>
                 </div>
               </div>
@@ -159,6 +225,33 @@ export default async function Post({ params }: { params: { id: string } }) {
               <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
               
               <div className="p-8 md:p-12">
+                {/* Table of Contents */}
+                {postData.tableOfContents && (
+                  <div className="mb-10 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 9h14V7H3v2zm0 4h14v-2H3v2zm0 4h14v-2H3v2zm16 0h2v-2h-2v2zm0-10v2h2V7h-2zm0 6h2v-2h-2v2z"/>
+                      </svg>
+                      Table of Contents
+                    </h3>
+                    <div 
+                      className="toc-container text-gray-700 text-base"
+                      dangerouslySetInnerHTML={{ __html: postData.tableOfContents || '' }} 
+                    />
+                  </div>
+                )}
+                
+                {/* Cover Image */}
+                {postData.coverImage && (
+                  <div className="mb-10">
+                    <img 
+                      src={postData.coverImage} 
+                      alt={`Cover image for ${postData.title}`} 
+                      className="w-full h-auto rounded-xl shadow-lg"
+                    />
+                  </div>
+                )}
+                
                 <article className="prose prose-xl max-w-none
                   prose-headings:text-gray-900 prose-headings:font-bold prose-headings:mt-12 prose-headings:mb-6
                   prose-h1:text-4xl prose-h1:mb-8 prose-h1:mt-0
@@ -172,16 +265,20 @@ export default async function Post({ params }: { params: { id: string } }) {
                   prose-strong:font-semibold prose-strong:text-gray-900
                   prose-em:text-gray-700 prose-em:italic
                   prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-8 prose-blockquote:py-4 prose-blockquote:my-8 prose-blockquote:bg-blue-50 prose-blockquote:rounded-r-lg prose-blockquote:text-blue-900 prose-blockquote:font-medium
-                  prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:my-8 prose-pre:border prose-pre:border-gray-300
-                  prose-code:bg-gray-100 prose-code:text-gray-900 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono
+                  prose-pre:bg-gray-900 prose-pre:text-white prose-pre:rounded-lg prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:my-8 prose-pre:border prose-pre:border-gray-300
+                  prose-code:bg-gray-800 prose-code:text-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:text-sm prose-code:font-mono prose-code:rounded
                   prose-img:max-w-full prose-img:rounded-xl prose-img:my-10 prose-img:shadow-lg
                   prose-hr:my-12 prose-hr:border-gray-300
-                  prose-table:my-8
+                  prose-table:my-8 prose-table:border-collapse prose-table:w-full
+                  prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-2 prose-th:text-left
+                  prose-td:border prose-td:border-gray-300 prose-td:p-2
                 ">
                   <div 
                     className="text-gray-800" 
                     dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }} 
                   />
+                  {/* Add CodeBlocksHydration component to handle copy buttons */}
+                  <CodeBlocksHydration />
                 </article>
                 
                 {/* Article Footer */}

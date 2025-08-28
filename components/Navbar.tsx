@@ -101,6 +101,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 py-2 flex flex-col space-y-3">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/projects">Projects</NavLink>
+          <NavLink href="/blog">Blog</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/contact">Contact</NavLink>
           

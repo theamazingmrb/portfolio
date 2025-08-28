@@ -1,0 +1,497 @@
+/* Code block styling with modern design */
+.code-block-wrapper {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  background-color: #000 !important;
+  background: #000 !important;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  color: #f8f8f2 !important;
+}
+
+.code-block-wrapper:hover {
+  transform: translateY(-3px);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 12px 20px -3px, rgba(0, 0, 0, 0.05) 0px -1px 0px 0px inset;
+}
+
+/* Add subtle glow effect on hover */
+.code-block-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 25px 2px rgba(56, 189, 248, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.code-block-wrapper:hover::after {
+  opacity: 1;
+}
+
+/* Override Prism.js theme for better styling */
+:not(pre) > code[class*="language-"],
+pre[class*="language-"],
+.prose pre,
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1.75rem 1.5rem;
+  padding-top: 3rem; /* Extra space for language badge */
+  overflow-x: auto;
+  background: #000 !important; /* Force black background */
+  color: #f1f5f9 !important;
+  border-radius: 0.75rem;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border: none !important;
+  text-shadow: none !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+  letter-spacing: -0.025em;
+}
+
+/* Custom scrollbar for code blocks */
+.code-block-wrapper pre::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.code-block-wrapper pre::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 4px;
+}
+
+.code-block-wrapper pre::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.4);
+  border-radius: 4px;
+  border: 2px solid rgba(15, 23, 42, 0.6);
+}
+
+.code-block-wrapper pre::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.6);
+}
+
+/* Add subtle grid background for code blocks */
+.code-block-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000 !important;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Improve inline code styling */
+:not(pre) > code[class*="language-"],
+.prose code:not(pre code) {
+  background-color: rgba(148, 163, 184, 0.15) !important;
+  color: #f1f5f9 !important;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  white-space: normal;
+  word-break: break-word;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85em;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.025em;
+}
+
+/* Fix code block padding */
+.prose pre {
+  padding: 1.5rem !important;
+  margin: 1.5rem 0 !important;
+}
+
+/* Ensure code inside pre has proper styling */
+pre > code[class*="language-"],
+.prose pre code {
+  display: block;
+  padding: 0 !important;
+  color: #f8f8f2;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Syntax highlighting colors - modern and vibrant */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #64748b !important; /* Slate gray for comments */
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #94a3b8 !important; /* Light slate */
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+  color: #f472b6 !important; /* Pink */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+  color: #34d399 !important; /* Emerald */
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+  color: #a78bfa !important; /* Violet */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #38bdf8 !important; /* Sky blue */
+}
+
+.token.function,
+.token.class-name {
+  color: #fbbf24 !important; /* Amber */
+}
+
+.token.regex,
+.token.important {
+  color: #fb923c !important; /* Orange */
+}
+
+/* Additional token styling */
+.token.parameter {
+  color: #f472b6 !important; /* Pink */
+  font-style: italic;
+}
+
+.token.namespace {
+  opacity: 0.8;
+}
+
+/* Add text shadow to important tokens for better visibility */
+.token.keyword,
+.token.function,
+.token.class-name,
+.token.string {
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Dim less important tokens */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  opacity: 0.8;
+}
+
+/* Copy button styling */
+.code-block-wrapper button.copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.code-block-wrapper:hover button.copy-button {
+  opacity: 1;
+}
+
+.code-block-wrapper button.copy-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  transform: scale(1.05);
+}
+
+.code-block-wrapper button.copy-button:active {
+  transform: translateY(0);
+}
+
+.code-block-wrapper button.copy-button svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.code-block-wrapper button.copy-button.copied {
+  background: rgba(72, 187, 120, 0.3);
+  color: #48bb78;
+}
+
+/* Add text to copy button */
+.code-block-wrapper button.copy-button::after {
+  content: 'Copy';
+  display: inline-block;
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.code-block-wrapper button.copy-button.copied::after {
+  content: 'Copied!';
+}
+
+/* Language badge */
+.code-block-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1;
+}
+
+.code-block-wrapper .language-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 5;
+  backdrop-filter: blur(8px);
+}
+
+.code-block-wrapper .language-badge::before {
+  content: attr(data-language);
+  color: #e2e8f0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Add file icon to language badge */
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1rem 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: #000 !important;
+  background-image: url('/grid.svg');
+  background-size: 20px 20px;
+  background-repeat: repeat;
+  background-position: center center;
+  color: #f8f8f2 !important;
+}
+
+/* Language-specific badge colors */
+.code-block-wrapper[data-language="javascript"] .language-badge,
+.code-block-wrapper[data-language="js"] .language-badge {
+  border-bottom-color: rgba(247, 223, 30, 0.3);
+}
+
+.code-block-wrapper[data-language="javascript"] .language-badge::before,
+.code-block-wrapper[data-language="js"] .language-badge::before {
+  color: #f7df1e;
+}
+
+.code-block-wrapper[data-language="typescript"] .language-badge,
+.code-block-wrapper[data-language="ts"] .language-badge {
+  border-bottom-color: rgba(49, 120, 198, 0.3);
+}
+
+.code-block-wrapper[data-language="typescript"] .language-badge::before,
+.code-block-wrapper[data-language="ts"] .language-badge::before {
+  color: #3178c6;
+}
+
+.code-block-wrapper[data-language="jsx"] .language-badge,
+.code-block-wrapper[data-language="tsx"] .language-badge {
+  border-bottom-color: rgba(97, 218, 251, 0.3);
+}
+
+.code-block-wrapper[data-language="jsx"] .language-badge::before,
+.code-block-wrapper[data-language="tsx"] .language-badge::before {
+  color: #61dafb;
+}
+
+.code-block-wrapper[data-language="css"] .language-badge {
+  border-bottom-color: rgba(86, 61, 124, 0.3);
+}
+
+.code-block-wrapper[data-language="css"] .language-badge::before {
+  color: #563d7c;
+}
+
+.code-block-wrapper[data-language="html"] .language-badge {
+  border-bottom-color: rgba(227, 79, 38, 0.3);
+}
+
+.code-block-wrapper[data-language="html"] .language-badge::before {
+  color: #e34f26;
+}
+
+.code-block-wrapper[data-language="bash"] .language-badge,
+.code-block-wrapper[data-language="shell"] .language-badge {
+  border-bottom-color: rgba(52, 226, 226, 0.3);
+}
+
+.code-block-wrapper[data-language="bash"] .language-badge::before,
+.code-block-wrapper[data-language="shell"] .language-badge::before {
+  color: #34e2e2;
+}
+
+.code-block-wrapper[data-language="json"] .language-badge {
+  border-bottom-color: rgba(251, 191, 36, 0.3);
+}
+
+.code-block-wrapper[data-language="json"] .language-badge::before {
+  color: #fbbf24;
+}
+
+.code-block-wrapper[data-language="yaml"] .language-badge {
+  border-bottom-color: rgba(203, 213, 225, 0.3);
+}
+
+.code-block-wrapper[data-language="yaml"] .language-badge::before {
+  color: #cbd5e1;
+}
+
+.code-block-wrapper[data-language="dockerfile"] .language-badge,
+.code-block-wrapper[data-language="docker"] .language-badge {
+  border-bottom-color: rgba(13, 110, 253, 0.3);
+}
+
+.code-block-wrapper[data-language="dockerfile"] .language-badge::before,
+.code-block-wrapper[data-language="docker"] .language-badge::before {
+  color: #0d6efd;
+}
+
+/* Line numbers styling */
+pre.line-numbers {
+  position: relative;
+  padding-left: 3.8em;
+  counter-reset: linenumber;
+}
+
+pre.line-numbers > code {
+  position: relative;
+  white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 2.25rem; /* Match height of language badge */
+  left: 0;
+  width: 3.5em; /* Works for line-numbers below 1000 lines */
+  letter-spacing: -1px;
+  border-right: 1px solid rgba(148, 163, 184, 0.15);
+  user-select: none;
+  font-size: 0.85rem;
+  background-color: rgba(15, 23, 42, 0.4);
+  height: calc(100% - 2.25rem);
+}
+
+.line-numbers-rows > span {
+  display: block;
+  counter-increment: linenumber;
+  pointer-events: none;
+  padding: 0 0.5rem;
+  line-height: 1.6;
+}
+
+.line-numbers-rows > span:before {
+  content: counter(linenumber);
+  color: rgba(255, 255, 255, 0.3);
+  display: block;
+  padding-right: 0.8rem;
+  text-align: right;
+}
+
+/* Highlight current line on hover */
+.code-block-wrapper pre.line-numbers .line-numbers-rows > span:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.code-block-wrapper pre.line-numbers .line-numbers-rows > span:hover:before {
+  color: #94a3b8;
+}
+
+/* Highlight the entire line when hovering over line number */
+.code-block-wrapper pre.line-numbers .line-numbers-rows > span:hover ~ code {
+  background-color: rgba(51, 65, 85, 0.2);
+}
+
+/* Add line highlight effect */
+.code-block-wrapper pre.line-numbers .highlight-line {
+  background-color: rgba(56, 189, 248, 0.1);
+  display: block;
+  margin-right: -1.75rem;
+  margin-left: -3.8em;
+  padding-left: 3.8em;
+  border-left: 3px solid #38bdf8;
+}
+
+/* Adjust copy button position for line numbers */
+.code-block-wrapper pre.line-numbers + button.copy-button {
+  top: 0.5rem;
+  right: 0.75rem;
+}
+
+/* Mobile responsiveness for line numbers */
+@media (max-width: 640px) {
+  pre.line-numbers {
+    padding-left: 3.2em;
+  }
+  
+  .line-numbers .line-numbers-rows {
+    width: 3em;
+  }
+  
+  .code-block-wrapper pre {
+    font-size: 0.8rem;
+  }
+}

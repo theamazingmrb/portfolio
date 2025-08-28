@@ -20,6 +20,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            entry.target.classList.remove("opacity-0");
             entry.target.classList.add("animate-in", animationType);
             observer.unobserve(entry.target);
           }
@@ -43,7 +44,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   return (
     <div
       ref={sectionRef}
-      className={`opacity-0 ${className}`}
+      className={`${className}`}
     >
       {children}
     </div>

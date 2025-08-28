@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import { getSortedPostsData, PostData } from "../../lib/posts";
+import { PostData } from "../../lib/posts";
 import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import Footer from "@/components/Footer";
+import FeaturedPostCard from "@/components/FeaturedPostCard";
+import BlogPostCard from "@/components/BlogPostCard";
+import { useState, useEffect } from "react";
 
 function calculateReadingTime(text: string): number {
   const wordsPerMinute = 200;
@@ -10,20 +15,122 @@ function calculateReadingTime(text: string): number {
   return Math.ceil(words / wordsPerMinute);
 }
 
-export const metadata = {
-  title: "Blog | Billie Heidelberg Jr. - Insights on Development, Trading & Technology",
-  description: "Read my latest thoughts on full-stack development, trading technology, team leadership, and building scalable applications. Insights from 7+ years in the industry.",
-  keywords: "blog, development insights, trading technology, full stack development, team leadership, React, TypeScript, Node.js, technical writing",
-};
+// Function to get all unique tags from posts
+function getAllUniqueTags(posts: PostData[]): string[] {
+  const allTags = posts.flatMap(post => post.tags || []);
+  const uniqueTagsSet = new Set<string>(allTags);
+  return Array.from(uniqueTagsSet).sort();
+}
 
-export default async function Blog() {
-  const allPostsData: PostData[] = getSortedPostsData();
+interface PaginationData {
+  currentPage: number;
+  totalPages: number;
+  totalPosts: number;
+  postsPerPage: number;
+}
+
+interface PostsResponse {
+  posts: PostData[];
+  pagination: PaginationData;
+}
+
+export default function Blog() {
+  const [allPosts, setAllPosts] = useState<PostData[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<PostData[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [allTags, setAllTags] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pagination, setPagination] = useState<PaginationData | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const postsPerPage = 10; // Number of posts per page
   
-  // Debug: Log the posts data
-  console.log('All posts data:', allPostsData);
-  if (allPostsData.length === 0) {
-    console.warn('No blog posts found. Check the posts directory and file formats.');
-  }
+  // Fetch posts with optional tag filter and pagination
+  const fetchPosts = async (page = 1, tags: string[] = []) => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // Build query parameters
+      const params = new URLSearchParams();
+      params.append('page', page.toString());
+      params.append('limit', postsPerPage.toString());
+      
+      // If we have a single tag selected, use it as a filter parameter
+      if (tags.length === 1) {
+        params.append('tag', tags[0]);
+      }
+      
+      const response = await fetch(`/api/posts?${params.toString()}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+      
+      const data: PostsResponse = await response.json();
+      
+      // If we have multiple tags selected, filter client-side
+      let postsToDisplay = data.posts;
+      if (tags.length > 1) {
+        postsToDisplay = postsToDisplay.filter(post => {
+          return tags.every(tag => post.tags?.includes(tag));
+        });
+      }
+      
+      setAllPosts(data.posts);
+      setFilteredPosts(postsToDisplay);
+      setPagination(data.pagination);
+      
+      // Only set tags on initial load or when resetting filters
+      if (tags.length === 0) {
+        setAllTags(getAllUniqueTags(data.posts));
+      }
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      setError('Failed to load blog posts. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Initial fetch on component mount
+  useEffect(() => {
+    fetchPosts(currentPage, selectedTags);
+  }, [currentPage, selectedTags]);
+  
+  // Refetch when tags change
+  useEffect(() => {
+    if (selectedTags.length !== 0) {
+      setCurrentPage(1); // Reset to first page when filtering
+      fetchPosts(1, selectedTags);
+    }
+  }, [selectedTags]);
+  
+  // Toggle tag selection
+  const handleTagToggle = (tag: string) => {
+    if (tag === 'all') {
+      setSelectedTags([]);
+      fetchPosts(1, []);
+      return;
+    }
+    
+    const isSelected = selectedTags.includes(tag);
+    let newSelectedTags: string[];
+    
+    if (isSelected) {
+      newSelectedTags = selectedTags.filter(t => t !== tag);
+    } else {
+      newSelectedTags = [...selectedTags, tag];
+    }
+    
+    setSelectedTags(newSelectedTags);
+  };
+  
+  // Clear all selected tags
+  const clearTags = () => {
+    setSelectedTags([]);
+    setFilteredPosts(allPosts);
+  };
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
@@ -100,7 +207,7 @@ export default async function Blog() {
       </AnimatedSection>
 
       {/* Featured Post Section */}
-      {allPostsData.length > 0 && (
+      {filteredPosts.length > 0 && (
         <AnimatedSection
           animationType="fadeInUp"
           className="py-16 md:py-24 bg-gray-50"
@@ -114,10 +221,11 @@ export default async function Blog() {
             </div>
             
             <FeaturedPostCard
-              id={allPostsData[0].id}
-              title={allPostsData[0].title}
-              date={allPostsData[0].date}
-              excerpt={allPostsData[0].excerpt}
+              id={filteredPosts[0].id}
+              title={filteredPosts[0].title}
+              date={filteredPosts[0].date}
+              excerpt={filteredPosts[0].excerpt}
+              tags={filteredPosts[0].tags}
             />
           </div>
         </AnimatedSection>
@@ -126,79 +234,175 @@ export default async function Blog() {
       {/* All Posts Section */}
       <AnimatedSection
         animationType="fadeInUp"
-        className="py-16 md:py-24 bg-gray-50"
+        className="py-16 bg-gray-50"
       >
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              All Articles
-            </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Insights on full-stack development, trading technology, team leadership, and lessons learned building scalable applications
-            </p>
-          </div>
-          
-          {/* Blog Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">{allPostsData.length}</div>
-              <div className="text-gray-600 font-medium">Articles Published</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">7+</div>
-              <div className="text-gray-600 font-medium">Years Experience</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">3</div>
-              <div className="text-gray-600 font-medium">Topic Categories</div>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {allPostsData.map(({ id, title, date, excerpt }) => (
-              <BlogPostCard
-                key={id}
-                id={id}
-                title={title}
-                date={date}
-                excerpt={excerpt}
-              />
-            ))}
-          </div>
-
-          {/* Topics & Categories Section */}
-          <div className="mt-16">
-            <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">Topics I Write About</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h4 className="font-bold text-gray-900 mb-2">Full-Stack Development</h4>
-                <p className="text-gray-600 text-sm">React, TypeScript, Node.js, and modern web technologies</p>
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">All Articles</h2>
+                <p className="text-gray-600">Browse all my articles on development, technology, and leadership.</p>
               </div>
               
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
-                  </svg>
+              {/* Tag Filter */}
+              <div className="mt-6 md:mt-0">
+                <div className="flex flex-wrap gap-2">
+                  <button 
+                    onClick={() => handleTagToggle('all')}
+                    className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
+                      selectedTags.length === 0 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    All
+                  </button>
+                  {allTags.slice(0, 8).map(tag => (
+                    <button
+                      key={tag}
+                      onClick={() => handleTagToggle(tag)}
+                      className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
+                        selectedTags.includes(tag) 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
-                <h4 className="font-bold text-gray-900 mb-2">Trading Technology</h4>
-                <p className="text-gray-600 text-sm">AI-powered tools, financial applications, and market analysis</p>
               </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
-                <h4 className="font-bold text-gray-900 mb-2">Team Leadership</h4>
-                <p className="text-gray-600 text-sm">Managing teams, mentoring developers, and scaling organizations</p>
+            </div>
+            
+            {/* Loading and Error States */}
+            {isLoading && (
+              <div className="flex justify-center items-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+              </div>
+            )}
+            
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-8">
+                <p>{error}</p>
+                <button 
+                  onClick={() => fetchPosts(1, [])} 
+                  className="mt-2 text-sm font-medium underline hover:text-red-800"
+                >
+                  Try again
+                </button>
+              </div>
+            )}
+            
+            {/* Empty State */}
+            {!isLoading && !error && filteredPosts.length === 0 && (
+              <div className="text-center py-16">
+                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <h3 className="mt-2 text-lg font-medium text-gray-900">No posts found</h3>
+                <p className="mt-1 text-gray-500">Try changing your filters or check back later for new content.</p>
+                {selectedTags.length > 0 && (
+                  <button 
+                    onClick={() => handleTagToggle('all')} 
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
+            )}
+            
+            {/* Posts Grid */}
+            {!isLoading && !error && filteredPosts.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredPosts.map(post => (
+                  <BlogPostCard
+                    key={post.id}
+                    id={post.id}
+                    title={post.title}
+                    date={post.date}
+                    excerpt={post.excerpt || ''}
+                    tags={post.tags}
+                  />
+                ))}
+              </div>
+            )}
+            
+            {/* Pagination */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="mt-12 flex justify-center">
+                <nav className="flex items-center space-x-2" aria-label="Pagination">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className={`p-2 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-100'}`}
+                  >
+                    <span className="sr-only">Previous</span>
+                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  
+                  {/* Page Numbers */}
+                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(page => {
+                    // Show first page, last page, current page, and pages around current page
+                    if (
+                      page === 1 ||
+                      page === pagination.totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-4 py-2 text-sm font-medium rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    } else if (
+                      (page === 2 && currentPage > 3) ||
+                      (page === pagination.totalPages - 1 && currentPage < pagination.totalPages - 2)
+                    ) {
+                      // Show ellipsis
+                      return <span key={page} className="px-2 py-2 text-gray-500">...</span>;
+                    }
+                    return null;
+                  })}
+                  
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))}
+                    disabled={currentPage === pagination.totalPages}
+                    className={`p-2 rounded-md ${currentPage === pagination.totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-100'}`}
+                  >
+                    <span className="sr-only">Next</span>
+                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </nav>
+              </div>
+            )}
+            
+            {selectedTags.length > 0 && (
+              <div className="text-center mt-4 text-sm text-gray-600">
+                Showing {filteredPosts.length} {filteredPosts.length === 1 ? 'article' : 'articles'} with selected tags
+              </div>
+            )}
+            
+            {/* Blog Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 mb-16">
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <div className="text-3xl font-bold text-blue-600 mb-2">{allPosts.length}</div>
+                <div className="text-gray-600 font-medium">Articles Published</div>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <div className="text-3xl font-bold text-green-600 mb-2">7+</div>
+                <div className="text-gray-600 font-medium">Years Experience</div>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <div className="text-3xl font-bold text-purple-600 mb-2">3</div>
+                <div className="text-gray-600 font-medium">Topic Categories</div>
               </div>
             </div>
           </div>
@@ -266,6 +470,7 @@ export default async function Blog() {
                   type="email"
                   placeholder="Enter your email address"
                   className="w-full px-4 py-3 rounded-lg text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                  suppressHydrationWarning
                 />
                 <button className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                   Subscribe to Updates
@@ -280,171 +485,5 @@ export default async function Blog() {
       </AnimatedSection>
       <Footer />
     </main>
-  );
-}
-
-function FeaturedPostCard({
-  id,
-  title,
-  date,
-  excerpt,
-}: {
-  id: string;
-  title: string;
-  date: string;
-  excerpt: string;
-}) {
-  const readingTime = calculateReadingTime(excerpt);
-  const formattedDate = new Date(date).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  });
-
-  return (
-    <article className="group bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-blue-100 hover:border-blue-200">
-      <div className="p-8 md:p-12">
-        {/* Featured Badge */}
-        <div className="flex items-center justify-between mb-6">
-          <span className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-bold rounded-full">
-            ⭐ Featured Article
-          </span>
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <time dateTime={date} className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-              </svg>
-              {formattedDate}
-            </time>
-            <div className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-              {readingTime} min read
-            </div>
-          </div>
-        </div>
-
-        {/* Title */}
-        <Link href={`/blog/${id}`} className="block mb-6 group-hover:text-blue-600 transition-colors">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight group-hover:text-blue-600 transition-colors">
-            {title}
-          </h2>
-        </Link>
-
-        {/* Excerpt */}
-        <p className="text-gray-700 mb-8 text-lg leading-relaxed">
-          {excerpt}
-        </p>
-
-        {/* CTA */}
-        <Link
-          href={`/blog/${id}`}
-          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
-        >
-          Read Full Article
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </Link>
-      </div>
-    </article>
-  );
-}
-
-function BlogPostCard({
-  id,
-  title,
-  date,
-  excerpt,
-}: {
-  id: string;
-  title: string;
-  date: string;
-  excerpt: string;
-}) {
-  const readingTime = calculateReadingTime(excerpt);
-  const formattedDate = new Date(date).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  });
-
-  // Determine category from content (you can enhance this logic)
-  const getCategory = (title: string, excerpt: string) => {
-    if (title.toLowerCase().includes('smart trader') || excerpt.toLowerCase().includes('trading')) {
-      return { name: 'Trading Tech', color: 'bg-green-100 text-green-700' };
-    }
-    if (title.toLowerCase().includes('clarity') || excerpt.toLowerCase().includes('personal')) {
-      return { name: 'Leadership', color: 'bg-purple-100 text-purple-700' };
-    }
-    return { name: 'Development', color: 'bg-blue-100 text-blue-700' };
-  };
-
-  const category = getCategory(title, excerpt);
-
-  return (
-    <article className="group h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:border-blue-200 hover:-translate-y-2">
-      {/* Header with gradient accent */}
-      <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
-      
-      <div className="p-8 flex-1 flex flex-col">
-        {/* Metadata */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <time dateTime={date} className="flex items-center font-medium">
-              <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
-              </svg>
-              {formattedDate}
-            </time>
-            <div className="flex items-center font-medium">
-              <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-              {readingTime} min read
-            </div>
-          </div>
-          <span className={`px-3 py-1 text-xs font-bold rounded-full ${category.color}`}>
-            {category.name}
-          </span>
-        </div>
-
-        {/* Title */}
-        <Link href={`/blog/${id}`} className="block mb-4 group-hover:text-blue-600 transition-colors">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight line-clamp-3 group-hover:text-blue-600 transition-colors">
-            {title}
-          </h3>
-        </Link>
-
-        {/* Excerpt */}
-        <p className="text-gray-600 mb-6 flex-grow line-clamp-3 leading-relaxed">
-          {excerpt}
-        </p>
-
-        {/* Author & CTA */}
-        <div className="flex items-center justify-between mt-auto pt-6 border-t border-gray-100">
-          <div className="flex items-center">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mr-3">
-              <img src="/me.png" alt="Billie Heidelberg Jr." className="w-8 h-8 rounded-full object-cover" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-gray-900">Billie Heidelberg Jr.</div>
-              <div className="text-xs text-gray-500">Full Stack Developer</div>
-            </div>
-          </div>
-          
-          <Link
-            href={`/blog/${id}`}
-            className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors group"
-          >
-            Read More
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
-        </div>
-      </div>
-    </article>
   );
 }

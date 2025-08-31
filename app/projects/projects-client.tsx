@@ -88,93 +88,100 @@ function ProfessionalExperience() {
   const experiences = [
     {
       company: "Smart Trader",
-      role: "CTO & Founder",
-      period: "2025 - Present",
+      role: "Founder & Lead Developer",
+      period: "April 2025 - Present",
       description:
-        "Developed an AI-powered trading journal application for active traders and financial professionals, providing analytics and performance insights.",
+        "AI-assisted trading journal that helps traders log, analyze, and improve decision making with actionable insights.",
       achievements: [
-        "Built a full-stack application using Next.js, TypeScript, and Supabase.",
-        "Implemented AI-powered trade analysis using OpenAI's API.",
-        "Created a responsive dashboard with interactive charts and data visualization.",
+        "Built the full stack with Next.js, TypeScript, and Supabase.",
+        "AI-assisted trade reviews reduce manual analysis time for users.",
+        "Interactive charting for trade and performance insights.",
+        "Accessible UI with responsive layout and dark mode."
       ],
-      technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI", "Tailwind CSS"],
+      technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI API", "Tailwind CSS"],
       logo: "/logos/smart-trader-logo.svg",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {
       company: "TOLO",
-      role: "Technical Co-Founder",
-      period: "2024 - 2025",
+      role: "CTO and Co-Founder",
+      period: "October 2022 - January 2025",
       description:
-        "Co-founded a platform helping underground artists and content creators gain visibility through fair algorithm-based content discovery.",
+        "Content discovery platform that promoted underground artists with engagement-focused ranking.",
       achievements: [
-        "Led development of the React Native mobile app for iOS and Android.",
-        "Architected the content recommendation algorithm.",
-        "Scaled the platform to handle thousands of daily active users.",
+        "Led full stack development with React, Node, and Postgres.",
+        "Prototyped engagement-based ranking to reduce popularity bias.",
+        "Owned sprints, backlog, and delivery in a lean environment.",
+        "Implemented authentication, creator onboarding, and feed performance improvements."
       ],
-      technologies: ["React Native", "Node.js", "PostgreSQL", "AWS"],
-      logo: "/logos/GA.webp",
+      technologies: ["React", "Node.js", "PostgreSQL", "AWS", "Redis"],
+      logo: "/logos/tolo.jpeg",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {
       company: "Simmr",
-      role: "Lead Developer",
-      period: "2023 - 2024",
+      role: "Full Stack Engineer",
+      period: "January 2023 - July 2025",
       description:
-        "Led development of a platform for the ethically non-monogamous community to connect and build relationships.",
+        "Specialized social platform focused on safety, privacy, and inclusive discovery for an ENM and polyamorous community.",
       achievements: [
-        "Built the web application using React and Node.js.",
-        "Implemented secure authentication and user verification.",
-        "Developed features for community building and event management.",
+        "Implemented client-side distance filtering and a virtualized discovery grid for performant browsing.",
+        "Built Lambda@Edge SEO previews and integrated with CloudFront via CloudFormation.",
+        "Delivered global image caching and optimization, improving perceived load and reducing bandwidth.",
+        "Hardened the app with error boundaries, defensive checks, retries, and graceful fallbacks."
       ],
-      technologies: ["React", "Node.js", "MongoDB", "GraphQL"],
-      logo: "/logos/simmr.png",
+      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS (Lambda, CloudFront, S3)", "Redis", "SQS"],
+      logo: "/logos/simmr-heart.png",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {
       company: "InvestCloud",
-      role: "Software Engineer",
-      period: "2021 - 2023",
+      role: "Technical Trainer & Integration Developer",
+      period: "December 2019 - June 2025",
       description:
-        "Developed financial software solutions for major financial institutions, focusing on data quality and API development.",
+        "Designed onboarding and training for API and integration developers at a fintech platform serving large institutions.",
       achievements: [
-        "Created ETL processes for financial data processing.",
-        "Developed RESTful APIs for client data integration.",
-        "Built responsive dashboards for financial advisors.",
+        "Built ETL pipelines for transactions, holdings, and account data.",
+        "Developed RESTful services and contributed to relational schema design.",
+        "Created developer onboarding programs covering ETL, data mapping, and integration workflows.",
+        "Led workshops on API design, data quality, and troubleshooting processes."
       ],
-      technologies: ["JavaScript", "SQL", "REST APIs", "Node.js"],
-      image: "/logos/investcloud.png",
-    },
-    {
-      company: "Airbnb",
-      role: "Frontend Engineer (Contract)",
-      period: "2020 - 2021",
-      description:
-        "Worked on the affiliate marketing platform, improving the user experience for ambassadors.",
-      achievements: [
-        "Redesigned the ambassador dashboard for better usability.",
-        "Implemented tracking systems for referral analytics.",
-        "Optimized page load performance for international users.",
-      ],
-      technologies: ["React", "TypeScript", "GraphQL", "Next.js"],
-      logo: "/logos/bbdo.jpeg",
+      technologies: ["Java", "Groovy", "GlassFish", "SQL", "ETL", "REST APIs"],
+      logo: "/logos/IC-Logo.svg",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {
-      company: "BBDO",
-      role: "Frontend Developer",
-      period: "2017 - 2018",
+      company: "Airbnb",
+      role: "Front End Developer (Contract)",
+      period: "June 2017 - August 2017",
       description:
-        "Created interactive banner ads and animations for major advertising campaigns.",
+        "Short-term contract focused on modernizing Airbnb's host ambassador platform with measurable engagement and support improvements.",
       achievements: [
-        "Designed animations using Greensock (GSAP).",
-        "Optimized ad performance across platforms.",
-        "Collaborated with creative teams on campaign concepts.",
+        "Refactored core UI modules to improve navigation flow, visual consistency, and workflow clarity",
+        "Implemented responsive components and simplified information hierarchy for ambassador dashboard",
+        "Delivered optimized task flows that reduced support escalations by 30%",
+        "Collaborated with product and design teams to ensure seamless integration with Airbnb's design system"
       ],
-      technologies: ["JavaScript", "GSAP", "HTML5", "CSS3"],
-      logo: "/logos/bbdo.png",
-      logoBg: "bg-blue-100",
-      image: "/logos/bbdo.png",
+      technologies: ["JavaScript", "React", "Ruby on Rails", "SCSS", "PostgreSQL"],
+      logo: "/logos/abnb.png",
+      logoBg: "bg-white p-2 rounded-lg",
+      impact: "Increased ambassador productivity and reduced operational overhead for the partnerships team"
+    },
+    {
+      company: "BBDO Los Angeles",
+      role: "Jr Front End Developer",
+      period: "October 2017 - July 2018",
+      description:
+        "Built interactive campaign pages and motion-driven ad experiences with tight performance budgets.",
+      achievements: [
+        "Developed HTML5 and JavaScript campaign experiences for major brands.",
+        "Optimized animations and assets for performance and reach.",
+        "Partnered closely with creative to hit brand and accessibility goals.",
+        "Delivered on fast timelines across concurrent campaigns."
+      ],
+      technologies: ["JavaScript", "HTML", "CSS", "GSAP", "Responsive UI"],
+      logo: "/logos/bbdo.jpeg",
+      logoBg: "bg-white p-2 rounded-lg"
     },
   ];
 
@@ -246,6 +253,10 @@ function ProfessionalExperience() {
 }
 
 export default function ProjectsClient({ projects }: { projects: Project[] }) {
+  // Filter out work experiences from projects
+  const actualProjects = projects.filter(project => 
+    !['investcloud', 'bbdo'].includes(project.id)
+  );
   return (
     <main className="min-h-screen bg-white text-gray-900">
       <Navbar />
@@ -253,9 +264,9 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       {/* Hero Section */}
       <section className="relative h-64 md:h-96 flex items-center justify-center overflow-hidden px-4 bg-gray-900 text-white">
         <div className="z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">My Work</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Projects and Related Experience</h1>
           <p className="text-lg md:text-xl">
-            Professional projects and experiences
+            A collection of my work across various roles and organizations
           </p>
         </div>
       </section>
@@ -270,7 +281,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
             Featured Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => ({
+            {actualProjects.map((project) => ({
               ...project,
               // Ensure we have a fallback image
               image: project.image || '/images/project-placeholder.jpg',
@@ -297,7 +308,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       >
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-            Professional Experience
+            Work Experience
           </h2>
           <ProfessionalExperience />
         </div>

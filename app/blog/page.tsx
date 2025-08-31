@@ -162,7 +162,7 @@ export default function Blog() {
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Real-world insights from building products that scale, leading development teams, 
-              and solving complex technical challenges. No fluff—just practical knowledge you can apply immediately.
+              and solving complex technical challenges with TypeScript, React, and modern frameworks. No fluff—just practical knowledge you can apply immediately.
             </p>
           </div>
           
@@ -184,7 +184,7 @@ export default function Blog() {
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Modern Tech Insights</h3>
-              <p className="text-gray-600">Deep dives into React, TypeScript, Node.js, AI integration, and cutting-edge development practices</p>
+              <p className="text-gray-600">Deep dives into TypeScript, React, Node.js, AI integration, and cutting-edge development practices with real-world examples</p>
             </div>
             
             <div className="text-center">
@@ -467,6 +467,7 @@ export default function Blog() {
                   placeholder="Enter your email address"
                   className="w-full px-4 py-3 rounded-lg text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
                   suppressHydrationWarning
+                  key="email-input"
                 />
                 <button className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                   Subscribe to Updates

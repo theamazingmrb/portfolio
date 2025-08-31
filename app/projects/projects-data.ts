@@ -63,36 +63,73 @@ export const projects: Project[] = [
     url: "https://simmr.co"
   },
   {
+    id: "tolo",
+    title: "TOLO",
+    description: "A platform helping underground artists and content creators gain visibility through fair algorithm-based content discovery.",
+    detailedDescription: "TOLO is a mobile platform designed to help underground artists and content creators gain visibility through a multi-tiered content ranking system (Feed, Trending, Viral) that promotes quality content based on engagement rather than just popularity metrics.",
+    contributions: [
+      "Led development of the React Native mobile app for iOS and Android",
+      "Implemented multi-format content support (audio, video, images) with engagement-based promotion",
+      "Built user engagement features including content sharing, saving, and promotion"
+    ],
+    technologies: ["React Native", "Expo", "Supabase", "SWR", "Zustand", "Segment Analytics"],
+    challenges: "Creating a fair content discovery algorithm that balances new creator visibility with content quality, while maintaining performance across multiple content formats.",
+    outcomes: "Successfully launched a platform that helps underground artists gain visibility through a transparent promotion system with features for content sharing and community engagement.",
+    image: "/projects/tolo-preview.png",
+    url: "https://apps.apple.com/us/app/tolo-social/id1668022575",
+  },
+  {
     id: "investcloud",
     title: "InvestCloud",
-    description: "Financial software solutions for major financial institutions, focusing on data quality and API development.",
-    detailedDescription: "InvestCloud provides comprehensive financial software solutions for major financial institutions, with a focus on data quality, API development, and digital transformation.",
+    description: "Financial software solutions for major financial institutions, focusing on data integration, ETL, and API development.",
+    detailedDescription: "InvestCloud provides comprehensive financial software solutions for major financial institutions. I worked as both a Technical Trainer and Integration Developer, focusing on ETL processes, API development, and training other developers on integration workflows.",
     contributions: [
-      "Created ETL processes for financial data processing",
-      "Developed RESTful APIs for client data integration",
-      "Built responsive dashboards for financial advisors"
+      "Built ETL pipelines for transactions, holdings, and account data",
+      "Developed RESTful services and contributed to relational schema design",
+      "Created developer onboarding programs covering ETL, data mapping, and integration workflows",
+      "Led workshops on REST API design, data quality, and troubleshooting processes"
     ],
-    technologies: ["JavaScript", "SQL", "REST APIs", "Node.js"],
-    challenges: "Handling large volumes of financial data while ensuring accuracy, security, and real-time processing.",
-    outcomes: "Delivered robust financial solutions that improved data processing efficiency and provided better insights for financial advisors.",
+    technologies: ["Java", "Groovy", "GlassFish", "SQL", "ETL", "REST APIs"],
+    challenges: "Handling large volumes of financial data while ensuring accuracy, security, and real-time processing. Additionally, creating effective training materials for complex integration workflows.",
+    outcomes: "Delivered robust financial solutions that improved data processing efficiency and provided better insights for financial advisors. Reduced ramp-up time for new developers through improved documentation and training.",
     image: "/logos/IC-Logo.svg",
     url: "https://investcloud.com"
   },
   {
-    id: "tolo",
-    title: "TOLO",
-    description: "A platform helping underground artists and content creators gain visibility through fair algorithm-based content discovery.",
-    detailedDescription: "TOLO is a platform designed to help underground artists and content creators gain visibility through fair algorithm-based content discovery, providing tools for content distribution and audience engagement.",
+    id: "love-service",
+    title: "Love & Service 1st",
+    description: "A nonprofit landing page with links to community initiatives and resources.",
+    detailedDescription: "Love & Service 1st is a nonprofit landing site built to provide a professional, welcoming presence online. The page is lightweight and responsive, with sections for mission statement, resources, and direct links to community initiatives.",
     contributions: [
-      "Led development of the React Native mobile app for iOS and Android",
-      "Architected the content recommendation algorithm",
-      "Scaled the platform to handle thousands of daily active users"
+      "Designed and built a responsive landing page with Next.js and Tailwind CSS",
+      "Created mission-driven content sections for community engagement",
+      "Implemented resource links and community initiative connections"
     ],
-    technologies: ["React Native", "Node.js", "PostgreSQL", "AWS"],
-    challenges: "Building a fair and transparent algorithm that promotes quality content while maintaining platform performance at scale.",
-    outcomes: "Successfully launched the platform with a growing community of creators and users, with positive feedback on content discovery.",
-    image: "/projects/tolo-preview.png",
-    url: "https://tolo.live"
+    technologies: ["Next.js", "Tailwind CSS", "Responsive Design"],
+    challenges: "Delivering a polished, production-ready site quickly for a nonprofit with limited budget and timeline.",
+    outcomes: "Gave the nonprofit a credible online presence, supporting outreach and community engagement.",
+    image: "/projects/love-and-service-first.png",
+    url: "https://loveandservice1st.com/"
+  },
+  {
+    id: "amirblaq",
+    title: "AMIR BLAQ",
+    description: "A full-stack luxury fashion e-commerce platform with Next.js frontend and Django admin portal for content management.",
+    detailedDescription: "AMIR BLAQ is a comprehensive e-commerce solution featuring a Next.js/React frontend with a sophisticated dark theme design and a Django backend admin portal that allows the client to manage products. The system includes RESTful APIs for product management, AWS S3 integration for image storage, and a custom admin interface for content management.",
+    contributions: [
+      "Developed a Next.js frontend with responsive dark-themed UI and interactive product displays",
+      "Built a Django backend with REST API for product management and content administration",
+      "Implemented AWS S3 integration for scalable product image storage",
+      "Created a custom admin portal allowing the client to easily manage product inventory",
+      "Designed database models with categorization for kids and adults product lines",
+      "Fixed critical hydration issues to ensure consistent server-side and client-side rendering",
+      "Deployed the frontend to Vercel and backend to a cloud provider with PostgreSQL database"
+    ],
+    technologies: ["Next.js", "React", "Type Script", "Tailwind CSS", "Django", "Django REST Framework", "PostgreSQL", "AWS S3", "Vercel"],
+    challenges: "Creating a seamless integration between the headless Django backend and the Next.js frontend while ensuring proper data flow and image management. Additionally, implementing a dark theme across all components while maintaining accessibility and resolving complex React hydration issues.",
+    outcomes: "Successfully delivered a full-stack e-commerce platform with an intuitive shopping experience on the frontend and a powerful admin portal that empowers the client to manage their product catalog without technical assistance.",
+    image: "/projects/amir-b-preview.png",
+    url: "https://amirb-ui.vercel.app/"
   },
   {
     id: "airbnb",
@@ -109,6 +146,38 @@ export const projects: Project[] = [
     outcomes: "Enhanced the ambassador experience, leading to increased engagement and more effective referral marketing.",
     image: "/projects/airbnb.png",
     url: "https://www.airbnb.com"
+  },
+  {
+    id: "drink-drank-la",
+    title: "Drink Drank LA",
+    description: "A bar discovery app for Los Angeles using Mongo, Express, EJS, and the Yelp API.",
+    detailedDescription: "Drink Drank LA helps users discover, track, and review LA bars with live Yelp data. Users can browse venues, save lists, and view details. The app demonstrates NoSQL modeling, third-party API integration, and MVC architecture with server-rendered templates.",
+    contributions: [
+      "Implemented real-time Yelp API integration for venue data",
+      "Built personalized visited and wishlist tracking features",
+      "Developed server-rendered MVC architecture with EJS templates"
+    ],
+    technologies: ["MongoDB", "Express.js", "EJS", "Yelp API", "Node.js"],
+    challenges: "Integrating with third-party APIs while maintaining performance and creating an intuitive user experience for discovering and tracking venues.",
+    outcomes: "Created a functional discovery platform with 500+ bars listed and 1000+ reviews, showcasing practical API integration and NoSQL design.",
+    image: "/projects/drink-drank-la.png",
+    url: "#"
+  },
+  {
+    id: "artsy",
+    title: "Artsy",
+    description: "A creative community where artists share, collaborate, and sell artwork.",
+    detailedDescription: "Artsy allows artists to publish portfolios, receive feedback, and list works for sale. Community features encourage sharing best practices and building audience. The platform emphasizes simplicity and collaboration to help artists grow their presence.",
+    contributions: [
+      "Built artist profiles and portfolio management features",
+      "Implemented comments and community feedback system",
+      "Created artwork listings with pricing and purchase options"
+    ],
+    technologies: ["Node.js", "MongoDB", "Express", "JavaScript"],
+    challenges: "Creating an intuitive platform that balances community engagement with monetization opportunities while keeping the focus on the artwork.",
+    outcomes: "Fostered a creative community with 200+ artist profiles and 1500+ artworks shared, providing collaboration and monetization opportunities for emerging artists.",
+    image: "/projects/artsy-preview.jpg",
+    url: "#"
   },
   {
     id: "bbdo",

@@ -2,8 +2,8 @@ import { projects } from "./projects-data";
 import ProjectsClient from "./projects-client";
 
 export const metadata = {
-  title: "Projects",
-  description: "Explore my portfolio of professional projects and experiences in web development and software engineering."
+  title: "Projects and Related Experience",
+  description: "Explore my portfolio of projects and professional work experience across various roles and organizations."
 };
 
 export default function ProjectsPage() {

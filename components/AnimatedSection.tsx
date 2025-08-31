@@ -6,12 +6,14 @@ interface AnimatedSectionProps {
   children: ReactNode;
   className?: string;
   animationType?: "fadeIn" | "fadeInUp" | "fadeInLeft" | "fadeInRight";
+  id?: string;
 }
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
   className = "",
   animationType = "fadeInUp",
+  id,
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -44,6 +46,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   return (
     <div
       ref={sectionRef}
+      id={id}
       className={`${className}`}
     >
       {children}

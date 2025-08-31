@@ -1,10 +1,13 @@
 import { getPostData, getAllPostIds } from '@/lib/posts';
 import { calculateReadingTime } from '@/lib/readingTime';
+import { formatDate, getCoverImage } from '@/lib/utils';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import Image from 'next/image';
 import AnimatedSection from '@/components/AnimatedSection';
 import CodeBlocksHydration from '@/components/CodeBlocksHydration';
+import BlogContentHydration from '@/components/BlogContentHydration';
 import { Metadata } from 'next';
 
 // Using the imported calculateReadingTime function from lib/posts
@@ -239,15 +242,17 @@ export default async function Post({ params }: { params: { id: string } }) {
                 )}
                 
                 {/* Cover Image */}
-                {postData.coverImage && (
-                  <div className="mb-10">
-                    <img 
-                      src={postData.coverImage} 
-                      alt={`Cover image for ${postData.title}`} 
-                      className="w-full h-auto rounded-xl shadow-lg"
-                    />
-                  </div>
-                )}
+                <div className="mb-10">
+                  <Image 
+                    src={postData.coverImage || getCoverImage(params.id, postData.title)} 
+                    alt={`Cover image for ${postData.title}`} 
+                    width={1200}
+                    height={630}
+                    className="w-full h-auto rounded-xl shadow-lg"
+                    priority
+                    suppressHydrationWarning
+                  />
+                </div>
                 
                 <article className="prose prose-xl max-w-none
                   prose-headings:text-gray-900 prose-headings:font-bold prose-headings:mt-12 prose-headings:mb-6
@@ -270,10 +275,7 @@ export default async function Post({ params }: { params: { id: string } }) {
                   prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-2 prose-th:text-left
                   prose-td:border prose-td:border-gray-300 prose-td:p-2
                 ">
-                  <div 
-                    className="text-gray-800" 
-                    dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }} 
-                  />
+                  <BlogContentHydration content={postData.contentHtml || ''} />
                   {/* Add CodeBlocksHydration component to handle copy buttons */}
                   <CodeBlocksHydration />
                 </article>

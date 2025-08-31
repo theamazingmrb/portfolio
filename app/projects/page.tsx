@@ -1,4 +1,4 @@
-import { projects } from "./projects-data";
+import { getProjectsForProjectsPage } from "@/lib/projects";
 import ProjectsClient from "./projects-client";
 
 export const metadata = {
@@ -7,5 +7,6 @@ export const metadata = {
 };
 
 export default function ProjectsPage() {
+  const projects = getProjectsForProjectsPage();
   return <ProjectsClient projects={projects} />;
 }

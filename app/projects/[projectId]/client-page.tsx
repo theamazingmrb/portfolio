@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiExternalLink, FiArrowLeft, FiGithub } from "react-icons/fi";
-import { Project } from "@/data/projects";
+import { Project } from "@/lib/projects";
 import { motion } from "framer-motion";
 
 interface ClientProjectPageProps {

@@ -7,20 +7,12 @@ import AnimatedSection from "@/components/AnimatedSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  detailedDescription?: string;
-  contributions?: string[];
-  technologies?: string[];
-  challenges?: string;
-  outcomes?: string;
-  image: string;
-  url?: string;
-}
+// Import the Project type from our unified data structure
+import { Project } from "@/lib/projects";
 
-function ProjectCard({ id, title, description, image, technologies = [], url }: Project) {
+function ProjectCard({ id, title, description, image, technologies = [], techStack = [], url }: Project) {
+  // Use either technologies or techStack, whichever is available
+  const techs = technologies?.length ? technologies : techStack || [];
   return (
     <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       <Link
@@ -40,10 +32,10 @@ function ProjectCard({ id, title, description, image, technologies = [], url }: 
           </h3>
           <p className="text-gray-600 mb-4">{description}</p>
           
-          {technologies && (
+          {techs && techs.length > 0 && (
             <div className="mt-3">
               <div className="flex flex-wrap gap-1">
-                {technologies.slice(0, 3).map((tech, index) => (
+                {techs.slice(0, 3).map((tech, index) => (
                   <span 
                     key={index} 
                     className="inline-block bg-gray-100 text-gray-700 rounded-full px-2 py-1 text-xs font-medium"
@@ -51,9 +43,9 @@ function ProjectCard({ id, title, description, image, technologies = [], url }: 
                     {tech}
                   </span>
                 ))}
-                {technologies.length > 3 && (
+                {techs.length > 3 && (
                   <span className="inline-block bg-gray-100 text-gray-700 rounded-full px-2 py-1 text-xs font-medium">
-                    +{technologies.length - 3} more
+                    +{techs.length - 3} more
                   </span>
                 )}
               </div>
@@ -257,6 +249,9 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
   const actualProjects = projects.filter(project => 
     !['investcloud', 'bbdo'].includes(project.id)
   );
+  
+  // Log projects to help debug
+  console.log('Projects after filtering:', actualProjects.map(p => p.id));
   return (
     <main className="min-h-screen bg-white text-gray-900">
       <Navbar />
@@ -281,23 +276,25 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
             Featured Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {actualProjects.map((project) => ({
-              ...project,
-              // Ensure we have a fallback image
-              image: project.image || '/images/project-placeholder.jpg',
-              // Ensure technologies is always an array
-              technologies: project.technologies || []
-            })).map((project) => (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                title={project.title}
-                description={project.description}
-                image={project.image}
-                technologies={project.technologies}
-                url={project.url}
-              />
-            ))}
+            {actualProjects.map((project) => {
+              // Create a complete project object with all required fields
+              const completeProject = {
+                ...project,
+                // Ensure we have a fallback image
+                image: project.image || '/images/project-placeholder.jpg',
+                // Ensure technologies is always an array
+                technologies: project.technologies || [],
+                // Ensure details is present (required by Project interface)
+                details: project.details || project.detailedDescription || ''
+              };
+              return (
+                <ProjectCard
+                  key={completeProject.id}
+                  {...completeProject}
+                />
+              );
+            })}
+
           </div>
         </div>
       </AnimatedSection>

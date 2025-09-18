@@ -29,6 +29,7 @@ export interface PostData {
   tableOfContents?: string;
   relatedPosts?: string[];
   lastUpdated?: string;
+  featured?: boolean;
 }
 
 function generateExcerpt(content: string, frontmatter: any): string {
@@ -120,6 +121,7 @@ export function getSortedPostsData(): PostData[] {
           author: matterResult.data.author || 'Billie Heidelberg Jr.',
           authorImage: matterResult.data.authorImage || '/me.png',
           relatedPosts: matterResult.data.relatedPosts || [],
+          featured: matterResult.data.featured || false,
         } as PostData;
       } catch (error) {
         console.error(`Error processing file ${fileName}:`, error);
@@ -182,6 +184,7 @@ export async function getPostData(id: string): Promise<PostData> {
     authorImage: matterResult.data.authorImage || '/me.png',
     lastUpdated: matterResult.data.lastUpdated || matterResult.data.date,
     relatedPosts: matterResult.data.relatedPosts || [],
+    featured: matterResult.data.featured || false,
     ...(matterResult.data as { title: string; date: string }),
   };
 }

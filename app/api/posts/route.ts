@@ -18,6 +18,11 @@ export async function GET(request: Request) {
     const filteredPosts = tag 
       ? allPosts.filter(post => post.tags?.includes(tag))
       : allPosts;
+      
+    // Sort posts by date (newest first)
+    filteredPosts.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
     
     // Calculate pagination
     const postsPerPage = limit || filteredPosts.length;

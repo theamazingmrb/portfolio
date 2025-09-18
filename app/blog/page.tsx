@@ -201,7 +201,7 @@ export default function Blog() {
       </AnimatedSection>
 
       {/* Featured Post Section */}
-      {filteredPosts.length > 0 && (
+      {filteredPosts.length > 0 && filteredPosts.some(post => post.featured) && (
         <AnimatedSection
           animationType="fadeInUp"
           className="py-16 md:py-24 bg-gray-50"
@@ -214,14 +214,32 @@ export default function Blog() {
               <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
             </div>
             
-            <FeaturedPostCard
-              id={filteredPosts[0].id}
-              title={filteredPosts[0].title}
-              date={filteredPosts[0].date}
-              excerpt={filteredPosts[0].excerpt}
-              readingTime={filteredPosts[0].readingTime || 1}
-              tags={filteredPosts[0].tags}
-            />
+            {/* Find the first featured post */}
+            {(() => {
+              // Find all featured posts
+              const featuredPosts = filteredPosts.filter(post => post.featured);
+              
+              // Sort featured posts by date (newest first)
+              featuredPosts.sort((a, b) => {
+                return new Date(b.date).getTime() - new Date(a.date).getTime();
+              });
+              
+              // Display the most recent featured post
+              if (featuredPosts.length > 0) {
+                const featuredPost = featuredPosts[0];
+                return (
+                  <FeaturedPostCard
+                    id={featuredPost.id}
+                    title={featuredPost.title}
+                    date={featuredPost.date}
+                    excerpt={featuredPost.excerpt}
+                    readingTime={featuredPost.readingTime || 1}
+                    tags={featuredPost.tags}
+                  />
+                );
+              }
+              return null;
+            })()}
           </div>
         </AnimatedSection>
       )}

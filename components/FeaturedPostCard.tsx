@@ -39,7 +39,11 @@ const FeaturedPostCard: React.FC<FeaturedPostCardProps> = ({
               suppressHydrationWarning
             />
           </div>
-          <div className="p-8 flex flex-col justify-between">
+          <div className="p-8 flex flex-col justify-between relative">
+            {/* Featured badge */}
+            <div className="absolute -top-4 -right-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+              Featured
+            </div>
             <div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {tags.slice(0, 3).map((tag) => (

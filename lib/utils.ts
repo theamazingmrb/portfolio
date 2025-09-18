@@ -61,6 +61,8 @@ export function getCoverImage(id: string, title: string): string {
     return '/articleCovers/finding-clarity.png';
   } else if (id === 'typescript-getting-started') {
     return '/articleCovers/typescript-getting-started.png';
+  } else if (id === 'mastering-xml-javascript') {
+    return '/articleCovers/master-xml.png';
   }
   
   // If no specific ID match, check for keywords in title
@@ -81,6 +83,8 @@ export function getCoverImage(id: string, title: string): string {
     return '/articleCovers/finding-clarity.png';
   } else if (titleLower.includes('cheese') || titleLower.includes('moved')) {
     return '/articleCovers/who-moved-my-cheese.png';
+  } else if (titleLower.includes('xml') || titleLower.includes('parsing')) {
+    return '/articleCovers/master-xml.png';
   } else {
     return '/projects/code-editor.png';
   }

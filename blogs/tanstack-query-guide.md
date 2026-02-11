@@ -1,3 +1,12 @@
+---
+title: "How to Use TanStack Query in React: A Complete Guide"
+description: "A comprehensive guide to TanStack Query for React developers, covering core concepts, usage patterns, and best practices for data fetching and caching."
+date: "2025-01-15"
+tags: ["React", "TanStack Query", "Data Fetching", "Caching", "API"]
+author: "Billie Heidelberg Jr."
+coverImage: "/articleCovers/tanstack-query.png"
+---
+
 # How to Use TanStack Query in React: A Complete Guide
 
 **Table of Contents** (Time: ~100 minutes total)

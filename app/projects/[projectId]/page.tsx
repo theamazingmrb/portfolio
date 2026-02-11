@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import { getProjectsForProjectsPage, getProjectById, Project } from "@/lib/projects";
-import dynamic from 'next/dynamic';
-
-const ClientProjectPage = dynamic(() => import('./client-page'), { ssr: true });
+import ProjectPageWrapper from './page-wrapper';
 
 export const dynamicParams = true; // Enable static site generation for all dynamic routes
 
@@ -24,7 +22,7 @@ export default async function ProjectPage({
     notFound();
   }
   
-  return <ClientProjectPage project={project} />;
+  return <ProjectPageWrapper project={project} />;
 }
 
 

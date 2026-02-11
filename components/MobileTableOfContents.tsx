@@ -16,6 +16,7 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
   const [headings, setHeadings] = useState<TocItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeHeading, setActiveHeading] = useState<string>("");
 
   useEffect(() => {
     // Parse the HTML content to extract headings
@@ -54,6 +55,42 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
       window.removeEventListener('scroll', handleScroll);
     };
   }, [content]);
+
+  // Track active heading with intersection observer
+  useEffect(() => {
+    if (headings.length === 0) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-80px 0px -50% 0px', // Account for header and center detection
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveHeading(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all heading elements
+    headings.forEach((heading) => {
+      const element = document.getElementById(heading.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      headings.forEach((heading) => {
+        const element = document.getElementById(heading.id);
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
+  }, [headings]);
 
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
@@ -121,16 +158,16 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
       <div className={`fixed inset-0 z-50 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         {/* Backdrop */}
         <div 
-          className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-            isOpen ? 'bg-opacity-50' : 'bg-opacity-0'
+          className={`absolute inset-0 bg-black transition-all duration-300 ease-out ${
+            isOpen ? 'bg-opacity-50 backdrop-blur-sm' : 'bg-opacity-0'
           }`}
           onClick={() => setIsOpen(false)}
         />
         
-        {/* Menu Content - Slides in from left */}
-        <div className={`absolute left-0 top-0 h-full w-80 max-w-[90vw] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${
+        {/* Menu Content - Slides in from left with spring animation */}
+        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-all duration-500 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}>
+        } ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
           <div className="h-full flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
@@ -174,13 +211,19 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
                     <button
                       key={heading.id}
                       onClick={() => scrollToHeading(heading.id)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                      className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
                         indentClass
-                      } text-gray-600 hover:text-gray-900 hover:bg-gray-50`}
+                      } ${
+                        activeHeading === heading.id 
+                          ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-500' 
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-sm'
+                      }`}
                     >
                       <div className="flex items-center">
-                        <span className="text-xs text-gray-400 mr-2 w-4">{index + 1}.</span>
-                        <span>{heading.text}</span>
+                        <span className={`text-xs mr-2 w-4 font-medium ${
+                          activeHeading === heading.id ? 'text-blue-500' : 'text-gray-400'
+                        }`}>{index + 1}.</span>
+                        <span className="font-medium">{heading.text}</span>
                       </div>
                     </button>
                   );

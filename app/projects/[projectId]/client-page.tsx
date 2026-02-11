@@ -183,13 +183,12 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
                 transition={{ duration: 0.7, delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                <div
-                  className="w-full h-[600px] md:h-[500px] relative cursor-pointer"
-                  tabIndex={0}
-                  aria-label="View full image"
+                <button
+                  type="button"
+                  className="w-full h-[600px] md:h-[500px] relative cursor-pointer bg-transparent border-0 p-0"
                   onClick={() => project.images?.[0] && openLightbox(project.images[0], `${project.title} - Main Screenshot`)}
                   onKeyDown={e => { if ((e.key === 'Enter' || e.key === ' ') && project.images?.[0]) openLightbox(project.images[0], `${project.title} - Main Screenshot`); }}
-                  role="button"
+                  aria-label={`View full image`}
                 >
                   <Image
                     src={project.images[0]}
@@ -200,7 +199,7 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
                     priority
                   />
                   {/* Optional: Add caption support here if data available */}
-                </div> 
+                </button> 
               </motion.div>
               {/* Secondary Images */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -213,13 +212,12 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
                     transition={{ duration: 0.7, delay: 0.2 + (idx * 0.1) }}
                     viewport={{ once: true }}
                   >
-                    <div
-                      className="w-full h-[350px] md:h-[400px] relative cursor-pointer"
-                      tabIndex={0}
-                      aria-label={`View screenshot ${idx + 2}`}
+                    <button
+                      type="button"
+                      className="w-full h-[350px] md:h-[400px] relative cursor-pointer bg-transparent border-0 p-0"
                       onClick={() => img && openLightbox(img, `${project.title} - Screenshot ${idx + 2}`)}
                       onKeyDown={e => { if ((e.key === 'Enter' || e.key === ' ') && img) openLightbox(img, `${project.title} - Screenshot ${idx + 2}`); }}
-                      role="button"
+                      aria-label={`View screenshot ${idx + 2}`}
                     >
                       <Image
                         src={img}
@@ -229,7 +227,7 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                       />
                       {/* Optional: Add caption support here if data available */}
-                    </div>
+                    </button>
                   </motion.div>
                 ))}
               </div>

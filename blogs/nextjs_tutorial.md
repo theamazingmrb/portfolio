@@ -1,18 +1,10 @@
-Perfect.
-Here’s your full Next.js 16 article, written in the same format and flow as your TanStack Query and Angular for React Devs articles — clean Markdown with section headers, code blocks, tables, and links that match your blog style.
-
-⸻
-
-
 ---
 title: "Next.js: Advanced Features Every React Developer Should Master"
-date: "2025-10-26"
-excerpt: "Discover the latest Next.js features that push performance, caching, and developer experience to new levels. Learn how modern React applications achieve speed, scalability, and simplicity using Next.js."
-tags: ["Next.js", "React", "Full Stack", "Web Development", "Performance"]
-category: "Frontend Development"
-coverImage: "/articleCovers/nextjs.png"
-featured: true
+description: "Discover the latest Next.js features that push performance, caching, and developer experience to new levels. Learn how modern React applications achieve speed, scalability, and simplicity using Next.js."
+date: "2025-01-15"
+tags: ["Next.js", "React", "Performance", "Caching", "Web Development"]
 author: "Billie Heidelberg Jr."
+coverImage: "/articleCovers/nextjs.png"
 ---
 
 # Next.js: Advanced Features Every React Developer Should Master

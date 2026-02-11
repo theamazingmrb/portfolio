@@ -16,8 +16,9 @@ import { Metadata } from 'next';
 // Using the imported calculateReadingTime function from lib/posts
 
 // Generate metadata for the page
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const postData = await getPostData(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const postData = await getPostData(id);
   
   // Extract tags for keywords
   const keywords = postData?.tags ? 
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     'development, trading technology, full stack, React, TypeScript, Node.js, team leadership, technical insights';
   
   // Determine canonical URL
-  const canonicalUrl = `https://billieheidelberg.com/blog/${params.id}`;
+  const canonicalUrl = `https://billieheidelberg.com/blog/${id}`;
   
   return {
     title: postData ? `${postData.title} | Billie Heidelberg Jr. Blog` : 'Blog Post | Billie Heidelberg Jr.',
@@ -110,9 +111,10 @@ function BlogPostJsonLd({ post, url }: { post: any, url: string }) {
   );
 }
 
-export default async function Post({ params }: { params: { id: string } }) {
-  const postData = await getPostData(params.id);
-  const canonicalUrl = `https://billieheidelberg.com/blog/${params.id}`;
+export default async function Post({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const postData = await getPostData(id);
+  const canonicalUrl = `https://billieheidelberg.com/blog/${id}`;
 
   if (!postData) {
     return (
@@ -219,21 +221,21 @@ export default async function Post({ params }: { params: { id: string } }) {
       </section>
       
       {/* Content Section */}
-      <AnimatedSection animationType="fadeIn" className="py-12 md:py-16 -mt-12 md:-mt-16 relative z-10">
-        <div className="container mx-auto px-4">
+      <AnimatedSection animationType="fadeIn" className="py-8 md:py-16 -mt-8 md:-mt-16 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="flex gap-8">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
               {/* Main Content */}
-              <div className="flex-1 max-w-4xl xl:ml-72">
+              <div className="flex-1 lg:max-w-4xl lg:ml-72">
                 <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                   {/* Progress Bar */}
                   <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
                   
-                  <div className="p-8 md:p-12">
+                  <div className="p-6 sm:p-8 md:p-12">
                     {/* Cover Image */}
-                    <div className="mb-10">
+                    <div className="mb-8 sm:mb-10">
                       <Image 
-                        src={postData.coverImage || getCoverImage(params.id, postData.title)} 
+                        src={postData.coverImage || getCoverImage(id, postData.title)} 
                         alt={`Cover image for ${postData.title}`} 
                         width={1200}
                         height={630}
@@ -243,26 +245,28 @@ export default async function Post({ params }: { params: { id: string } }) {
                       />
                     </div>
                     
-                    <article className="prose prose-xl max-w-none
-                      prose-headings:text-gray-900 prose-headings:font-bold prose-headings:mt-12 prose-headings:mb-6
-                      prose-h1:text-4xl prose-h1:mb-8 prose-h1:mt-0
-                      prose-h2:text-3xl prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-3 prose-h2:mb-8
-                      prose-h3:text-2xl prose-h3:mb-4
-                      prose-h4:text-xl prose-h4:mb-3
-                      prose-p:text-gray-800 prose-p:mb-6 prose-p:leading-relaxed prose-p:text-lg
-                      prose-li:text-gray-800 prose-li:mb-3 prose-li:text-lg prose-li:leading-relaxed
-                      prose-ul:mb-8 prose-ol:mb-8
-                      prose-a:text-blue-600 prose-a:no-underline prose-a:font-medium prose-a:hover:underline prose-a:hover:text-blue-800
-                      prose-strong:font-semibold prose-strong:text-gray-900
+                    <article className="prose prose-lg sm:prose-xl max-w-none
+                      prose-headings:text-gray-900 prose-headings:font-bold prose-headings:mt-8 prose-headings:mb-4 sm:prose-headings:mt-12 sm:prose-headings:mb-6
+                      prose-h1:text-2xl sm:prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mb-6 sm:prose-h1:mb-8 prose-h1:mt-0
+                      prose-h2:text-xl sm:prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2 sm:prose-h2:pb-3 prose-h2:mb-4 sm:prose-h2:mb-8
+                      prose-p:text-gray-700 prose-p:leading-relaxed prose-p:text-base sm:prose-p:text-lg
+                      prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:shadow-lg prose-pre:overflow-x-auto
+                      prose-code:text-pink-400 prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-xs sm:prose-code:text-sm prose-code:font-mono
+                      max-sm:prose-pre:text-xs max-sm:prose-code:text-xs max-sm:prose-pre:p-3 sm:prose-pre:p-4 md:prose-pre:p-6
+                      prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:pl-4 prose-blockquote:py-2 prose-blockquote:my-4 prose-blockquote:rounded-r-lg
+                      prose-ul:list-disc prose-ul:space-y-2 prose-ul:text-gray-700
+                      prose-ol:list-decimal prose-ol:space-y-2 prose-ol:text-gray-700
+                      prose-li:leading-relaxed prose-li:text-base sm:prose-li:text-lg
+                      prose-strong:text-gray-900 prose-strong:font-semibold
                       prose-em:text-gray-700 prose-em:italic
-                      prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-8 prose-blockquote:py-4 prose-blockquote:my-8 prose-blockquote:bg-blue-50 prose-blockquote:rounded-r-lg prose-blockquote:text-blue-900 prose-blockquote:font-medium
-                      prose-pre:bg-gray-900 prose-pre:text-white prose-pre:rounded-lg prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:my-8 prose-pre:border prose-pre:border-gray-300
-                      prose-code:bg-gray-800 prose-code:text-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:text-sm prose-code:font-mono prose-code:rounded
-                      prose-img:max-w-full prose-img:rounded-xl prose-img:my-10 prose-img:shadow-lg
-                      prose-hr:my-12 prose-hr:border-gray-300
-                      prose-table:my-8 prose-table:border-collapse prose-table:w-full
-                      prose-th:border prose-th:border-gray-300 prose-th:bg-gray-100 prose-th:p-2 prose-th:text-left
-                      prose-td:border prose-td:border-gray-300 prose-td:p-2
+                      prose-a:text-blue-600 prose-a:no-underline prose-a:hover:text-blue-800 prose-a:hover:underline prose-a:font-medium
+                      prose-img:rounded-lg prose-img:shadow-md prose-img:border prose-img:border-gray-200
+                      prose-table:border prose-table:border-gray-200 prose-table:rounded-lg prose-table:overflow-hidden prose-table:shadow-sm
+                      prose-thead:bg-gray-50 prose-thead:border-b prose-thead:border-gray-200
+                      prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold prose-th:text-gray-900
+                      prose-td:px-4 prose-td:py-3 prose-td:border-b prose-td:border-gray-200 prose-td:text-gray-700
+                      prose-hr:border-gray-200 prose-hr:my-8
+                      max-sm:prose-p:text-sm max-sm:prose-li:text-sm max-sm:prose-h2:text-lg max-sm:prose-h3:text-base
                     ">
                       <BlogContentHydration content={postData.contentHtml || ''} />
                       {/* Add CodeBlocksHydration component to handle copy buttons */}
@@ -363,6 +367,9 @@ export default async function Post({ params }: { params: { id: string } }) {
       </AnimatedSection>
       
       <Footer />
+      
+      {/* Desktop Table of Contents */}
+      <TableOfContents content={postData.contentHtml || ''} />
       
       {/* Mobile Table of Contents */}
       <MobileTableOfContents content={postData.contentHtml || ''} />

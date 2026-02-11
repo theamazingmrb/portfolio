@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import Footer from "@/components/Footer";
@@ -513,9 +514,9 @@ export default function ContactPage() {
               <a href="#contact-form" className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                 Let's Talk
               </a>
-              <a href="/projects" className="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl hover:border-white/80 hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
+              <Link href="/projects" className="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl hover:border-white/80 hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
                 View My Work
-              </a>
+              </Link>
             </div>
           </div>
         </AnimatedSection>

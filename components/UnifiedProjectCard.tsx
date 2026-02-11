@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/lib/projects";
@@ -147,7 +149,6 @@ export function UnifiedProjectCard({
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
               className={`
                 inline-flex items-center justify-center px-3 py-2 rounded-md font-medium transition-all duration-300
                 ${isHomeVariant 

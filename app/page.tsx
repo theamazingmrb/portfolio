@@ -12,6 +12,43 @@ import SkillItem from "@/components/SkillItem";
 export default async function Home() {
   const allPostsData: PostData[] = getSortedPostsData();
 
+  // Create clean project objects to avoid serialization issues
+  const smartTraderProject = {
+    id: "smart-trader",
+    title: "Smart Trader",
+    description: "AI-powered trading journal with analytics and performance insights. Built with Next.js, TypeScript, and OpenAI for professional traders.",
+    image: "/projects/smart-trader.png",
+    url: "/projects/smart-trader",
+    techStack: ["Next.js", "TypeScript", "Supabase", "AI"],
+    metrics: ["Risk Management Tools", "Performance Dashboard", "Strategy Backtesting", "40% Better Discipline"],
+    details: "",
+    features: []
+  };
+
+  const babyTrackerProject = {
+    id: "baby-tracker",
+    title: "Baby Tracker",
+    description: "An open source, privacy-first baby tracking solution that helps parents monitor feedings, diapers, sleep, and more while maintaining complete data ownership.",
+    image: "/projects/baby-tracker.png",
+    url: "/projects/baby-tracker",
+    techStack: ["Django", "PostgreSQL", "Docker", "Next.js", "Open Source"],
+    metrics: ["MIT Licensed", "Self-Hostable", "Complete Data Ownership", "AI-powered Insights"],
+    details: "",
+    features: []
+  };
+
+  const simmrProject = {
+    id: "simmr",
+    title: "Simmr",
+    description: "The premier discovery and connection platform for the ethically non-monogamous community. Features include verification, discovery, events, and secure messaging.",
+    image: "/projects/simmr-about.png",
+    url: "/projects/simmr",
+    techStack: ["React", "Node.js", "PostgreSQL", "TypeScript"],
+    metrics: ["2,000+ Users", "4.5 Star Rating on IOS App Store", "Monthly Events", "Private Messaging System", "Identity Verification"],
+    details: "",
+    features: []
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <Navbar />
@@ -124,44 +161,17 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <UnifiedProjectCard
-              project={{
-                id: "smart-trader",
-                title: "Smart Trader",
-                description: "AI-powered trading journal with analytics and performance insights. Built with Next.js, TypeScript, and OpenAI for professional traders.",
-                image: "/projects/smart-trader.png",
-                url: "/projects/smart-trader",
-                techStack: ["Next.js", "TypeScript", "Supabase", "AI"],
-                metrics: ["Risk Management Tools", "Performance Dashboard", "Strategy Backtesting", "40% Better Discipline"],
-                details: ""
-              }}
+              project={smartTraderProject}
               variant="home"
               featured={true}
             />
             <UnifiedProjectCard
-              project={{
-                id: "baby-tracker",
-                title: "Baby Tracker",
-                description: "An open source, privacy-first baby tracking solution that helps parents monitor feedings, diapers, sleep, and more while maintaining complete data ownership.",
-                image: "/projects/baby-tracker.png",
-                url: "/projects/baby-tracker",
-                techStack: ["Django", "PostgreSQL", "Docker", "Next.js", "Open Source"],
-                metrics: ["MIT Licensed", "Self-Hostable", "Complete Data Ownership", "AI-powered Insights"],
-                details: ""
-              }}
+              project={babyTrackerProject}
               variant="home"
               featured={true}
             />
             <UnifiedProjectCard
-              project={{
-                id: "simmr",
-                title: "Simmr",
-                description: "The premier discovery and connection platform for the ethically non-monogamous community. Features include verification, discovery, events, and secure messaging.",
-                image: "/projects/simmr-about.png",
-                url: "/projects/simmr",
-                techStack: ["React", "Node.js", "PostgreSQL", "TypeScript"],
-                metrics: ["2,000+ Users", "4.5 Star Rating on IOS App Store", "Monthly Events", "Private Messaging System", "Identity Verification"],
-                details: ""
-              }}
+              project={simmrProject}
               variant="home"
               featured={true}
             />

@@ -6,6 +6,7 @@ tags: ["React", "JavaScript", "Hooks", "Context API", "Frontend", "State Managem
 excerpt: "Master React's Context API with this comprehensive guide featuring interactive examples, TypeScript integration, performance tips, and real-world patterns. Learn to share state elegantly without prop drilling."
 difficulty: "Intermediate"
 author: "Billie Heidelberg Jr."
+coverImage: "/articleCovers/master-react-usecontext.png"
 featured: true
 ---
 

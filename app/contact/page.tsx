@@ -172,7 +172,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">Resume</h3>
                 <p className="text-gray-600 text-sm mb-3">Download PDF</p>
-                <a href="/documents/bheidelberg.pdf" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-medium text-sm">
+                <a href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-medium text-sm">
                   View Resume
                 </a>
               </div>
@@ -222,7 +222,7 @@ export default function ContactPage() {
                     View LinkedIn
                   </a>
                   <a 
-                    href="/documents/bheidelberg.pdf" 
+                    href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf" 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-300 text-gray-700 bg-white rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 transform hover:scale-105"

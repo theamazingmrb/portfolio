@@ -4,7 +4,8 @@ import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import TopCategories from "@/components/TopCategories";
 import { getSortedPostsData, PostData } from "@/lib/posts";
-import { ProjectCard } from "@/components/ProjectCard";
+import { UnifiedProjectCard } from "@/components/UnifiedProjectCard";
+import { Project } from "@/lib/projects";
 import { SkillGroup } from "@/components/SkillGroup";
 import SkillItem from "@/components/SkillItem";
 
@@ -77,7 +78,7 @@ export default async function Home() {
               Get In Touch
             </Link>
             <a
-              href="/documents/bheidelberg.pdf"
+              href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 rounded-full text-lg font-semibold bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
@@ -122,32 +123,47 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProjectCard
-              title="Smart Trader"
-              description="AI-powered trading journal with analytics and performance insights. Built with Next.js, TypeScript, and OpenAI for professional traders."
-              image="/projects/smart-trader.png"
-              link="/projects/smart-trader"
-              tags={["Next.js", "TypeScript", "Supabase", "AI"]}
+            <UnifiedProjectCard
+              project={{
+                id: "smart-trader",
+                title: "Smart Trader",
+                description: "AI-powered trading journal with analytics and performance insights. Built with Next.js, TypeScript, and OpenAI for professional traders.",
+                image: "/projects/smart-trader.png",
+                url: "/projects/smart-trader",
+                techStack: ["Next.js", "TypeScript", "Supabase", "AI"],
+                metrics: ["Risk Management Tools", "Performance Dashboard", "Strategy Backtesting", "40% Better Discipline"],
+                details: ""
+              }}
+              variant="home"
               featured={true}
-              metrics={["Risk Management Tools", "Performance Dashboard", "Strategy Backtesting", "40% Better Discipline"]}
             />
-            <ProjectCard
-              title="Baby Tracker"
-              description="An open source, privacy-first baby tracking solution that helps parents monitor feedings, diapers, sleep, and more while maintaining complete data ownership."
-              image="/projects/baby-tracker.png"
-              link="/projects/baby-tracker"
-              tags={["Django", "PostgreSQL", "Docker", "Next.js", "Open Source"]}
+            <UnifiedProjectCard
+              project={{
+                id: "baby-tracker",
+                title: "Baby Tracker",
+                description: "An open source, privacy-first baby tracking solution that helps parents monitor feedings, diapers, sleep, and more while maintaining complete data ownership.",
+                image: "/projects/baby-tracker.png",
+                url: "/projects/baby-tracker",
+                techStack: ["Django", "PostgreSQL", "Docker", "Next.js", "Open Source"],
+                metrics: ["MIT Licensed", "Self-Hostable", "Complete Data Ownership", "AI-powered Insights"],
+                details: ""
+              }}
+              variant="home"
               featured={true}
-              metrics={["MIT Licensed", "Self-Hostable", "Complete Data Ownership", "AI-powered Insights"]}
             />
-            <ProjectCard
-              title="Simmr"
-              description="The premier discovery and connection platform for the ethically non-monogamous community. Features include verification, discovery, events, and secure messaging."
-              image="/projects/simmr-preview.png"
-              link="/projects/simmr"
-              tags={["React", "Node.js", "PostgreSQL", "TypeScript"]}
+            <UnifiedProjectCard
+              project={{
+                id: "simmr",
+                title: "Simmr",
+                description: "The premier discovery and connection platform for the ethically non-monogamous community. Features include verification, discovery, events, and secure messaging.",
+                image: "/projects/simmr-about.png",
+                url: "/projects/simmr",
+                techStack: ["React", "Node.js", "PostgreSQL", "TypeScript"],
+                metrics: ["2,000+ Users", "4.5 Star Rating on IOS App Store", "Monthly Events", "Private Messaging System", "Identity Verification"],
+                details: ""
+              }}
+              variant="home"
               featured={true}
-              metrics={["2,000+ Users", "4.5 Star Rating on IOS App Store", "Monthly Events", "Private Messaging System", "Identity Verification"]}
             />
           </div>
         </div>

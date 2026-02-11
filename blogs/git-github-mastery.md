@@ -6,6 +6,7 @@ tags: ["Git", "GitHub", "Version Control", "Team Collaboration", "Workflow", "Be
 excerpt: "Master Git and GitHub with this comprehensive guide covering everything from basic commands to advanced team workflows. Learn professional collaboration patterns for 2-3 developer teams."
 difficulty: "Beginner"
 author: "Billie Heidelberg Jr."
+coverImage: "/articleCovers/git-and-github-mastery.png"
 featured: true
 ---
 

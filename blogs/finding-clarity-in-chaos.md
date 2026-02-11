@@ -4,6 +4,7 @@ date: "2023-05-15"
 category: "Personal Development"
 tags: ["Productivity", "Focus", "Time Management", "Leadership", "Work-Life Balance"]
 excerpt: "How I manage overwhelm and rediscover focus in a world of constant demands and competing priorities."
+coverImage: "/articleCovers/finding-clarity.png"
 ---
 
 How I manage overwhelm and rediscover focus in a world of constant demands.

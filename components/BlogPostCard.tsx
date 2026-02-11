@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatDate, getCoverImage } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 
 interface BlogPostCardProps {
   id: string;
@@ -10,6 +10,7 @@ interface BlogPostCardProps {
   excerpt: string;
   readingTime: number;
   tags?: string[];
+  coverImage?: string;
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
@@ -19,15 +20,17 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
   excerpt,
   readingTime,
   tags = [],
+  coverImage,
 }) => {
   const formattedDate = formatDate(date);
+  const imageSrc = coverImage || '/projects/code-editor.png'; // fallback image
 
   return (
     <Link href={`/blog/${id}`} className="block h-full">
       <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full">
         <div className="h-48 overflow-hidden">
           <Image
-            src={getCoverImage(id, title)}
+            src={imageSrc}
             alt={title}
             width={400}
             height={300}

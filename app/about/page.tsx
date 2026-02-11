@@ -373,7 +373,7 @@ export default function AboutPage() {
                     <span>LinkedIn</span>
                   </a>
                   <a
-                    href="/documents/bheidelberg.pdf"
+                    href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition duration-300"

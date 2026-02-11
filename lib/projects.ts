@@ -11,17 +11,15 @@ export interface Project {
   url?: string;
   githubUrl?: string;
   
-  // Portfolio display fields
-  techStack?: string[];
+  // Portfolio display fields (normalized)
+  techStack: string[]; // Unified field name
   features?: string[];
   metrics?: string[];
   businessImpact?: string;
   images?: string[];
   
   // Project page specific fields
-  detailedDescription?: string;
   contributions?: string[];
-  technologies?: string[]; // Same as techStack but with different name in projects page
   challenges?: string;
   outcomes?: string;
 }
@@ -68,14 +66,12 @@ export const projects: Project[] = [
     businessImpact: "Automates journaling and surfaces AI insights that boost consistency and profitability for active traders.",
     
     // Project page specific fields
-    detailedDescription: "Smart Trader is a comprehensive trading journal application that leverages AI to analyze trading patterns and provide actionable insights to improve trading performance.",
     contributions: [
       "Designed and implemented the entire front-end architecture using React and TypeScript",
       "Created a responsive dashboard with interactive charts for trade visualization",
       "Integrated AI analysis features to identify trading patterns and suggest improvements",
       "Implemented real-time data synchronization with WebSockets"
     ],
-    technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI", "Tailwind CSS"],
     challenges: "Creating a responsive and intuitive interface for complex financial data visualization while ensuring real-time updates and data consistency.",
     outcomes: "The application helps traders identify patterns in their trading behavior, leading to more informed decisions and improved trading performance."
   },
@@ -115,14 +111,12 @@ export const projects: Project[] = [
     businessImpact: "Gives parents a secure, self-hosted alternative to commercial apps while delivering actionable guidance.",
     
     // Project page specific fields
-    detailedDescription: "Baby Tracker is a privacy-first, self-hostable solution that gives parents complete control over their baby's data. Built with Django REST Framework and PostgreSQL, this comprehensive API allows parents to track all aspects of their baby's development and get AI-powered insights to help establish healthy routines.",
     contributions: [
       "Designed and implemented a multi-tenant architecture with robust security measures",
       "Developed AI insights module for analyzing historical data and providing recommendations",
       "Created comprehensive API documentation using OpenAPI (drf-spectacular)",
       "Implemented Docker deployment for easy self-hosting on AWS EC2 or local environments"
     ],
-    technologies: ["Django", "Django REST Framework", "PostgreSQL", "JWT Authentication", "Docker", "Pandas", "OpenAPI", "Next.js", "Nginx", "Node.js"],
     challenges: "Building a secure, privacy-focused alternative to commercial baby tracking apps while maintaining feature parity and ensuring complete data isolation between users.",
     outcomes: "Created a fully-featured baby tracking solution that empowers parents with complete data ownership while delivering powerful insights to help establish healthy routines."
   },
@@ -130,7 +124,7 @@ export const projects: Project[] = [
     id: "simmr",
     title: "Simmr",
     description: "A privacy-first social discovery platform with user availability planning, couples features, and a high-performance, resilient architecture.",
-    image: "/projects/simmr-preview.png",
+    image: "/projects/simmr-about.png",
     details: "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
     githubUrl: "https://github.com/theamazingmrb/simmr-platform",
@@ -161,7 +155,6 @@ export const projects: Project[] = [
     ],
     images: [
       "/projects/simmr-app-store.png",
-      "/projects/simmr-preview.png",
       "/projects/simmr-about.png"
     ],
     metrics: [
@@ -174,13 +167,11 @@ export const projects: Project[] = [
     businessImpact: "Set a new bar for privacy and safety in niche social platforms, improving trust, reliability, and engagement.",
     
     // Project page specific fields
-    detailedDescription: "Simmr is a social platform designed specifically for the ethically non-monogamous community, providing a safe space for connection, communication, and community building.",
     contributions: [
       "Built the web application using React and Node.js",
       "Implemented secure authentication and user verification",
       "Developed features for community building and event management"
     ],
-    technologies: ["React", "Node.js", "MongoDB", "GraphQL"],
     challenges: "Creating a safe and inclusive platform while implementing robust privacy and security features.",
     outcomes: "Established a thriving community with active user engagement and positive feedback on the platform's features and security."
   },
@@ -211,13 +202,11 @@ export const projects: Project[] = [
     businessImpact: "Provides underground artists with a platform for content distribution and audience building through a transparent, engagement-driven promotion system.",
     
     // Project page specific fields
-    detailedDescription: "TOLO is a mobile platform designed to help underground artists and content creators gain visibility through a multi-tiered content ranking system (Feed, Trending, Viral) that promotes quality content based on engagement rather than just popularity metrics.",
     contributions: [
       "Led development of the React Native mobile app for iOS and Android",
       "Implemented multi-format content support (audio, video, images) with engagement-based promotion",
       "Built user engagement features including content sharing, saving, and promotion"
     ],
-    technologies: ["React Native", "Expo", "Supabase", "SWR", "Zustand", "Segment Analytics"],
     challenges: "Creating a fair content discovery algorithm that balances new creator visibility with content quality, while maintaining performance across multiple content formats.",
     outcomes: "Successfully launched a platform that helps underground artists gain visibility through a transparent promotion system with features for content sharing and community engagement."
   },
@@ -246,14 +235,12 @@ export const projects: Project[] = [
     businessImpact: "Delivered secure, scalable fintech tools that streamlined operations and improved client satisfaction.",
     
     // Project page specific fields
-    detailedDescription: "InvestCloud provides comprehensive financial software solutions for major financial institutions. I worked as both a Technical Trainer and Integration Developer, focusing on ETL processes, API development, and training other developers on integration workflows.",
     contributions: [
       "Built ETL pipelines for transactions, holdings, and account data",
       "Developed RESTful services and contributed to relational schema design",
       "Created developer onboarding programs covering ETL, data mapping, and integration workflows",
       "Led workshops on REST API design, data quality, and troubleshooting processes"
     ],
-    technologies: ["Java", "Groovy", "GlassFish", "SQL", "ETL", "REST APIs"],
     challenges: "Handling large volumes of financial data while ensuring accuracy, security, and real-time processing. Additionally, creating effective training materials for complex integration workflows.",
     outcomes: "Delivered robust financial solutions that improved data processing efficiency and provided better insights for financial advisors. Reduced ramp-up time for new developers through improved documentation and training."
   },
@@ -274,13 +261,11 @@ export const projects: Project[] = [
     businessImpact: "Gave the nonprofit a credible online presence, supporting outreach and community engagement.",
     
     // Project page specific fields
-    detailedDescription: "Love & Service 1st is a nonprofit landing site built to provide a professional, welcoming presence online. The page is lightweight and responsive, with sections for mission statement, resources, and direct links to community initiatives.",
     contributions: [
       "Designed and built a responsive landing page with Next.js and Tailwind CSS",
       "Created mission-driven content sections for community engagement",
       "Implemented resource links and community initiative connections"
     ],
-    technologies: ["Next.js", "Tailwind CSS", "Responsive Design"],
     challenges: "Delivering a polished, production-ready site quickly for a nonprofit with limited budget and timeline.",
     outcomes: "Gave the nonprofit a credible online presence, supporting outreach and community engagement."
   },
@@ -312,7 +297,6 @@ export const projects: Project[] = [
     businessImpact: "Successfully delivered a full-stack e-commerce platform with an intuitive shopping experience on the frontend and a powerful admin portal that empowers the client to manage their product catalog without technical assistance.",
     
     // Project page specific fields
-    detailedDescription: "AMIR BLAQ is a comprehensive e-commerce solution featuring a Next.js/React frontend with a sophisticated dark theme design and a Django backend admin portal that allows the client to manage products. The system includes RESTful APIs for product management, AWS S3 integration for image storage, and a custom admin interface for content management.",
     contributions: [
       "Developed a Next.js frontend with responsive dark-themed UI and interactive product displays",
       "Built a Django backend with REST API for product management and content administration",
@@ -322,7 +306,6 @@ export const projects: Project[] = [
       "Fixed critical hydration issues to ensure consistent server-side and client-side rendering",
       "Deployed the frontend to Vercel and backend to a cloud provider with PostgreSQL database"
     ],
-    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Django", "Django REST Framework", "PostgreSQL", "AWS S3", "Vercel"],
     challenges: "Creating a seamless integration between the headless Django backend and the Next.js frontend while ensuring proper data flow and image management. Additionally, implementing a dark theme across all components while maintaining accessibility and resolving complex React hydration issues.",
     outcomes: "Successfully delivered a full-stack e-commerce platform with an intuitive shopping experience on the frontend and a powerful admin portal that empowers the client to manage their product catalog without technical assistance."
   },
@@ -339,13 +322,11 @@ export const projects: Project[] = [
     businessImpact: "Increased ambassador productivity and referral quality while reducing operational overhead for the partnerships team. The platform improvements directly contributed to more effective host acquisition through the ambassador program.",
     
     // Project page specific fields
-    detailedDescription: "Contributed to Airbnb's affiliate marketing platform, focusing on enhancing the user experience for ambassadors and optimizing the referral program.",
     contributions: [
       "Redesigned the ambassador dashboard for better usability",
       "Implemented tracking systems for referral analytics",
       "Optimized page load performance for international users"
     ],
-    technologies: ["React", "TypeScript", "GraphQL", "Next.js"],
     challenges: "Improving the performance of the ambassador dashboard while maintaining a seamless user experience across different regions and devices.",
     outcomes: "Enhanced the ambassador experience, leading to increased engagement and more effective referral marketing."
   },
@@ -373,13 +354,11 @@ export const projects: Project[] = [
     businessImpact: "Demonstrates practical API integration and NoSQL database design through a local discovery experience focused on user personalization.",
     
     // Project page specific fields
-    detailedDescription: "Drink Drank LA helps users discover, track, and review LA bars with live Yelp data. Users can browse venues, save lists, and view details. The app demonstrates NoSQL modeling, third-party API integration, and MVC architecture with server-rendered templates.",
     contributions: [
       "Implemented real-time Yelp API integration for venue data",
       "Built personalized visited and wishlist tracking features",
       "Developed server-rendered MVC architecture with EJS templates"
     ],
-    technologies: ["MongoDB", "Express.js", "EJS", "Yelp API", "Node.js"],
     challenges: "Integrating with third-party APIs while maintaining performance and creating an intuitive user experience for discovering and tracking venues.",
     outcomes: "Created a functional discovery platform with 500+ bars listed and 1000+ reviews, showcasing practical API integration and NoSQL design."
   },
@@ -406,13 +385,11 @@ export const projects: Project[] = [
     businessImpact: "Fosters creative collaboration and monetization opportunities for emerging artists while building a supportive community for sharing best practices.",
     
     // Project page specific fields
-    detailedDescription: "Artsy allows artists to publish portfolios, receive feedback, and list works for sale. Community features encourage sharing best practices and building audience. The platform emphasizes simplicity and collaboration to help artists grow their presence.",
     contributions: [
       "Built artist profiles and portfolio management features",
       "Implemented comments and community feedback system",
       "Created artwork listings with pricing and purchase options"
     ],
-    technologies: ["Node.js", "MongoDB", "Express", "JavaScript"],
     challenges: "Creating an intuitive platform that balances community engagement with monetization opportunities while keeping the focus on the artwork.",
     outcomes: "Fostered a creative community with 200+ artist profiles and 1500+ artworks shared, providing collaboration and monetization opportunities for emerging artists."
   },
@@ -440,13 +417,11 @@ export const projects: Project[] = [
     businessImpact: "Delivered high-impact ad campaigns that met client objectives and performed well across all platforms.",
     
     // Project page specific fields
-    detailedDescription: "Developed interactive banner ads and animations for major advertising campaigns, working with creative teams to bring marketing concepts to life.",
     contributions: [
       "Designed animations using Greensock (GSAP)",
       "Optimized ad performance across platforms",
       "Collaborated with creative teams on campaign concepts"
     ],
-    technologies: ["JavaScript", "GSAP", "HTML5", "CSS3"],
     challenges: "Creating engaging, performant animations that work consistently across different browsers and devices while meeting strict file size requirements.",
     outcomes: "Delivered high-impact ad campaigns that met client objectives and performed well across all platforms."
   }
@@ -475,9 +450,9 @@ export function projectToProjectPageFormat(project: Project) {
     id: project.id,
     title: project.title,
     description: project.description,
-    detailedDescription: project.detailedDescription || project.details,
+    techStack: project.techStack || [],
+    details: project.details || '',
     contributions: project.contributions || [],
-    technologies: project.technologies || project.techStack || [],
     challenges: project.challenges || "",
     outcomes: project.outcomes || project.businessImpact || "",
     image: project.image,

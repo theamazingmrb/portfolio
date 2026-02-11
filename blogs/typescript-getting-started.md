@@ -6,6 +6,7 @@ tags: ["TypeScript", "JavaScript", "Frontend", "Backend", "Type Safety", "Beginn
 excerpt: "Master TypeScript from scratch with this comprehensive beginner's guide. Learn type safety, modern features, and practical patterns to level up your JavaScript development."
 difficulty: "Beginner"
 author: "Billie Heidelberg Jr."
+coverImage: "/articleCovers/typescript-getting-started.png"
 featured: true
 ---
 

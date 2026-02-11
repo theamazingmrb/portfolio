@@ -6,75 +6,11 @@ import { ProjectImage } from "@/components/ProjectImage";
 import AnimatedSection from "@/components/AnimatedSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { UnifiedProjectCard } from "@/components/UnifiedProjectCard";
+import { ModernProjectGrid } from "@/components/ModernProjectGrid";
 
 // Import the Project type from our unified data structure
 import { Project } from "@/lib/projects";
-
-function ProjectCard({ id, title, description, image, technologies = [], techStack = [], url }: Project) {
-  // Use either technologies or techStack, whichever is available
-  const techs = technologies?.length ? technologies : techStack || [];
-  return (
-    <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-      <Link
-        href={`/projects/${id}`}
-        className="flex flex-col flex-grow"
-      >
-        <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-          <ProjectImage
-            src={image}
-            alt={`Screenshot of ${title}`}
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <div className="p-6 flex-grow">
-          <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
-            {title}
-          </h3>
-          <p className="text-gray-600 mb-4">{description}</p>
-          
-          {techs && techs.length > 0 && (
-            <div className="mt-3">
-              <div className="flex flex-wrap gap-1">
-                {techs.slice(0, 3).map((tech, index) => (
-                  <span 
-                    key={index} 
-                    className="inline-block bg-gray-100 text-gray-700 rounded-full px-2 py-1 text-xs font-medium"
-                  >
-                    {tech}
-                  </span>
-                ))}
-                {techs.length > 3 && (
-                  <span className="inline-block bg-gray-100 text-gray-700 rounded-full px-2 py-1 text-xs font-medium">
-                    +{techs.length - 3} more
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </Link>
-      <div className="px-6 pb-4 flex gap-2">
-        <Link
-          href={`/projects/${id}`}
-          className="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm font-semibold hover:bg-blue-200 transition-colors"
-        >
-          View Details
-        </Link>
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm font-semibold hover:bg-green-200 transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            Visit Site
-          </a>
-        )}
-      </div>
-    </div>
-  );
-}
 
 function ProfessionalExperience() {
   const experiences = [
@@ -250,18 +186,25 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
     !['investcloud', 'bbdo'].includes(project.id)
   );
   
-  // Log projects to help debug
-  console.log('Projects after filtering:', actualProjects.map(p => p.id));
   return (
     <main className="min-h-screen bg-white text-gray-900">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-64 md:h-96 flex items-center justify-center overflow-hidden px-4 bg-gray-900 text-white">
-        <div className="z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Projects and Related Experience</h1>
-          <p className="text-lg md:text-xl">
-            A collection of my work across various roles and organizations
+      <section className="relative h-80 md:h-96 flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10"></div>
+        
+        {/* Floating elements */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
+            Projects & Experience
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+            A curated collection of innovative projects and professional work across various technologies and industries
           </p>
         </div>
       </section>
@@ -272,30 +215,17 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
         className="py-12 md:py-20 bg-white"
       >
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-            Featured Projects
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {actualProjects.map((project) => {
-              // Create a complete project object with all required fields
-              const completeProject = {
-                ...project,
-                // Ensure we have a fallback image
-                image: project.image || '/images/project-placeholder.jpg',
-                // Ensure technologies is always an array
-                technologies: project.technologies || [],
-                // Ensure details is present (required by Project interface)
-                details: project.details || project.detailedDescription || ''
-              };
-              return (
-                <ProjectCard
-                  key={completeProject.id}
-                  {...completeProject}
-                />
-              );
-            })}
-
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Featured Projects
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore a diverse range of projects showcasing expertise in modern web development, 
+              mobile applications, and innovative solutions.
+            </p>
           </div>
+          
+          <ModernProjectGrid projects={actualProjects} />
         </div>
       </AnimatedSection>
 
@@ -304,31 +234,53 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
         className="py-12 md:py-20 bg-gray-100"
       >
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-            Work Experience
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Professional Experience
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              A journey through various roles and organizations, contributing to impactful projects 
+              and growing as a developer and leader.
+            </p>
+          </div>
+          
           <ProfessionalExperience />
         </div>
       </AnimatedSection>
 
       {/* Call to Action */}
       <AnimatedSection
-        animationType="fadeInLeft"
-        className="bg-gray-900 text-white py-12 md:py-20"
+        animationType="fadeInUp"
+        className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-16 md:py-24 relative overflow-hidden"
       >
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Interested in collaboration?
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-purple-100">
+            Let's Build Something Amazing
           </h2>
-          <p className="text-lg md:text-xl mb-8">
-            Let&apos;s discuss how we can work together on your next project.
+          <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            I'm always excited to take on new challenges and collaborate on innovative projects. 
+            Let's discuss how we can work together to bring your ideas to life.
           </p>
-          <Link
-            href="/contact"
-            className="bg-white text-gray-900 px-6 md:px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition duration-300"
-          >
-            Get in Touch
-          </Link>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              href="/contact"
+              className="bg-white text-gray-900 px-8 py-4 rounded-2xl text-lg font-bold hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group"
+            >
+              Get In Touch
+              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+            <Link
+              href="/blog"
+              className="bg-gray-800/50 backdrop-blur-sm text-white px-8 py-4 rounded-2xl text-lg font-bold hover:bg-gray-700/60 transition-all duration-300 border border-gray-600/50 hover:border-gray-500/50 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group"
+            >
+              Read My Blog
+              <span className="ml-2 group-hover:translate-x-1 transition-transform">📝</span>
+            </Link>
+          </div>
         </div>
       </AnimatedSection>
 

@@ -89,7 +89,7 @@ export const projects: Project[] = [
     title: "Simmr",
     description:
       "A privacy-first social discovery platform with user availability planning, couples features, and a high-performance, resilient architecture designed for trust and engagement.",
-    image: "/projects/simmr-preview.png",
+    image: "/projects/simmr-about.png",
     details:
       "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
@@ -121,7 +121,6 @@ export const projects: Project[] = [
     ],
     images: [
       "/projects/simmr-app-store.png",
-      "/projects/simmr-preview.png",
       "/projects/simmr-about.png"
     ],
     metrics: [

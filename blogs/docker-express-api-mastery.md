@@ -6,7 +6,8 @@ tags: ["Docker", "Node.js", "Express", "REST API", "Containers", "Backend Develo
 excerpt: "Master REST API development with Express and Docker in this comprehensive guide. Learn API design principles, containerization best practices, and production deployment strategies."
 difficulty: "Beginner"
 author: "Billie Heidelberg Jr."
-featured: true
+coverImage: "/articleCovers/docker-and-express.png"
+featured: false
 ---
 
 # Docker & Express API Mastery: From REST Fundamentals to Production-Ready Containers

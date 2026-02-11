@@ -235,6 +235,7 @@ export default function Blog() {
                     excerpt={featuredPost.excerpt}
                     readingTime={featuredPost.readingTime || 1}
                     tags={featuredPost.tags}
+                    coverImage={featuredPost.coverImage}
                   />
                 );
               }
@@ -337,6 +338,7 @@ export default function Blog() {
                     excerpt={post.excerpt || ''}
                     readingTime={post.readingTime || 1}
                     tags={post.tags}
+                    coverImage={post.coverImage}
                   />
                 ))}
               </div>

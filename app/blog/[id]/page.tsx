@@ -1,4 +1,4 @@
-import { getPostData, getAllPostIds } from '@/lib/posts';
+import { getPostData, getAllPostIds, getRelatedPosts } from '@/lib/posts';
 import { calculateReadingTime } from '@/lib/readingTime';
 import { formatDate, getCoverImage } from '@/lib/utils';
 import Navbar from '@/components/Navbar';
@@ -11,6 +11,7 @@ import BlogContentHydration from '@/components/BlogContentHydration';
 import ShareButtons from '@/components/ShareButtons';
 import TableOfContents from '@/components/TableOfContents';
 import MobileTableOfContents from '@/components/MobileTableOfContents';
+import RelatedPosts from '@/components/RelatedPosts';
 import { Metadata } from 'next';
 
 // Using the imported calculateReadingTime function from lib/posts
@@ -115,6 +116,9 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
   const { id } = await params;
   const postData = await getPostData(id);
   const canonicalUrl = `https://billieheidelberg.com/blog/${id}`;
+
+  // Get related posts based on shared tags
+  const relatedPosts = getRelatedPosts(id, postData?.tags || [], 3);
 
   if (!postData) {
     return (
@@ -235,7 +239,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                     {/* Cover Image */}
                     <div className="mb-8 sm:mb-10">
                       <Image 
-                        src={postData.coverImage || getCoverImage(id, postData.title)} 
+                        src={postData.coverImage || getCoverImage(postData.coverImage)} 
                         alt={`Cover image for ${postData.title}`} 
                         width={1200}
                         height={630}
@@ -330,8 +334,13 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
       </AnimatedSection>
-      
-      {/* Related Articles / CTA Section */}
+
+      {/* Related Posts Section */}
+      {relatedPosts.length > 0 && (
+        <RelatedPosts posts={relatedPosts} />
+      )}
+
+      {/* CTA Section */}
       <AnimatedSection animationType="fadeIn" className="py-16 md:py-24 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-white">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Want to Connect?</h2>

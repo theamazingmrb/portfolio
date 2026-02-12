@@ -200,3 +200,51 @@ export function getAllPostIds() {
     };
   });
 }
+
+// Get related posts based on shared tags
+export function getRelatedPosts(currentPostId: string, currentPostTags: string[] = [], limit: number = 3): PostData[] {
+  const allPosts = getSortedPostsData();
+
+  // Filter out the current post
+  const otherPosts = allPosts.filter(post => post.id !== currentPostId);
+
+  // If no tags, return the most recent posts
+  if (!currentPostTags || currentPostTags.length === 0) {
+    return otherPosts.slice(0, limit);
+  }
+
+  // Score posts based on shared tags
+  const scoredPosts = otherPosts.map(post => {
+    const postTags = post.tags || [];
+    const sharedTags = postTags.filter(tag => currentPostTags.includes(tag));
+    return {
+      post,
+      score: sharedTags.length
+    };
+  });
+
+  // Sort by score (descending), then by date (descending)
+  scoredPosts.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    return new Date(b.post.date).getTime() - new Date(a.post.date).getTime();
+  });
+
+  // Return top posts with at least one shared tag, or recent posts if none share tags
+  const postsWithSharedTags = scoredPosts.filter(p => p.score > 0);
+
+  if (postsWithSharedTags.length >= limit) {
+    return postsWithSharedTags.slice(0, limit).map(p => p.post);
+  }
+
+  // If not enough posts with shared tags, fill with most recent posts
+  const relatedPosts = postsWithSharedTags.map(p => p.post);
+  const remainingCount = limit - relatedPosts.length;
+  const recentPosts = scoredPosts
+    .filter(p => !relatedPosts.includes(p.post))
+    .slice(0, remainingCount)
+    .map(p => p.post);
+
+  return [...relatedPosts, ...recentPosts];
+}

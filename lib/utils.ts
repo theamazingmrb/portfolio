@@ -1,56 +1,34 @@
-/**
- * Format a date string into a more readable format
- * @param dateString - ISO date string (YYYY-MM-DD)
- * @returns Formatted date string (e.g., "May 15, 2023")
- */
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  
-  // Check if the date is valid
-  if (isNaN(date.getTime())) {
-    return dateString; // Return original string if invalid date
-  }
-  
-  return date.toLocaleDateString('en-US', {
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+export function formatDate(date: string): string {
+  const dateObj = new Date(date);
+  return dateObj.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
+    day: 'numeric'
   });
 }
 
-/**
- * Truncate text to a specified length with ellipsis
- * @param text - Text to truncate
- * @param maxLength - Maximum length before truncation
- * @returns Truncated text with ellipsis if needed
- */
-export function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-}
-
-/**
- * Generate a slug from a string
- * @param text - Text to convert to slug
- * @returns URL-friendly slug
- */
-export function generateSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/--+/g, '-') // Replace multiple hyphens with single hyphen
-    .trim();
-}
-
-/**
- * Get cover image URL for a blog post
- * @param id - Blog post ID
- * @param title - Blog post title
- * @returns Cover image URL
- */
-export function getCoverImage(id: string, title: string): string {
-  // Try to use a specific cover image first, then fall back to a generated one
-  const specificImage = `/articleCovers/${id}.png`;
-  return specificImage; // This will be used if the image exists, otherwise Next.js will handle the 400
+export function getCoverImage(coverImage: string | undefined): string {
+  if (!coverImage) {
+    return "/projects/placeholder.jpg"; // Default placeholder
+  }
+  
+  // If it's already a full URL, return as is
+  if (coverImage.startsWith('http')) {
+    return coverImage;
+  }
+  
+  // If it starts with /, return as is (already correct path)
+  if (coverImage.startsWith('/')) {
+    return coverImage;
+  }
+  
+  // Otherwise, prepend /projects/
+  return `/projects/${coverImage}`;
 }

@@ -8,6 +8,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { UnifiedProjectCard } from "@/components/UnifiedProjectCard";
 import { ModernProjectGrid } from "@/components/ModernProjectGrid";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 // Import the Project type from our unified data structure
 import { Project } from "@/lib/projects";
@@ -114,13 +118,10 @@ function ProfessionalExperience() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {experiences.map((exp, index) => (
-        <div
-          key={index}
-          className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100"
-        >
-          <div className="p-6">
+        <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+          <CardHeader>
             <div className="flex flex-col sm:flex-row justify-between gap-4">
               <div className="flex items-start gap-4">
                 {exp.logo && (
@@ -136,45 +137,34 @@ function ProfessionalExperience() {
                   </div>
                 )}
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    {exp.company}
-                  </h3>
-                  <p className="text-lg text-gray-700 font-medium">{exp.role}</p>
-                  <p className="text-sm text-gray-500">{exp.period}</p>
+                  <CardTitle className="text-2xl">{exp.company}</CardTitle>
+                  <CardDescription className="text-lg font-medium">{exp.role}</CardDescription>
+                  <p className="text-sm text-muted-foreground">{exp.period}</p>
                 </div>
               </div>
             </div>
-
-            <p className="mt-4 text-gray-700 leading-relaxed">{exp.description}</p>
-
-            {exp.achievements && exp.achievements.length > 0 && (
-              <div className="mt-4">
-                <h4 className="font-semibold text-gray-900 text-lg">Key Achievements:</h4>
-                <ul className="list-disc list-inside mt-2 space-y-1.5 text-gray-700">
-                  {exp.achievements.map((achievement, i) => (
-                    <li key={i} className="leading-relaxed">{achievement}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {exp.technologies && exp.technologies.length > 0 && (
-              <div className="mt-4">
-                <h4 className="font-semibold text-gray-900 text-lg">Technologies:</h4>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {exp.technologies.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="bg-blue-50 text-blue-800 text-sm font-medium px-3 py-1 rounded-full border border-blue-100"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">{exp.description}</p>
+            
+            <div className="mb-4">
+              <h4 className="font-semibold mb-2">Key Achievements:</h4>
+              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                {exp.achievements.map((achievement, i) => (
+                  <li key={i}>{achievement}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+              {exp.technologies.map((tech) => (
+                <Badge key={tech} variant="secondary" className="text-xs">
+                  {tech}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
@@ -187,39 +177,31 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
   );
   
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-80 md:h-96 flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10"></div>
-        
-        {/* Floating elements */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-        
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-            Projects & Experience
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-            A curated collection of innovative projects and professional work across various technologies and industries
-          </p>
+      <AnimatedSection animationType="fadeIn" className="relative py-24 md:py-32 bg-secondary/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+              Projects & Experience
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              A curated collection of innovative projects and professional work across various technologies and industries
+            </p>
+          </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Projects Section */}
-      <AnimatedSection
-        animationType="fadeInUp"
-        className="py-12 md:py-20 bg-white"
-      >
+      <AnimatedSection animationType="fadeInUp" className="py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Featured Projects
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Explore a diverse range of projects showcasing expertise in modern web development, 
               mobile applications, and innovative solutions.
             </p>
@@ -229,16 +211,13 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection
-        animationType="fadeInUp"
-        className="py-12 md:py-20 bg-gray-100"
-      >
+      <AnimatedSection animationType="fadeInUp" className="py-24 bg-secondary/50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Professional Experience
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               A journey through various roles and organizations, contributing to impactful projects 
               and growing as a developer and leader.
             </p>
@@ -249,37 +228,26 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       </AnimatedSection>
 
       {/* Call to Action */}
-      <AnimatedSection
-        animationType="fadeInUp"
-        className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-16 md:py-24 relative overflow-hidden"
-      >
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-purple-100">
+      <AnimatedSection animationType="fadeInUp" className="py-24 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">
             Let's Build Something Amazing
           </h2>
-          <p className="text-lg md:text-xl mb-10 text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             I'm always excited to take on new challenges and collaborate on innovative projects. 
             Let's discuss how we can work together to bring your ideas to life.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/contact"
-              className="bg-white text-gray-900 px-8 py-4 rounded-2xl text-lg font-bold hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group"
-            >
-              Get In Touch
-              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-            </Link>
-            <Link
-              href="/blog"
-              className="bg-gray-800/50 backdrop-blur-sm text-white px-8 py-4 rounded-2xl text-lg font-bold hover:bg-gray-700/60 transition-all duration-300 border border-gray-600/50 hover:border-gray-500/50 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group"
-            >
-              Read My Blog
-              <span className="ml-2 group-hover:translate-x-1 transition-transform">📝</span>
-            </Link>
+            <Button size="lg" asChild>
+              <Link href="/contact">
+                Get In Touch
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/blog">
+                Read My Blog
+              </Link>
+            </Button>
           </div>
         </div>
       </AnimatedSection>

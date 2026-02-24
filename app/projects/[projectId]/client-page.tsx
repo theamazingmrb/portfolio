@@ -80,78 +80,92 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
       )}
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <section className="relative min-h-[50vh] sm:min-h-[55vh] md:min-h-[60vh] lg:min-h-[65vh] flex items-center justify-center overflow-hidden px-4 py-12 sm:py-16 pt-20 sm:pt-24 md:pt-28 lg:pt-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 z-0"></div>
-        
+
         {/* Floating elements for visual interest */}
         <div className="absolute inset-0 overflow-hidden z-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="mb-6 inline-block"
+            className="mb-4 sm:mb-6 inline-block"
           >
-            <Link 
-              href="/projects" 
-              className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors group"
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-300 hover:text-white transition-colors group"
             >
               <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
               Back to Projects
             </Link>
           </motion.div>
-          
-          <motion.h1 
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-purple-100"
+
+          <motion.h1
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-purple-100 px-2"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             {project.title}
           </motion.h1>
-          
-          <motion.p 
-            className="text-lg md:text-xl lg:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed"
+
+          <motion.p
+            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed px-4"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             {project.description}
           </motion.p>
-          
-          <motion.div 
-            className="mt-10 flex flex-wrap justify-center gap-4"
+
+          <motion.div
+            className="mt-6 sm:mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             {project.url && (
-              <a 
-                href={project.url} 
-                target="_blank" 
+              <a
+                href={project.url}
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold transition-all duration-300 group shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="inline-flex items-center justify-center gap-2 sm:gap-3 bg-white text-gray-900 hover:bg-gray-100 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 group shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto"
               >
-                <FiExternalLink className="w-5 h-5 transition-transform group-hover:scale-110" />
-                Visit Live Site
+                <FiExternalLink className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" />
+                {project.projectType === "Client" ? "Visit Client Site" : "View Live Demo"}
+                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+              </a>
+            )}
+            {project.appStoreUrl && (
+              <a
+                href={project.appStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 sm:gap-3 bg-gray-800/50 backdrop-blur-sm text-white hover:bg-gray-700/60 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 group border border-gray-600/50 hover:border-gray-500/50 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto"
+              >
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                <span className="hidden sm:inline">Download on</span> App Store
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
               </a>
             )}
             {project.githubUrl && (
-              <a 
-                href={project.githubUrl} 
-                target="_blank" 
+              <a
+                href={project.githubUrl}
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gray-800/50 backdrop-blur-sm text-white hover:bg-gray-700/60 px-8 py-4 rounded-xl font-semibold transition-all duration-300 group border border-gray-600/50 hover:border-gray-500/50 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="inline-flex items-center justify-center gap-2 sm:gap-3 bg-gray-800/50 backdrop-blur-sm text-white hover:bg-gray-700/60 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 group border border-gray-600/50 hover:border-gray-500/50 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full sm:w-auto"
               >
-                <FiGithub className="w-5 h-5 transition-transform group-hover:scale-110" />
+                <FiGithub className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" />
                 View Code
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
               </a>
@@ -162,7 +176,7 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
 
       {/* Project Gallery */}
       {Array.isArray(project.images) && project.images.length > 0 && (
-        <section className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
+        <section className="py-12 sm:py-14 md:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -376,7 +390,21 @@ export default function ClientProjectPage({ project }: ClientProjectPageProps) {
                       className="flex items-center gap-2 p-3 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-700 hover:text-blue-800 transition-all duration-300 group text-sm"
                     >
                       <FiExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                      <span className="font-medium">Live Demo</span>
+                      <span className="font-medium">{project.projectType === "Client" ? "Client Site" : "Live Demo"}</span>
+                      <span className="ml-auto group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                  )}
+                  {project.appStoreUrl && (
+                    <a 
+                      href={project.appStoreUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-3 bg-green-50 hover:bg-green-100 rounded-lg text-green-700 hover:text-green-800 transition-all duration-300 group text-sm"
+                    >
+                      <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                      </svg>
+                      <span className="font-medium">App Store</span>
                       <span className="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                     </a>
                   )}

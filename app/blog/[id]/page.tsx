@@ -150,17 +150,17 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative py-20 md:py-32 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-white">
+      <section className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}
-            <div className="mb-8">
-              <Link 
-                href="/blog" 
-                className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors group"
+            <div className="mb-6 sm:mb-8">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 text-sm sm:text-base text-gray-300 hover:text-white transition-colors group"
               >
                 <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
@@ -168,43 +168,43 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                 Back to Blog
               </Link>
             </div>
-            
+
             {/* Article Header */}
-            <div className="text-center mb-8">
-              <div className="mb-6">
-                <span className="px-4 py-2 bg-blue-600/20 text-blue-200 rounded-full text-sm font-medium border border-blue-400/30">
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="mb-4 sm:mb-6">
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600/20 text-blue-200 rounded-full text-xs sm:text-sm font-medium border border-blue-400/30">
                   📝 Technical Article
                 </span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 sm:mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200 px-2">
                 {postData.title}
               </h1>
               
               {/* Article Meta */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-300">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <img src={postData.authorImage || "/me.png"} alt={postData.author || "Billie Heidelberg Jr."} className="w-10 h-10 rounded-full object-cover" />
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-gray-300">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <Image src={postData.authorImage || "/me.png"} alt={postData.author || "Billie Heidelberg Jr."} width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" />
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold text-white">{postData.author || "Billie Heidelberg Jr."}</div>
-                    <div className="text-sm text-gray-400">Full Stack Developer</div>
+                    <div className="text-sm sm:text-base font-semibold text-white">{postData.author || "Billie Heidelberg Jr."}</div>
+                    <div className="text-xs sm:text-sm text-gray-400">Full Stack Developer</div>
                   </div>
                 </div>
-                
-                <div className="flex items-center gap-6 text-sm">
+
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 text-xs sm:text-sm">
                   <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
                     </svg>
-                    <time dateTime={postData.date}>{formattedDate}</time>
+                    <time dateTime={postData.date} className="whitespace-nowrap">{formattedDate}</time>
                   </div>
                   {postData.lastUpdated && postData.lastUpdated !== postData.date && (
                     <div className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.32 15.65 19 14.08 19 12.1h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58s9.14-3.47 12.65 0L21 3v7.12zM12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z"/>
                       </svg>
-                      <span>Updated {new Date(postData.lastUpdated).toLocaleDateString('en-US', {
+                      <span className="whitespace-nowrap">Updated {new Date(postData.lastUpdated).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric'
@@ -212,10 +212,10 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                     </div>
                   )}
                   <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <span>{postData.readingTime || calculateReadingTime(postData.contentHtml)} min read</span>
+                    <span className="whitespace-nowrap">{postData.readingTime || calculateReadingTime(postData.contentHtml)} min read</span>
                   </div>
                 </div>
               </div>
@@ -225,19 +225,19 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
       </section>
       
       {/* Content Section */}
-      <AnimatedSection animationType="fadeIn" className="py-8 md:py-16 -mt-8 md:-mt-16 relative z-10">
+      <AnimatedSection animationType="fadeIn" className="py-6 sm:py-8 md:py-12 lg:py-16 -mt-6 sm:-mt-8 md:-mt-12 lg:-mt-16 relative z-10">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+            <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
               {/* Main Content */}
               <div className="flex-1 lg:max-w-4xl lg:ml-72">
-                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                   {/* Progress Bar */}
                   <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
-                  
-                  <div className="p-6 sm:p-8 md:p-12">
+
+                  <div className="p-4 sm:p-6 md:p-8 lg:p-12">
                     {/* Cover Image */}
-                    <div className="mb-8 sm:mb-10">
+                    <div className="mb-6 sm:mb-8 md:mb-10">
                       <Image 
                         src={postData.coverImage || getCoverImage(postData.coverImage)} 
                         alt={`Cover image for ${postData.title}`} 
@@ -305,7 +305,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    <img src="/me.png" alt="Billie Heidelberg Jr." className="w-16 h-16 rounded-full object-cover" />
+                    <Image src="/me.png" alt="Billie Heidelberg Jr." width={64} height={64} className="w-16 h-16 rounded-full object-cover" />
                   </div>
                 </div>
                 <div className="flex-grow text-center sm:text-left">

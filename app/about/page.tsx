@@ -39,24 +39,57 @@ interface SideProject {
   logo?: string;
 }
 
-// Experiences
-const experiences: Experience[] = [
+// Experiences - Categorized
+const fullTimeExperience = [
   {
-    title: "Full Stack Engineer",
-    company: "Simmr",
-    period: "January 2023 - July 2025",
-    description:
-      "Specialized social platform focused on safety, privacy, and inclusive discovery for an ENM and polyamorous community.",
+    title: "Educator & Mentor",
+    company: "General Assembly",
+    period: "October 2020 - Present",
+    description: "Led full-time software engineering bootcamps, training aspiring developers in modern full-stack web development.",
     achievements: [
-      "Implemented client-side distance filtering and a virtualized discovery grid for performant browsing",
-      "Built Lambda@Edge SEO previews and integrated with CloudFront via CloudFormation",
-      "Delivered global image caching and optimization, improving perceived load and reducing bandwidth",
-      "Hardened the app with error boundaries, defensive checks, retries, and graceful fallbacks"
+      "Instructed 150+ students in full-stack development using React, Node.js, Express, MongoDB",
+      "Designed project-based lessons emphasizing scalability and real-world application",
+      "Mentored students 1-on-1 through portfolio projects and technical interviews",
+      "Collaborated with instructional teams to evolve curriculum content"
     ],
-    technologies: ["React", "Next.js", "TypeScript", "AWS", "CloudFront", "Lambda@Edge"],
-    companyUrl: "https://simmr.app",
-    logo: "/logos/simmr-heart.png"
+    technologies: ["React", "Node.js", "Express", "MongoDB", "Python", "Django"],
+    companyUrl: "https://generalassemb.ly",
+    logo: "/logos/GA.webp"
   },
+  {
+    title: "Software Engineer and Technical Trainer",
+    company: "InvestCloud Inc.",
+    period: "July 2018 - June 2025",
+    description: "Leading provider of flexible and fully integrated digital applets for financial services. Promoted through four roles over seven years.",
+    achievements: [
+      "Developed and maintained ETL pipelines for financial data transformation using PostgreSQL, MySQL, Python, and Groovy",
+      "Designed and implemented SOAP and RESTful APIs and relational database models for enterprise-scale applications",
+      "Built modular UI components and dashboards for client platforms, enhancing usability and accessibility",
+      "Automated batch data workflows and integrations, reducing manual operations by 30%",
+      "Trained 100+ developers across global teams in best practices and integration workflows"
+    ],
+    technologies: ["React", "TypeScript", "PostgreSQL", "Python", "Groovy", "REST APIs", "SOAP"],
+    companyUrl: "https://investcloud.com",
+    logo: "/logos/IC-Logo.svg"
+  },
+  {
+    title: "Jr Front End Developer",
+    company: "BBDO Los Angeles",
+    period: "October 2017 - July 2018",
+    description: "A major global advertising network known for award-winning campaigns.",
+    achievements: [
+      "Developed interactive campaign pages and microsites using JavaScript, HTML5, and CSS3",
+      "Collaborated with creative and UX teams to deliver pixel-perfect, responsive designs",
+      "Implemented reusable components and animation sequences reducing development time by 20%",
+      "Partnered with QA and production teams for high-profile brand campaigns"
+    ],
+    technologies: ["JavaScript", "HTML5", "CSS3", "React"],
+    companyUrl: "https://bbdo.com",
+    logo: "/logos/bbdo.jpeg"
+  }
+];
+
+const ventures = [
   {
     title: "CTO and Co-Founder",
     company: "TOLO",
@@ -72,22 +105,88 @@ const experiences: Experience[] = [
     technologies: ["React", "Node.js", "PostgreSQL", "AWS", "Redis"],
     companyUrl: "https://tolo.app",
     logo: "/logos/tolo.jpeg"
+  }
+];
+
+// Freelance & Client Work
+const freelanceProjects = [
+  {
+    title: "That Aisle",
+    company: "Mobile App Development Client",
+    period: "2025-2026",
+    description: "Comprehensive React Native mobile application and React admin portal for hair product discovery and community engagement. Delivered full-stack solution including mobile app, admin dashboard, content moderation, and partnership management.",
+    achievements: [
+      "Built React Native mobile app with emoji reactions, community forum, and advanced user profiles",
+      "Created React admin portal with advanced reporting, content moderation, and partnership management",
+      "Implemented Firebase real-time features across both mobile and web platforms",
+      "Developed comprehensive product catalog system with 3,500+ products and custom search",
+      "Standardized UI components and modal designs across 200+ commits",
+      "Integrated error logging system and real-time notifications"
+    ],
+    technologies: ["React Native", "React", "TypeScript", "Firebase", "Redux", "React Navigation", "Vite", "Tailwind CSS", "React Query"],
+    companyUrl: "https://www.thataisle.com/",
+    appStoreUrl: "https://apps.apple.com/ca/app/that-aisle/id6504048646",
+    logo: "/projects/that_aisle/thataisle.png"
+  },
+  {
+    title: "Simmr",
+    company: "Full Stack Engineer (Freelance)",
+    period: "July 2023 – January 2026",
+    description: "A social platform serving the non-monogamous and polyamorous communities.",
+    achievements: [
+      "Engineered scalable discovery platform serving 2,000+ users with React, TypeScript, and Apollo GraphQL",
+      "Designed and deployed AWS Lambda@Edge functions and CloudFront integrations for SEO performance",
+      "Built global image caching pipeline using Sharp and S3, reducing bandwidth costs by 40%",
+      "Developed event-driven architecture with Hasura event triggers and asynchronous job workers",
+      "Integrated Twilio, Stripe, Mixpanel, and AWS SES for communication, payments, and analytics",
+      "Managed infrastructure using Serverless Framework, Docker, and PostgreSQL"
+    ],
+    technologies: ["React", "TypeScript", "Next.js", "Apollo GraphQL", "Hasura", "AWS", "Twilio", "Stripe"],
+    companyUrl: "https://simmr.app",
+    logo: "/logos/simmr-heart.png"
   },
   {
     title: "Software Engineer",
-    company: "InvestCloud",
-    period: "July 2021 - October 2022",
-    description:
-      "Built enterprise wealth management platform serving financial institutions with portfolio analytics and reporting.",
+    company: "Airbnb",
+    period: "2020 - 2021",
+    description: "Modernized Airbnb's host ambassador platform with significant improvements in user engagement and support efficiency.",
     achievements: [
-      "Developed React components for complex financial data visualization",
-      "Implemented real-time data streaming with WebSocket connections",
-      "Created reusable component library used across multiple products",
-      "Optimized application performance reducing load times by 40%"
+      "Led full-stack modernization of host ambassador platform improving user engagement by 25%",
+      "Implemented React components and Node.js APIs for enhanced platform functionality",
+      "Optimized support workflows reducing response times and improving host satisfaction",
+      "Collaborated with cross-functional teams to deliver scalable solutions"
     ],
-    technologies: ["React", "TypeScript", "Node.js", "WebSocket", "D3.js"],
-    companyUrl: "https://investcloud.com",
-    logo: "/logos/IC-Logo.svg"
+    technologies: ["React", "Node.js", "Express", "MongoDB", "Ruby on Rails"],
+    companyUrl: "https://airbnb.com",
+    logo: "/projects/airbnb.png"
+  },
+  {
+    title: "AMIR BLAQ",
+    company: "Freelance Project",
+    period: "2024",
+    description: "Full-stack e-commerce platform with Next.js frontend and Django admin portal for luxury fashion brand.",
+    achievements: [
+      "Built responsive dark-themed UI with interactive product displays",
+      "Implemented Django REST API for product management",
+      "Created custom admin portal for client inventory management"
+    ],
+    technologies: ["Next.js", "Django", "PostgreSQL", "AWS S3"],
+    companyUrl: "https://amirb-ui.vercel.app/",
+    logo: "/projects/amir-b-preview.png"
+  },
+  {
+    title: "Love & Service 1st",
+    company: "Nonprofit Client",
+    period: "2024",
+    description: "Professional nonprofit landing page with community resources and mission-driven content.",
+    achievements: [
+      "Designed responsive landing page with Next.js and Tailwind CSS",
+      "Created mission-driven content sections for community engagement",
+      "Implemented resource links and community initiative connections"
+    ],
+    technologies: ["Next.js", "Tailwind CSS"],
+    companyUrl: "https://loveandservice1st.com/",
+    logo: "/projects/love-and-service-first.png"
   }
 ];
 
@@ -145,11 +244,12 @@ const sideProjects: SideProject[] = [
     ],
     technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI API", "Tailwind CSS"],
     projectUrl: "https://smarttrader.app",
-    githubUrl: "https://github.com/theamazingmrb/smart-trader"
+    githubUrl: "https://github.com/theamazingmrb/smart-trader",
+    logo: "/projects/smart-trader.png"
   },
   {
     title: "Baby Tracker",
-    period: "2024 - Present",
+    period: "2025 - Present",
     description: "Privacy-first baby tracking platform with Django REST, PostgreSQL, and AI-powered insights.",
     highlights: [
       "Multi-tenant architecture with complete data isolation",
@@ -159,7 +259,8 @@ const sideProjects: SideProject[] = [
     ],
     technologies: ["Django", "PostgreSQL", "Docker", "Next.js", "Nginx"],
     projectUrl: "http://babytracker.xyz",
-    githubUrl: "https://github.com/theamazingmrb/baby-tracker-api"
+    githubUrl: "https://github.com/theamazingmrb/baby-tracker-api",
+    logo: "/projects/baby-tracker.png"
   }
 ];
 
@@ -213,25 +314,25 @@ export default function AboutPage() {
 
       <main className="flex-grow bg-background text-foreground">
         {/* Hero */}
-        <AnimatedSection animationType="fadeIn" className="relative py-24 md:py-32 bg-secondary/30">
+        <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-secondary/30 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
                 Billie Heidelberg Jr.
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground">
-                Full Stack Developer | Educator | Team Leader
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground px-4">
+                Full Stack Developer • Mobile Expert
               </p>
             </div>
           </div>
         </AnimatedSection>
 
         {/* Intro */}
-        <AnimatedSection animationType="fadeInUp" className="py-24">
+        <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <div className="md:w-1/3 flex justify-center">
-                <div className="w-64 h-64 relative rounded-full border-4 border-background shadow-lg overflow-hidden">
+                <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 relative rounded-full border-4 border-background shadow-lg overflow-hidden">
                   <Image
                     src="/me.png"
                     alt="Portrait of Billie Heidelberg Jr."
@@ -242,21 +343,21 @@ export default function AboutPage() {
               </div>
 
               <div className="md:w-2/3">
-                <h2 className="text-4xl font-bold mb-6">Hi, I&apos;m Billie 👋</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 px-2">Full Stack Developer • Mobile Engineer</h2>
 
-                <p className="text-lg text-muted-foreground mb-6">
-                  I am a results-driven full stack developer and technical leader with <strong>7+ years of experience</strong> building and scaling web applications. I specialize in <strong>React</strong>, <strong>TypeScript</strong>, <strong>Node.js</strong>, and cloud-native architectures. I have led <strong>teams of 5 to 8 developers</strong> and ship with a focus on performance, reliability, and user experience.
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">
+                  I am a <strong>full stack developer</strong>, <strong>mobile engineer</strong>, and technical leader with <strong>7+ years of experience</strong> building scalable web and mobile applications. I specialize in <strong>React</strong>, <strong>TypeScript</strong>, <strong>Node.js</strong>, and modern cloud-native architectures, with a focus on performance, reliability, and thoughtful user experience. I have led <strong>teams of 5 to 8 developers</strong> while remaining deeply hands-on in architecture, product delivery, and clean, maintainable code.
                 </p>
 
-                <p className="text-lg text-muted-foreground mb-6">
-                  I am also an educator and have mentored <strong>150+ developers</strong> through General Assembly's Software Engineering Immersive. Teaching sharpened my ability to break down complex ideas, coach junior engineers, and collaborate closely with product and design. I care about building tools that make people's lives easier and I value teams that lead with empathy and clear communication.
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">
+                  Alongside engineering, I have mentored <strong>150+ developers</strong> through General Assembly's Software Engineering Immersive. Teaching strengthened my ability to communicate complex ideas clearly, support growing engineers, and collaborate closely with product and design teams. I bring a craftsman's mindset to building software and care deeply about creating tools that are both technically strong and genuinely helpful to users.
                 </p>
 
-                <p className="text-lg text-muted-foreground mb-8">
-                  I am currently exploring full-time opportunities where I can contribute hands-on code, lead by example, and help teams deliver user-focused products at scale. If you are looking for someone who blends strong fundamentals with mentorship and impact, let's connect.
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-6 sm:mb-8 px-2">
+                  Today, I am focused on opportunities where I can contribute as a hands-on engineer, help shape technical direction, and build impactful products at scale. If you are looking for someone who blends strong fundamentals, leadership, and mentorship with a passion for shipping meaningful software, let's connect.
                 </p>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2 sm:gap-3 px-2">
                   <Button onClick={copyEmail} aria-live="polite">
                     ✉️ <span>{copyFeedback ? copyFeedback : "Email Me"}</span>
                   </Button>
@@ -297,34 +398,34 @@ export default function AboutPage() {
         </AnimatedSection>
 
         {/* Tabs */}
-        <div className="container mx-auto px-4 pb-16">
-          <div className="border-b mb-8" role="tablist" aria-label="About page sections">
-            <div className="flex space-x-8">
+        <div className="container mx-auto px-4 pb-12 sm:pb-16">
+          <div className="border-b mb-6 sm:mb-8 overflow-x-auto" role="tablist" aria-label="About page sections">
+            <div className="flex space-x-2 sm:space-x-4 md:space-x-8 min-w-max sm:min-w-0">
               <Button
                 variant={activeTab === "experience" ? "default" : "ghost"}
                 onClick={() => setActiveTab("experience")}
-                className="rounded-b-none border-b-2"
+                className="rounded-b-none border-b-2 text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4 whitespace-nowrap"
               >
                 Experience
               </Button>
               <Button
                 variant={activeTab === "skills" ? "default" : "ghost"}
                 onClick={() => setActiveTab("skills")}
-                className="rounded-b-none border-b-2"
+                className="rounded-b-none border-b-2 text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4 whitespace-nowrap"
               >
                 Skills
               </Button>
               <Button
                 variant={activeTab === "teaching" ? "default" : "ghost"}
                 onClick={() => setActiveTab("teaching")}
-                className="rounded-b-none border-b-2"
+                className="rounded-b-none border-b-2 text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4 whitespace-nowrap"
               >
                 Teaching
               </Button>
               <Button
                 variant={activeTab === "projects" ? "default" : "ghost"}
                 onClick={() => setActiveTab("projects")}
-                className="rounded-b-none border-b-2"
+                className="rounded-b-none border-b-2 text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4 whitespace-nowrap"
               >
                 Side Projects
               </Button>
@@ -336,64 +437,211 @@ export default function AboutPage() {
             {activeTab === "experience" && (
               <AnimatedSection animationType="fadeIn">
                 <h3 className="text-3xl font-bold mb-8" id="tab-experience">Work Experience</h3>
-                <div className="space-y-8" role="tabpanel" aria-labelledby="tab-experience-trigger">
-                  {experiences.map((exp, index) => (
-                    <Card key={`${exp.company}-${index}`} className="hover:shadow-lg transition-shadow duration-300">
-                      <CardHeader>
-                        <div className="flex items-center gap-4">
-                          {exp.logo && (
-                            <div className="flex-shrink-0 w-12 h-12 relative">
-                              <Image
-                                src={exp.logo}
-                                alt={`${exp.company} logo`}
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
-                          )}
-                          <div>
-                            <CardTitle className="text-xl">{exp.title}</CardTitle>
-                            <CardDescription className="flex flex-wrap items-center gap-2">
-                              {exp.companyUrl ? (
-                                <a
-                                  href={exp.companyUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="hover:text-primary transition-colors"
-                                >
-                                  {exp.company}
-                                </a>
-                              ) : (
-                                <span>{exp.company}</span>
+                <div className="space-y-12" role="tabpanel" aria-labelledby="tab-experience-trigger">
+
+                  {/* Full-Time Experience */}
+                  <div>
+                    <h4 className="text-2xl font-semibold mb-6 text-primary">Full-Time Experience</h4>
+                    <div className="space-y-8">
+                      {fullTimeExperience.map((exp: any, index: number) => (
+                        <Card key={`fulltime-${exp.company}-${index}`} className="hover:shadow-lg transition-shadow duration-300">
+                          <CardHeader>
+                            <div className="flex items-center gap-4">
+                              {exp.logo && (
+                                <div className="flex-shrink-0 w-12 h-12 relative">
+                                  <Image
+                                    src={exp.logo}
+                                    alt={`${exp.company} logo`}
+                                    fill
+                                    className="object-contain"
+                                  />
+                                </div>
                               )}
-                              <span>•</span>
-                              <span>{exp.period}</span>
-                            </CardDescription>
-                          </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground mb-4">{exp.description}</p>
-                        
-                        <div className="mb-4">
-                          <h5 className="font-semibold mb-2">Key Achievements:</h5>
-                          <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                            {exp.achievements.map((achievement, i) => (
-                              <li key={i}>{achievement}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        <div className="flex flex-wrap gap-2">
-                          {exp.technologies.map((tech, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                              <div>
+                                <CardTitle className="text-xl">{exp.title}</CardTitle>
+                                <CardDescription className="flex flex-wrap items-center gap-2">
+                                  {exp.companyUrl ? (
+                                    <a
+                                      href={exp.companyUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:text-primary transition-colors"
+                                    >
+                                      {exp.company}
+                                    </a>
+                                  ) : (
+                                    exp.company
+                                  )}
+                                  <span>•</span>
+                                  <span>{exp.period}</span>
+                                  <Badge variant="outline" className="ml-2">Contract</Badge>
+                                </CardDescription>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-muted-foreground mb-4">{exp.description}</p>
+                            {exp.achievements && exp.achievements.length > 0 && (
+                              <div className="mb-6">
+                                <h5 className="font-semibold mb-3">Key Achievements:</h5>
+                                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                                  {exp.achievements.map((achievement: any, i: number) => (
+                                    <li key={i}>{achievement}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            <div className="flex flex-wrap gap-2">
+                              {exp.technologies.map((tech: string, i: number) => (
+                                <Badge key={i} variant="secondary">{tech}</Badge>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Freelance & Client Work */}
+                  <div>
+                    <h4 className="text-2xl font-semibold mb-6 text-primary">Freelance & Client Work</h4>
+                    <div className="space-y-8">
+                      {freelanceProjects.map((exp: any, index: number) => (
+                        <Card key={`freelance-${exp.company}-${index}`} className="hover:shadow-lg transition-shadow duration-300">
+                          <CardHeader>
+                            <div className="flex items-center gap-4">
+                              {exp.logo && (
+                                <div className="flex-shrink-0 w-12 h-12 relative">
+                                  <Image
+                                    src={exp.logo}
+                                    alt={`${exp.company} logo`}
+                                    fill
+                                    className="object-contain"
+                                  />
+                                </div>
+                              )}
+                              <div>
+                                <CardTitle className="text-xl">{exp.title}</CardTitle>
+                                <CardDescription className="flex flex-wrap items-center gap-2">
+                                  {exp.companyUrl ? (
+                                    <a
+                                      href={exp.companyUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:text-primary transition-colors"
+                                    >
+                                      {exp.company}
+                                    </a>
+                                  ) : (
+                                    exp.company
+                                  )}
+                                  <span>•</span>
+                                  <span>{exp.period}</span>
+                                  {exp.appStoreUrl && (
+                                    <>
+                                      <span>•</span>
+                                      <a
+                                        href={exp.appStoreUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 transition-colors"
+                                      >
+                                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                                        </svg>
+                                        App Store
+                                      </a>
+                                    </>
+                                  )}
+                                </CardDescription>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-muted-foreground mb-4">{exp.description}</p>
+                            {exp.achievements && exp.achievements.length > 0 && (
+                              <div className="mb-6">
+                                <h5 className="font-semibold mb-3">Key Achievements:</h5>
+                                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                                  {exp.achievements.map((achievement: any, i: number) => (
+                                    <li key={i}>{achievement}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            <div className="flex flex-wrap gap-2">
+                              {exp.technologies.map((tech: string, i: number) => (
+                                <Badge key={i} variant="secondary">{tech}</Badge>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Ventures & Co-Founded */}
+                  <div>
+                    <h4 className="text-2xl font-semibold mb-6 text-primary">Ventures & Co-Founded</h4>
+                    <div className="space-y-8">
+                      {ventures.map((exp: any, index: number) => (
+                        <Card key={`venture-${exp.company}-${index}`} className="hover:shadow-lg transition-shadow duration-300">
+                          <CardHeader>
+                            <div className="flex items-center gap-4">
+                              {exp.logo && (
+                                <div className="flex-shrink-0 w-12 h-12 relative">
+                                  <Image
+                                    src={exp.logo}
+                                    alt={`${exp.company} logo`}
+                                    fill
+                                    className="object-contain"
+                                  />
+                                </div>
+                              )}
+                              <div>
+                                <CardTitle className="text-xl">{exp.title}</CardTitle>
+                                <CardDescription className="flex flex-wrap items-center gap-2">
+                                  {exp.companyUrl ? (
+                                    <a
+                                      href={exp.companyUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:text-primary transition-colors"
+                                    >
+                                      {exp.company}
+                                    </a>
+                                  ) : (
+                                    exp.company
+                                  )}
+                                  <span>•</span>
+                                  <span>{exp.period}</span>
+                                </CardDescription>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-muted-foreground mb-4">{exp.description}</p>
+                            {exp.achievements && exp.achievements.length > 0 && (
+                              <div className="mb-6">
+                                <h5 className="font-semibold mb-3">Key Achievements:</h5>
+                                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                                  {exp.achievements.map((achievement: any, i: number) => (
+                                    <li key={i}>{achievement}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            <div className="flex flex-wrap gap-2">
+                              {exp.technologies.map((tech: string, i: number) => (
+                                <Badge key={i} variant="secondary">{tech}</Badge>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+
                 </div>
               </AnimatedSection>
             )}
@@ -459,32 +707,46 @@ export default function AboutPage() {
                   {sideProjects.map((project, index) => (
                     <Card key={`${project.title}-${index}`} className="hover:shadow-lg transition-shadow duration-300">
                       <CardHeader>
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <CardTitle className="text-xl">{project.title}</CardTitle>
-                            <CardDescription>{project.period}</CardDescription>
-                          </div>
-                          <div className="flex gap-2">
-                            {project.projectUrl && (
-                              <Button variant="outline" size="sm" asChild>
-                                <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
-                                  Live Demo
-                                </a>
-                              </Button>
-                            )}
-                            {project.githubUrl && (
-                              <Button variant="outline" size="sm" asChild>
-                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                  GitHub
-                                </a>
-                              </Button>
-                            )}
+                        <div className="flex items-center gap-4">
+                          {project.logo && (
+                            <div className="flex-shrink-0 w-12 h-12 relative">
+                              <Image
+                                src={project.logo}
+                                alt={`${project.title} logo`}
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <CardTitle className="text-xl">{project.title}</CardTitle>
+                                <CardDescription>{project.period}</CardDescription>
+                              </div>
+                              <div className="flex gap-2">
+                                {project.projectUrl && (
+                                  <Button variant="outline" size="sm" asChild>
+                                    <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+                                      Live Demo
+                                    </a>
+                                  </Button>
+                                )}
+                                {project.githubUrl && (
+                                  <Button variant="outline" size="sm" asChild>
+                                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                      GitHub
+                                    </a>
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </CardHeader>
                       <CardContent>
                         <p className="text-muted-foreground mb-4">{project.description}</p>
-                        
+
                         <div className="mb-4">
                           <h5 className="font-semibold mb-2">Highlights:</h5>
                           <ul className="list-disc list-inside space-y-1 text-muted-foreground">
@@ -493,7 +755,7 @@ export default function AboutPage() {
                             ))}
                           </ul>
                         </div>
-                        
+
                         <div className="flex flex-wrap gap-2">
                           {project.technologies.map((tech, i) => (
                             <Badge key={i} variant="secondary" className="text-xs">

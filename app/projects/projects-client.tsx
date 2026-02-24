@@ -137,9 +137,9 @@ function ProfessionalExperience() {
                   </div>
                 )}
                 <div>
-                  <CardTitle className="text-2xl">{exp.company}</CardTitle>
-                  <CardDescription className="text-lg font-medium">{exp.role}</CardDescription>
-                  <p className="text-sm text-muted-foreground">{exp.period}</p>
+                  <CardTitle className="text-lg sm:text-xl md:text-2xl">{exp.company}</CardTitle>
+                  <CardDescription className="text-sm sm:text-base md:text-lg font-medium">{exp.role}</CardDescription>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{exp.period}</p>
                 </div>
               </div>
             </div>
@@ -181,13 +181,13 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       <Navbar />
 
       {/* Hero Section */}
-      <AnimatedSection animationType="fadeIn" className="relative py-24 md:py-32 bg-secondary/30">
+      <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-secondary/30 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
               Projects & Experience
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
               A curated collection of innovative projects and professional work across various technologies and industries
             </p>
           </div>
@@ -195,30 +195,30 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       </AnimatedSection>
 
       {/* Projects Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-24 bg-background">
+      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
               Featured Projects
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Explore a diverse range of projects showcasing expertise in modern web development, 
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
+              Explore a diverse range of projects showcasing expertise in modern web development,
               mobile applications, and innovative solutions.
             </p>
           </div>
-          
+
           <ModernProjectGrid projects={actualProjects} />
         </div>
       </AnimatedSection>
 
-      <AnimatedSection animationType="fadeInUp" className="py-24 bg-secondary/50">
+      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary/50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
               Professional Experience
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A journey through various roles and organizations, contributing to impactful projects 
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
+              A journey through various roles and organizations, contributing to impactful projects
               and growing as a developer and leader.
             </p>
           </div>
@@ -228,22 +228,22 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       </AnimatedSection>
 
       {/* Call to Action */}
-      <AnimatedSection animationType="fadeInUp" className="py-24 bg-background">
+      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-2">
             Let's Build Something Amazing
           </h2>
-          <p className="text-lg md:text-xl mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            I'm always excited to take on new challenges and collaborate on innovative projects. 
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 md:mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
+            I'm always excited to take on new challenges and collaborate on innovative projects.
             Let's discuss how we can work together to bring your ideas to life.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" asChild>
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
+            <Button size="lg" asChild className="w-full sm:w-auto">
               <Link href="/contact">
                 Get In Touch
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
               <Link href="/blog">
                 Read My Blog
               </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
 import { PostData } from "../../lib/posts";
 import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
@@ -11,7 +11,6 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
 // Function to get all unique tags from posts
 function getAllUniqueTags(posts: PostData[]): string[] {
@@ -41,6 +40,7 @@ export default function Blog() {
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<PaginationData | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const postsPerPage = 10; // Number of posts per page
   
   // Fetch posts with optional tag filter and pagination
@@ -124,11 +124,16 @@ export default function Blog() {
     setSelectedTags(newSelectedTags);
   };
   
-  // Clear all selected tags
-  const clearTags = () => {
-    setSelectedTags([]);
-    setFilteredPosts(allPosts);
-  };
+  // Filter posts by search query
+  const searchFilteredPosts = useMemo(() => {
+    if (!searchQuery.trim()) return filteredPosts;
+    const query = searchQuery.toLowerCase();
+    return filteredPosts.filter(post =>
+      post.title.toLowerCase().includes(query) ||
+      post.excerpt?.toLowerCase().includes(query) ||
+      post.tags?.some(tag => tag.toLowerCase().includes(query))
+    );
+  }, [filteredPosts, searchQuery]);
 
   // Memoize featured post to avoid recalculating on every render
   const featuredPost = useMemo(() => {
@@ -148,18 +153,18 @@ export default function Blog() {
       <Navbar />
 
       {/* Hero Section */}
-      <AnimatedSection animationType="fadeIn" className="relative py-24 md:py-32 bg-secondary/30">
+      <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-secondary/30 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="mb-6">
-              <Badge variant="secondary" className="text-sm px-4 py-2">
+            <div className="mb-4 sm:mb-6">
+              <Badge variant="secondary" className="text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2">
                 📝 Technical Blog
               </Badge>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
               Insights & Experiences
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
               Deep dives into full-stack development, trading technology, team leadership, and lessons learned building scalable applications
             </p>
           </div>
@@ -167,14 +172,14 @@ export default function Blog() {
       </AnimatedSection>
 
       {/* What You'll Find Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-24 bg-background">
+      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
               What You'll Find Here
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Real-world insights from building products that scale, leading development teams, 
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
+              Real-world insights from building products that scale, leading development teams,
               and solving complex technical challenges with TypeScript, React, and modern frameworks. No fluff—just practical knowledge you can apply immediately.
             </p>
           </div>
@@ -229,11 +234,11 @@ export default function Blog() {
       {featuredPost && (
         <AnimatedSection
           animationType="fadeInUp"
-          className="py-16 md:py-24 bg-gray-50"
+          className="py-16 md:py-24 bg-secondary/50"
         >
           <div className="container mx-auto px-4 max-w-7xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Featured Article
               </h2>
               <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
@@ -253,36 +258,75 @@ export default function Blog() {
       )}
 
       {/* All Posts Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-24 bg-secondary/50">
+      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-16">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 sm:mb-12 md:mb-16">
               <div>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">All Articles</h2>
-                <p className="text-xl text-muted-foreground">Browse all my articles on development, technology, and leadership.</p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">All Articles</h2>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground px-2">Browse all my articles on development, technology, and leadership.</p>
               </div>
-              
-              {/* Tag Filter */}
-              <div className="mt-6 md:mt-0">
-                <div className="flex flex-wrap gap-2">
-                  <Button 
-                    variant={selectedTags.length === 0 ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleTagToggle('all')}
+
+              {/* Search Bar */}
+              <div className="mt-4 sm:mt-6 md:mt-0 px-2 w-full md:w-auto">
+                <div className="relative">
+                  <svg
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    All
-                  </Button>
-                  {allTags.slice(0, 8).map(tag => (
-                    <Button
-                      key={tag}
-                      variant={selectedTags.includes(tag) ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleTagToggle(tag)}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search articles..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full md:w-64 pl-10 pr-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      aria-label="Clear search"
                     >
-                      {tag}
-                    </Button>
-                  ))}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
+              </div>
+            </div>
+
+            {/* Tag Filter */}
+            <div className="mb-8 px-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <Button
+                  variant={selectedTags.length === 0 ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleTagToggle('all')}
+                  className="text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3"
+                >
+                  All
+                </Button>
+                {allTags.slice(0, 8).map(tag => (
+                  <Button
+                    key={tag}
+                    variant={selectedTags.includes(tag) ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleTagToggle(tag)}
+                    className="text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3"
+                  >
+                    {tag}
+                  </Button>
+                ))}
               </div>
             </div>
             
@@ -306,28 +350,33 @@ export default function Blog() {
             )}
             
             {/* Empty State */}
-            {!isLoading && !error && filteredPosts.length === 0 && (
+            {!isLoading && !error && searchFilteredPosts.length === 0 && (
               <div className="text-center py-16">
                 <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
-                <h3 className="mt-2 text-lg font-medium text-gray-900">No posts found</h3>
-                <p className="mt-1 text-gray-500">Try changing your filters or check back later for new content.</p>
-                {selectedTags.length > 0 && (
+                <h3 className="mt-2 text-lg font-medium text-foreground">No posts found</h3>
+                <p className="mt-1 text-muted-foreground">
+                  {searchQuery ? `No results for "${searchQuery}"` : "Try changing your filters or check back later for new content."}
+                </p>
+                {(selectedTags.length > 0 || searchQuery) && (
                   <button
-                    onClick={() => handleTagToggle('all')}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    onClick={() => {
+                      handleTagToggle('all');
+                      setSearchQuery("");
+                    }}
+                    className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                   >
-                    Clear filters
+                    Clear all filters
                   </button>
                 )}
               </div>
             )}
-            
+
             {/* Posts Grid */}
-            {!isLoading && !error && filteredPosts.length > 0 && (
+            {!isLoading && !error && searchFilteredPosts.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredPosts.map(post => (
+                {searchFilteredPosts.map(post => (
                   <BlogPostCard
                     key={post.id}
                     id={post.id}
@@ -398,9 +447,11 @@ export default function Blog() {
               </div>
             )}
             
-            {selectedTags.length > 0 && (
-              <div className="text-center mt-4 text-sm text-gray-600">
-                Showing {filteredPosts.length} {filteredPosts.length === 1 ? 'article' : 'articles'} with selected tags
+            {(selectedTags.length > 0 || searchQuery) && (
+              <div className="text-center mt-4 text-sm text-muted-foreground">
+                Showing {searchFilteredPosts.length} {searchFilteredPosts.length === 1 ? 'article' : 'articles'}
+                {searchQuery && ` matching "${searchQuery}"`}
+                {selectedTags.length > 0 && ` with selected tags`}
               </div>
             )}
             
@@ -430,15 +481,15 @@ export default function Blog() {
       </AnimatedSection>
 
       {/* Author & Newsletter Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-24 bg-background">
+      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Author Section */}
             <div className="text-center lg:text-left">
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-24 h-24 rounded-full border-4 border-background shadow-lg overflow-hidden">
-                    <img src="/me.png" alt="Billie Heidelberg Jr." className="w-full h-full rounded-full object-cover" />
+                    <Image src="/me.png" alt="Billie Heidelberg Jr." width={96} height={96} className="w-full h-full rounded-full object-cover" />
                   </div>
                 </div>
                 <div className="flex-grow">

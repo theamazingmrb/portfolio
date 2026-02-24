@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Head from "next/head";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import Footer from "@/components/Footer";
@@ -12,6 +11,15 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+}
+
+const MAX_MESSAGE_LENGTH = 2000;
 
 export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -23,16 +31,86 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Validation functions
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateField = useCallback((name: string, value: string): string => {
+    switch (name) {
+      case "name":
+        if (!value.trim()) return "Name is required";
+        if (value.trim().length < 2) return "Name must be at least 2 characters";
+        return "";
+      case "email":
+        if (!value.trim()) return "Email is required";
+        if (!validateEmail(value)) return "Please enter a valid email address";
+        return "";
+      case "subject":
+        if (!value.trim()) return "Subject is required";
+        if (value.trim().length < 3) return "Subject must be at least 3 characters";
+        return "";
+      case "message":
+        if (!value.trim()) return "Message is required";
+        if (value.trim().length < 10) return "Message must be at least 10 characters";
+        if (value.length > MAX_MESSAGE_LENGTH) return `Message must be less than ${MAX_MESSAGE_LENGTH} characters`;
+        return "";
+      default:
+        return "";
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Real-time validation for touched fields
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors(prev => ({ ...prev, [name]: error }));
+    }
+  };
+
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
+
+  const isFormValid = (): boolean => {
+    const newErrors: FormErrors = {};
+    let isValid = true;
+
+    Object.entries(formData).forEach(([key, value]) => {
+      const error = validateField(key, value);
+      if (error) {
+        newErrors[key as keyof FormErrors] = error;
+        isValid = false;
+      }
+    });
+
+    setErrors(newErrors);
+    setTouched({ name: true, email: true, subject: true, message: true });
+    return isValid;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validate all fields before submission
+    if (!isFormValid()) {
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmissionError("");
 
@@ -63,6 +141,8 @@ export default function ContactPage() {
 
   const resetForm = () => {
     setFormData({ name: "", email: "", subject: "", message: "" });
+    setErrors({});
+    setTouched({});
     setSubmissionError("");
     setIsSubmitted(false);
   };
@@ -81,27 +161,27 @@ export default function ContactPage() {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <AnimatedSection animationType="fadeIn" className="relative py-24 md:py-32 bg-secondary/30">
-          <div className="container mx-auto max-w-4xl text-center">
-            <div className="mb-6">
-              <Badge className="text-sm px-4 py-2">
+        <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-secondary/30 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+          <div className="container mx-auto max-w-4xl text-center px-4">
+            <div className="mb-4 sm:mb-6">
+              <Badge className="text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2">
                 ✓ Available for New Opportunities
               </Badge>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
               Let's Work Together
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Looking for a senior full-stack developer who can hit the ground running? 
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
+              Looking for a senior full-stack developer who can hit the ground running?
               I'm available for full-time roles, contract work, and consulting projects.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button asChild>
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
+              <Button asChild className="w-full sm:w-auto">
                 <a href="#contact-form">
                   Send Message
                 </a>
               </Button>
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="w-full sm:w-auto">
                 <a href="#quick-contact">
                   Quick Contact
                 </a>
@@ -113,33 +193,33 @@ export default function ContactPage() {
         {/* Quick Contact Options */}
         <AnimatedSection
           animationType="fadeInUp"
-          className="py-16 md:py-24"
+          className="py-12 sm:py-16 md:py-20 lg:py-24"
           id="quick-contact"
         >
           <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 px-2">
                 Get In Touch Quickly
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
                 Choose the method that works best for you. I typically respond within 24 hours.
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-12 md:mb-16">
               {/* Email */}
               <Card className="hover:shadow-lg transition-all duration-300">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-3 sm:mb-4">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                     </svg>
                   </div>
-                  <CardTitle className="text-lg">Email</CardTitle>
-                  <CardDescription>Direct communication</CardDescription>
+                  <CardTitle className="text-base sm:text-lg">Email</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Direct communication</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <a href="mailto:billie@houseofheidelberg.com" className="text-primary hover:text-primary/80 font-medium text-sm">
+                  <a href="mailto:billie@houseofheidelberg.com" className="text-primary hover:text-primary/80 font-medium text-xs sm:text-sm break-all">
                     billie@houseofheidelberg.com
                   </a>
                 </CardContent>
@@ -211,21 +291,21 @@ export default function ContactPage() {
         {/* Contact Form Section */}
         <AnimatedSection
           animationType="fadeInUp"
-          className="py-16 md:py-24"
+          className="py-12 sm:py-16 md:py-20 lg:py-24"
           id="contact-form"
         >
           <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 px-2">
                 Send Me a Message
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Whether you're looking to hire, collaborate, or just want to chat about tech, 
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+                Whether you're looking to hire, collaborate, or just want to chat about tech,
                 I'd love to hear from you. I'll get back to you within 24 hours.
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
               {/* Contact Info */}
               <div className="lg:col-span-1">
                 <Card className="p-8">
@@ -288,11 +368,22 @@ export default function ContactPage() {
                             id="name"
                             name="name"
                             type="text"
-                            required
                             value={formData.name}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Your name"
+                            className={errors.name && touched.name ? "border-destructive focus-visible:ring-destructive" : ""}
+                            aria-invalid={errors.name && touched.name ? "true" : "false"}
+                            aria-describedby={errors.name ? "name-error" : undefined}
                           />
+                          {errors.name && touched.name && (
+                            <p id="name-error" className="mt-1 text-sm text-destructive flex items-center gap-1">
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
+                              {errors.name}
+                            </p>
+                          )}
                         </div>
                         <div>
                           <Label htmlFor="email" className="block text-sm font-medium mb-2">
@@ -302,14 +393,25 @@ export default function ContactPage() {
                             id="email"
                             name="email"
                             type="email"
-                            required
                             value={formData.email}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="your@email.com"
+                            className={errors.email && touched.email ? "border-destructive focus-visible:ring-destructive" : ""}
+                            aria-invalid={errors.email && touched.email ? "true" : "false"}
+                            aria-describedby={errors.email ? "email-error" : undefined}
                           />
+                          {errors.email && touched.email && (
+                            <p id="email-error" className="mt-1 text-sm text-destructive flex items-center gap-1">
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
+                              {errors.email}
+                            </p>
+                          )}
                         </div>
                       </div>
-                      
+
                       <div>
                         <Label htmlFor="subject" className="block text-sm font-medium mb-2">
                           Subject *
@@ -318,40 +420,83 @@ export default function ContactPage() {
                           id="subject"
                           name="subject"
                           type="text"
-                          required
                           value={formData.subject}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           placeholder="What's this about?"
+                          className={errors.subject && touched.subject ? "border-destructive focus-visible:ring-destructive" : ""}
+                          aria-invalid={errors.subject && touched.subject ? "true" : "false"}
+                          aria-describedby={errors.subject ? "subject-error" : undefined}
                         />
+                        {errors.subject && touched.subject && (
+                          <p id="subject-error" className="mt-1 text-sm text-destructive flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            {errors.subject}
+                          </p>
+                        )}
                       </div>
-                      
+
                       <div>
-                        <Label htmlFor="message" className="block text-sm font-medium mb-2">
-                          Message *
-                        </Label>
+                        <div className="flex justify-between items-center mb-2">
+                          <Label htmlFor="message" className="text-sm font-medium">
+                            Message *
+                          </Label>
+                          <span className={`text-xs ${formData.message.length > MAX_MESSAGE_LENGTH ? 'text-destructive' : 'text-muted-foreground'}`}>
+                            {formData.message.length}/{MAX_MESSAGE_LENGTH}
+                          </span>
+                        </div>
                         <Textarea
                           id="message"
                           name="message"
-                          required
                           rows={6}
                           value={formData.message}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           placeholder="Tell me about your project, opportunity, or question..."
+                          className={errors.message && touched.message ? "border-destructive focus-visible:ring-destructive" : ""}
+                          aria-invalid={errors.message && touched.message ? "true" : "false"}
+                          aria-describedby={errors.message ? "message-error" : undefined}
                         />
+                        {errors.message && touched.message && (
+                          <p id="message-error" className="mt-1 text-sm text-destructive flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            {errors.message}
+                          </p>
+                        )}
                       </div>
-                      
+
                       {submissionError && (
                         <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
                           <p className="text-destructive text-sm">{submissionError}</p>
                         </div>
                       )}
-                      
+
+                      {/* Social Proof */}
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground bg-secondary/50 px-4 py-3 rounded-lg">
+                        <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span>Typically responds within 24 hours</span>
+                      </div>
+
                       <Button
                         type="submit"
                         disabled={isSubmitting}
                         className="w-full"
                       >
-                        {isSubmitting ? "Sending..." : "Send Message"}
+                        {isSubmitting ? (
+                          <span className="flex items-center gap-2">
+                            <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Sending...
+                          </span>
+                        ) : "Send Message"}
                       </Button>
                     </form>
                   ) : (

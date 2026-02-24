@@ -5,19 +5,22 @@ export interface Project {
   title: string;
   description: string;
   image: string;
-  
+  projectType?: "Personal" | "Client" | "Venture" | "Employment";
+
   // Detailed information
   details: string;
   url?: string;
+  appStoreUrl?: string;
+  relatedAppUrl?: string;
   githubUrl?: string;
-  
+
   // Portfolio display fields (normalized)
   techStack: string[]; // Unified field name
   features?: string[];
   metrics?: string[];
   businessImpact?: string;
   images?: string[];
-  
+
   // Project page specific fields
   contributions?: string[];
   challenges?: string;
@@ -64,7 +67,7 @@ export const projects: Project[] = [
       "Positive Initial User Feedback"
     ],
     businessImpact: "Automates journaling and surfaces AI insights that boost consistency and profitability for active traders.",
-    
+
     // Project page specific fields
     contributions: [
       "Designed and implemented the entire front-end architecture using React and TypeScript",
@@ -109,7 +112,7 @@ export const projects: Project[] = [
     ],
     metrics: ["90%+ Test Coverage", "Multi-layered Privacy Controls", "AI-driven Pattern Recognition"],
     businessImpact: "Gives parents a secure, self-hosted alternative to commercial apps while delivering actionable guidance.",
-    
+
     // Project page specific fields
     contributions: [
       "Designed and implemented a multi-tenant architecture with robust security measures",
@@ -125,6 +128,7 @@ export const projects: Project[] = [
     title: "Simmr",
     description: "A privacy-first social discovery platform with user availability planning, couples features, and a high-performance, resilient architecture.",
     image: "/projects/simmr-about.png",
+    projectType: "Client",
     details: "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
     githubUrl: "https://github.com/theamazingmrb/simmr-platform",
@@ -165,7 +169,7 @@ export const projects: Project[] = [
       "30% Growth in Couple Accounts"
     ],
     businessImpact: "Set a new bar for privacy and safety in niche social platforms, improving trust, reliability, and engagement.",
-    
+
     // Project page specific fields
     contributions: [
       "Built the web application using React and Node.js",
@@ -200,7 +204,7 @@ export const projects: Project[] = [
       "Community-driven discovery"
     ],
     businessImpact: "Provides underground artists with a platform for content distribution and audience building through a transparent, engagement-driven promotion system.",
-    
+
     // Project page specific fields
     contributions: [
       "Led development of the React Native mobile app for iOS and Android",
@@ -233,7 +237,7 @@ export const projects: Project[] = [
       "40% Faster Dev Cycles"
     ],
     businessImpact: "Delivered secure, scalable fintech tools that streamlined operations and improved client satisfaction.",
-    
+
     // Project page specific fields
     contributions: [
       "Built ETL pipelines for transactions, holdings, and account data",
@@ -249,6 +253,7 @@ export const projects: Project[] = [
     title: "Love & Service 1st",
     description: "A nonprofit landing page with links to community initiatives and resources.",
     image: "/projects/love-and-service-first.png",
+    projectType: "Client",
     details: "Love & Service 1st is a nonprofit landing site built to provide a professional, welcoming presence online. The page is lightweight and responsive, with sections for mission statement, resources, and direct links to community initiatives.\n\nWhile simple in scope, it highlights the ability to deliver polished, production-ready sites quickly for nonprofits with limited budgets or timelines.",
     url: "https://loveandservice1st.com/",
     techStack: ["Next.js", "Tailwind CSS"],
@@ -259,7 +264,7 @@ export const projects: Project[] = [
     ],
     images: ["/projects/love-and-service-first.png", "/projects/las1-pay-it-forward.png", "/projects/las1-about.png"],
     businessImpact: "Gave the nonprofit a credible online presence, supporting outreach and community engagement.",
-    
+
     // Project page specific fields
     contributions: [
       "Designed and built a responsive landing page with Next.js and Tailwind CSS",
@@ -270,10 +275,61 @@ export const projects: Project[] = [
     outcomes: "Gave the nonprofit a credible online presence, supporting outreach and community engagement."
   },
   {
+    id: "thataisle",
+    title: "That Aisle - Complete Platform Solution",
+    description: "Built the React Native mobile app and React admin portal for a hair product discovery and community platform — delivering the full ecosystem from consumer experience to platform operations.",
+    image: "/projects/that_aisle/TA_App Screens_6.5 Display_Frame_1.png",
+    projectType: "Client",
+    details: "That Aisle is a hair product discovery and community platform that helps users find the right products for their hair type, share recommendations, and connect with others on their hair care journey.\n\nAs the lead freelance developer, I built two core pieces of their platform: a React Native mobile app and a React-based admin portal. The mobile app is the consumer-facing product — featuring an emoji reaction system, community forum with nested comments, user profiles with favorites and onboarding flows, and real-time updates powered by Firebase. I contributed 200+ commits standardizing UI components and building out core features.\n\nThe admin portal gives the That Aisle team full control over their platform operations — including product catalog management for 3,500+ products, content moderation with soft-delete and restoration, user management, partnership tracking, and real-time error logging synced from the mobile app. Together, these two applications form the complete ecosystem the client uses to run and grow their business.",
+    url: "https://www.thataisle.com/",
+    appStoreUrl: "https://apps.apple.com/ca/app/that-aisle/id6504048646",
+    techStack: ["React Native", "React", "TypeScript", "Next.js", "Firebase", "Redux", "React Navigation", "Vite", "Tailwind CSS", "React Query"],
+    features: [
+      "React Native mobile app with emoji reactions and community forum",
+      "React admin portal with advanced reporting and content moderation",
+      "Enhanced user profiles with favorites and authentication flows",
+      "Product catalog management with 3,500+ products and custom search",
+      "Partnership management system with status tracking",
+      "Real-time features with Firebase integration across platforms",
+      "Advanced reporting system with soft-delete content restoration",
+      "Cross-platform data synchronization and notifications",
+      "Standardized UI components and modal designs"
+    ],
+    images: [
+      "/projects/that_aisle/TA_App Screens_6.5 Display_Frame_1.png",
+      "/projects/that_aisle/TA_App Screens_6.5 Display_Frame_2.png",
+      "/projects/that_aisle/TA_App Screens_6.5 Display_Frame_3.png",
+      "/projects/that_aisle/TA_App Screens_6.5 Display_Frame_4.png",
+      "/projects/that_aisle/TA_App Screens_6.5 Display_Frame_5.png"
+    ],
+    metrics: [
+      "200+ commits with standardized UI across mobile app",
+      "3,500+ products in admin catalog management",
+      "Real-time emoji reactions and forum features",
+      "Advanced content moderation and reporting systems",
+      "Cross-platform Firebase integration",
+      "Partnership management and user administration"
+    ],
+    businessImpact: "Delivered a complete platform solution with mobile app for community engagement and admin portal for efficient platform management, content moderation, and partnership coordination.",
+
+    // Project page specific fields
+    contributions: [
+      "Built React Native mobile app with advanced emoji reaction system and community forum",
+      "Created React admin portal with comprehensive user management and content moderation",
+      "Implemented partnership management system with status tracking and product catalog",
+      "Developed cross-platform Firebase integration for real-time features and data sync",
+      "Standardized UI components across 200+ commits for consistent user experience",
+      "Integrated advanced reporting system with soft-delete content restoration"
+    ],
+    challenges: "Building a comprehensive platform solution with both mobile app and admin portal while maintaining consistent UI/UX, real-time synchronization, and managing large-scale product catalog with content moderation.",
+    outcomes: "Successfully delivered a complete ecosystem with mobile app deployed to App Store and powerful admin portal enabling efficient platform management and community engagement."
+  },
+  {
     id: "amirblaq",
     title: "AMIR BLAQ",
     description: "A full-stack luxury fashion e-commerce platform with Next.js frontend and Django admin portal for content management.",
     image: "/projects/amir-b-preview.png",
+    projectType: "Client",
     details: "AMIR BLAQ is a comprehensive e-commerce solution featuring a Next.js/React frontend with a sophisticated dark theme design and a Django backend admin portal that allows the client to manage products. The system includes RESTful APIs for product management, AWS S3 integration for image storage, and a custom admin interface for content management.",
     url: "https://amirb-ui.vercel.app/",
     githubUrl: "https://github.com/theamazingmrb/amir-blaq",
@@ -295,7 +351,7 @@ export const projects: Project[] = [
       "Integrated Content Administration"
     ],
     businessImpact: "Successfully delivered a full-stack e-commerce platform with an intuitive shopping experience on the frontend and a powerful admin portal that empowers the client to manage their product catalog without technical assistance.",
-    
+
     // Project page specific fields
     contributions: [
       "Developed a Next.js frontend with responsive dark-themed UI and interactive product displays",
@@ -308,122 +364,6 @@ export const projects: Project[] = [
     ],
     challenges: "Creating a seamless integration between the headless Django backend and the Next.js frontend while ensuring proper data flow and image management. Additionally, implementing a dark theme across all components while maintaining accessibility and resolving complex React hydration issues.",
     outcomes: "Successfully delivered a full-stack e-commerce platform with an intuitive shopping experience on the frontend and a powerful admin portal that empowers the client to manage their product catalog without technical assistance."
-  },
-  {
-    id: "airbnb",
-    title: "Airbnb Host Ambassador Platform",
-    description: "Modernization of Airbnb's host ambassador platform with significant improvements in user engagement and support efficiency.",
-    image: "/projects/airbnb.png",
-    details: "As a lead contractor, I spearheaded the refactoring of core UI modules for Airbnb's host ambassador platform, focusing on improving navigation flow, visual consistency, and workflow clarity.\n\nThe project involved implementing responsive components, simplifying information hierarchy, and optimizing task flows for ambassador onboarding and management. We integrated with Airbnb's design system while adding custom components tailored to ambassador needs.\n\nThe platform serves over 1,000 ambassadors globally, helping them track referrals, manage bonuses, and access marketing resources. Post-implementation metrics showed significant improvements in ambassador satisfaction and operational efficiency.",
-    url: "https://airbnb.com",
-    techStack: ["Ruby on Rails", "JavaScript", "React", "SCSS", "PostgreSQL"],
-    images: ["/projects/airbnb.png"],
-    metrics: ["25% Higher Ambassador Engagement", "30% Reduction in Support Tickets", "1000+ Global Ambassadors", "15% Increase in Referral Conversion"],
-    businessImpact: "Increased ambassador productivity and referral quality while reducing operational overhead for the partnerships team. The platform improvements directly contributed to more effective host acquisition through the ambassador program.",
-    
-    // Project page specific fields
-    contributions: [
-      "Redesigned the ambassador dashboard for better usability",
-      "Implemented tracking systems for referral analytics",
-      "Optimized page load performance for international users"
-    ],
-    challenges: "Improving the performance of the ambassador dashboard while maintaining a seamless user experience across different regions and devices.",
-    outcomes: "Enhanced the ambassador experience, leading to increased engagement and more effective referral marketing."
-  },
-  {
-    id: "drink-drank-la",
-    title: "Drink Drank LA",
-    description: "A bar discovery app for Los Angeles using MongoDB, Express, EJS, and the Yelp API.",
-    image: "/projects/drink-drank-la.png",
-    githubUrl: "https://github.com/theamazingmrb/Drink-Drank",
-    details: "Drink Drank LA helps users discover, track, and review LA bars with live Yelp data. Users can browse venues, save lists, and view details.\n\nThe app demonstrates NoSQL modeling, third-party API integration, and MVC architecture with server-rendered templates.",
-    techStack: ["MongoDB", "Express.js", "EJS", "Yelp API", "Passport.js"],
-    features: [
-      "Real-time Yelp API integration",
-      "Personalized visited and wishlist tracking",
-      "Facebook OAuth authentication",
-      "Full CRUD operations for user bar lists"
-    ],
-    images: ["/projects/drink-drank-la.png"],
-    metrics: [
-      "MVC pattern with MongoDB NoSQL database design",
-      "Real-time integration with Yelp API for LA bar data",
-      "Facebook OAuth authentication with personalized bar tracking",
-      "Mobile-responsive design with EJS templating"
-    ],
-    businessImpact: "Demonstrates practical API integration and NoSQL database design through a local discovery experience focused on user personalization.",
-    
-    // Project page specific fields
-    contributions: [
-      "Implemented real-time Yelp API integration for venue data",
-      "Built personalized visited and wishlist tracking features",
-      "Developed server-rendered MVC architecture with EJS templates"
-    ],
-    challenges: "Integrating with third-party APIs while maintaining performance and creating an intuitive user experience for discovering and tracking venues.",
-    outcomes: "Created a functional discovery platform with 500+ bars listed and 1000+ reviews, showcasing practical API integration and NoSQL design."
-  },
-  {
-    id: "artsy",
-    title: "Artsy",
-    description: "A creative community where artists share their work, collaborate, and sell artwork.",
-    image: "/projects/artsy-preview.jpg",
-    details: "Artsy provides artists with a platform to publish portfolios, receive feedback through comments, and list works for sale. The community features encourage sharing best practices and building an audience.\n\nThe platform emphasizes simplicity and collaboration to help artists grow their presence and monetize their creative work.",
-    techStack: ["Ruby on Rails", "PostgreSQL", "Bootstrap", "SASS", "jQuery", "AWS S3"],
-    features: [
-      "Artist profiles with portfolios",
-      "Comments and community feedback",
-      "Artwork listings with pricing",
-      "Image uploads and galleries",
-      "Secure user authentication"
-    ],
-    images: ["/projects/artsy-preview.jpg"],
-    metrics: [
-      "Full-stack Rails Application",
-      "Implemented MVC Architecture",
-      "RESTful API Design"
-    ],
-    businessImpact: "Fosters creative collaboration and monetization opportunities for emerging artists while building a supportive community for sharing best practices.",
-    
-    // Project page specific fields
-    contributions: [
-      "Built artist profiles and portfolio management features",
-      "Implemented comments and community feedback system",
-      "Created artwork listings with pricing and purchase options"
-    ],
-    challenges: "Creating an intuitive platform that balances community engagement with monetization opportunities while keeping the focus on the artwork.",
-    outcomes: "Fostered a creative community with 200+ artist profiles and 1500+ artworks shared, providing collaboration and monetization opportunities for emerging artists."
-  },
-  {
-    id: "bbdo",
-    title: "BBDO",
-    description: "Created interactive banner ads and animations for major advertising campaigns.",
-    image: "/logos/bbdo.jpeg",
-    details: "Developed interactive banner ads and animations for major advertising campaigns, working with creative teams to bring marketing concepts to life. Designed animations using Greensock (GSAP), optimized ad performance across platforms, and collaborated with creative teams on campaign concepts.",
-    url: "https://bbdo.com",
-    techStack: ["JavaScript", "GSAP", "HTML5", "CSS3"],
-    features: [
-      "Designed animations using Greensock (GSAP)",
-      "Optimized ad performance across platforms",
-      "Collaborated with creative teams on campaign concepts"
-    ],
-    images: [
-      "/logos/bbdo.jpeg"
-    ],
-    metrics: [
-      "High-Impact Ad Campaigns",
-      "Cross-Platform Compatibility",
-      "Engaging User Interactions"
-    ],
-    businessImpact: "Delivered high-impact ad campaigns that met client objectives and performed well across all platforms.",
-    
-    // Project page specific fields
-    contributions: [
-      "Designed animations using Greensock (GSAP)",
-      "Optimized ad performance across platforms",
-      "Collaborated with creative teams on campaign concepts"
-    ],
-    challenges: "Creating engaging, performant animations that work consistently across different browsers and devices while meeting strict file size requirements.",
-    outcomes: "Delivered high-impact ad campaigns that met client objectives and performed well across all platforms."
   }
 ];
 
@@ -438,7 +378,7 @@ export function getProjectsForPortfolio() {
 
 export function getProjectsForProjectsPage() {
   // Filter out work experiences if needed
-  const filteredProjects = projects.filter(project => 
+  const filteredProjects = projects.filter(project =>
     !['investcloud', 'bbdo'].includes(project.id)
   );
   return filteredProjects;

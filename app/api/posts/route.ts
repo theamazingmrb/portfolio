@@ -3,10 +3,11 @@ import { getSortedPostsData } from '@/lib/posts';
 
 // Set cache control headers for better performance
 export const revalidate = 3600; // Revalidate at most every hour
+export const dynamic = 'force-dynamic'; // This route is dynamic by design
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url || '');
     const tag = searchParams.get('tag');
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
     const page = searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1;

@@ -30,6 +30,7 @@ export interface PostData {
   relatedPosts?: string[];
   lastUpdated?: string;
   featured?: boolean;
+  draft?: boolean;
 }
 
 function generateExcerpt(content: string, frontmatter: any): string {
@@ -122,6 +123,76 @@ export function getSortedPostsData(): PostData[] {
           authorImage: matterResult.data.authorImage || '/me.png',
           relatedPosts: matterResult.data.relatedPosts || [],
           featured: matterResult.data.featured || false,
+          draft: matterResult.data.draft || false,
+        } as PostData;
+      } catch (error) {
+        console.error(`Error processing file ${fileName}:`, error);
+        return null;
+      }
+    });
+
+    // Filter out any null entries and sort posts by date
+    const validPosts = allPostsData.filter((post): post is PostData => post !== null);
+
+    // Filter out draft posts from public listings
+    const publicPosts = validPosts.filter(post => !post.draft);
+
+    return publicPosts.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+  } catch (error) {
+    console.error('Error reading blog posts directory:', error);
+    return [];
+  }
+}
+
+// Get all posts including drafts (for admin access)
+export function getAllPostsWithDrafts(): PostData[] {
+  try {
+    // Get file names under /blogs
+    const fileNames = fs.readdirSync(postsDirectory);
+    const allPostsData = fileNames.map(fileName => {
+      try {
+        if (!fileName.endsWith('.md')) return null;
+
+        // Remove ".md" from file name to get id
+        const id = fileName.replace(/\.md$/, '');
+
+        // Read markdown file as string
+        const fullPath = path.join(postsDirectory, fileName);
+        const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+        // Use gray-matter to parse the post metadata section
+        const matterResult = matter(fileContents);
+
+        // Check if required fields exist
+        if (!matterResult.data.title || !matterResult.data.date) {
+          console.warn(`Missing required frontmatter in ${fileName}. Found:`, matterResult.data);
+          return null;
+        }
+
+        // Generate excerpt and reading time
+        const excerpt = generateExcerpt(matterResult.content, matterResult.data);
+        const readingTime = calculateReadingTime(matterResult.content);
+
+        // Combine the data with the id
+        return {
+          id,
+          excerpt,
+          contentHtml: '',
+          readingTime,
+          title: matterResult.data.title,
+          date: matterResult.data.date,
+          lastUpdated: matterResult.data.lastUpdated || matterResult.data.date,
+          tags: matterResult.data.tags || [],
+          category: matterResult.data.category || 'Development',
+          coverImage: matterResult.data.coverImage || null,
+          author: matterResult.data.author || 'Billie Heidelberg Jr.',
+          authorImage: matterResult.data.authorImage || '/me.png',
+          relatedPosts: matterResult.data.relatedPosts || [],
+          featured: matterResult.data.featured || false,
+          draft: matterResult.data.draft || false,
         } as PostData;
       } catch (error) {
         console.error(`Error processing file ${fileName}:`, error);
@@ -185,6 +256,7 @@ export async function getPostData(id: string): Promise<PostData> {
     lastUpdated: matterResult.data.lastUpdated || matterResult.data.date,
     relatedPosts: matterResult.data.relatedPosts || [],
     featured: matterResult.data.featured || false,
+    draft: matterResult.data.draft || false,
     ...(matterResult.data as { title: string; date: string }),
   };
 }

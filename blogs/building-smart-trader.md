@@ -4,7 +4,7 @@ date: "2025-05-05"
 category: "Development"
 tags: ["Trading Technology", "AI", "Next.js", "TypeScript", "Product Development"]
 excerpt: "How I combined GPT, Supabase, and advanced candlestick analysis to build the trading companion that revealed my psychological blind spots and finally broke my destructive patterns."
-coverImage: "/articleCovers/baby-tracker.png"
+coverImage: "/projects/smart-trader.png"
 ---
 
 How I combined GPT, Supabase, and advanced candlestick analysis to build the trading companion that revealed my psychological blind spots and finally broke my destructive patterns.

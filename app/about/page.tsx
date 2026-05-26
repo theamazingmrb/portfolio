@@ -65,7 +65,7 @@ const fullTimeExperience = [
       "Developed and maintained ETL pipelines for financial data transformation using PostgreSQL, MySQL, Python, and Groovy",
       "Designed and implemented SOAP and RESTful APIs and relational database models for enterprise-scale applications",
       "Built modular UI components and dashboards for client platforms, enhancing usability and accessibility",
-      "Automated batch data workflows and integrations, reducing manual operations by 30%",
+      "Automated batch data workflows and integrations, reducing manual operations by 40%",
       "Trained 100+ developers across global teams in best practices and integration workflows"
     ],
     technologies: ["React", "TypeScript", "PostgreSQL", "Python", "Groovy", "REST APIs", "SOAP"],
@@ -97,12 +97,12 @@ const ventures = [
     description:
       "Content discovery platform that promoted underground artists with engagement-focused ranking.",
     achievements: [
-      "Led full stack development with React, Node, and Postgres",
-      "Prototyped engagement-based ranking to reduce popularity bias",
-      "Owned sprints, backlog, and delivery in a lean environment",
-      "Implemented authentication, creator onboarding, and feed performance improvements"
+      "Led end-to-end development of React Native (Expo) mobile app on a Supabase backend with real-time subscriptions and role-based access",
+      "Designed a viral content ranking algorithm and improved feed performance by 40% through SWR caching",
+      "Owned sprints, backlog, code review, and iOS/Android releases through Expo Application Services",
+      "Built swipe-based discovery UX with gesture-driven animations on a Zustand state store"
     ],
-    technologies: ["React", "Node.js", "PostgreSQL", "AWS", "Redis"],
+    technologies: ["React Native", "Expo", "Supabase", "TypeScript", "Zustand", "SWR", "Segment"],
     companyUrl: "https://tolo.app",
     logo: "/logos/tolo.jpeg"
   }
@@ -120,7 +120,7 @@ const freelanceProjects = [
       "Created React admin portal with advanced reporting, content moderation, and partnership management",
       "Implemented Firebase real-time features across both mobile and web platforms",
       "Developed comprehensive product catalog system with 3,500+ products and custom search",
-      "Standardized UI components and modal designs across 200+ commits",
+      "Delivered sole-developer across two phases from full app rebuild to live App Store release",
       "Integrated error logging system and real-time notifications"
     ],
     technologies: ["React Native", "React", "TypeScript", "Firebase", "Redux", "React Navigation", "Vite", "Tailwind CSS", "React Query"],

@@ -161,7 +161,7 @@ export default function ContactPage() {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-secondary/30 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+        <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-20 bg-secondary/30 pt-20 sm:pt-24">
           <div className="container mx-auto max-w-4xl text-center px-4">
             <div className="mb-4 sm:mb-6">
               <Badge className="text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2">
@@ -486,7 +486,7 @@ export default function ContactPage() {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full"
+                        className="w-full md:w-auto"
                       >
                         {isSubmitting ? (
                           <span className="flex items-center gap-2">

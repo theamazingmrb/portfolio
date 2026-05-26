@@ -61,7 +61,7 @@ export function ProjectCarousel({ children, className }: ProjectCarouselProps) {
   );
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn('relative', className)} role="region" aria-label="Featured projects carousel">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-4 sm:gap-6 lg:gap-8">{children}</div>
       </div>
@@ -70,6 +70,7 @@ export function ProjectCarousel({ children, className }: ProjectCarouselProps) {
       <Button
         variant="outline"
         size="icon"
+        aria-label="Previous project"
         className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-border/50 hover:bg-background hidden sm:flex"
         onClick={scrollPrev}
         disabled={selectedIndex === 0}
@@ -80,6 +81,7 @@ export function ProjectCarousel({ children, className }: ProjectCarouselProps) {
       <Button
         variant="outline"
         size="icon"
+        aria-label="Next project"
         className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-border/50 hover:bg-background hidden sm:flex"
         onClick={scrollNext}
         disabled={selectedIndex === scrollSnaps.length - 1}
@@ -89,10 +91,13 @@ export function ProjectCarousel({ children, className }: ProjectCarouselProps) {
 
       {/* Dot Navigation */}
       {scrollSnaps.length > 1 && (
-        <div className="flex justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6">
+        <div className="flex justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6" role="tablist" aria-label="Project slides">
           {scrollSnaps.map((_, index) => (
             <button
               key={index}
+              role="tab"
+              aria-label={`Go to project ${index + 1}`}
+              aria-selected={index === selectedIndex}
               className={cn(
                 'h-2 rounded-full transition-all duration-300',
                 index === selectedIndex

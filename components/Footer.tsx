@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-background border-t">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* About */}
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="text-2xl font-bold mb-4 inline-block tracking-tight">
@@ -105,7 +105,7 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground mb-4 md:mb-0">
               © {new Date().getFullYear()} Billie P Heidelberg. All rights reserved.
             </p>
-            <div className="flex space-x-6 text-sm">
+            <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 text-sm">
               <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
                 Privacy Policy
               </Link>

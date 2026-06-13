@@ -88,7 +88,7 @@ export default function Footer() {
               </li>
               <li>
                 <a 
-                  href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf" 
+                  href="/documents/Billie_Heidelberg_Resume_Senior_Full_Stack_Engineer.pdf" 
                   className="text-muted-foreground hover:text-primary transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"

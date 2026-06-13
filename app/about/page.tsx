@@ -383,7 +383,7 @@ export default function AboutPage() {
                   </Button>
                   <Button variant="outline" asChild>
                     <a
-                      href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf"
+                      href="/documents/Billie_Heidelberg_Resume_Senior_Full_Stack_Engineer.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Download Resume"

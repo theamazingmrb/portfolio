@@ -118,7 +118,7 @@ export default async function Home() {
             </Button>
             <Button size="lg" variant="ghost" asChild className="w-full sm:w-auto">
               <a
-                href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf"
+                href="/documents/Billie_Heidelberg_Resume_Senior_Full_Stack_Engineer.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -278,7 +278,7 @@ export default function ContactPage() {
                 </CardHeader>
                 <CardContent>
                   <Button variant="outline" size="sm" asChild>
-                    <a href="/documents/Billie_Heidelberg_Software_Engineer_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                    <a href="/documents/Billie_Heidelberg_Resume_Senior_Full_Stack_Engineer.pdf" target="_blank" rel="noopener noreferrer">
                       Download
                     </a>
                   </Button>

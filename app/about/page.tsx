@@ -233,7 +233,7 @@ const skills: Skill[] = [
 // Side Projects
 const sideProjects: SideProject[] = [
   {
-    title: "Smart Trader",
+    title: "Daily Wick",
     period: "April 2025 - Present",
     description: "AI-assisted trading journal that helps traders log, analyze, and improve decision making with actionable insights.",
     highlights: [
@@ -243,9 +243,9 @@ const sideProjects: SideProject[] = [
       "Accessible UI with responsive layout and dark mode"
     ],
     technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI API", "Tailwind CSS"],
-    projectUrl: "https://smarttrader.app",
-    githubUrl: "https://github.com/theamazingmrb/smart-trader",
-    logo: "/projects/smart-trader.png"
+    projectUrl: "https://dailywick.app",
+    githubUrl: "https://github.com/theamazingmrb/daily-wick",
+    logo: "/projects/daily-wick.png"
   },
   {
     title: "Baby Tracker",

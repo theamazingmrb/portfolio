@@ -13,12 +13,12 @@ export default async function Home() {
   const allPostsData: PostData[] = getSortedPostsData();
 
   // Create clean project objects to avoid serialization issues
-  const smartTraderProject = {
-    id: "smart-trader",
-    title: "Smart Trader",
+  const dailyWickProject = {
+    id: "daily-wick",
+    title: "Daily Wick",
     description: "AI-powered trading journal with analytics and performance insights. Built with Next.js, TypeScript, and OpenAI for professional traders.",
-    image: "/projects/smart-trader.png",
-    url: "/projects/smart-trader",
+    image: "/projects/daily-wick.png",
+    url: "/projects/daily-wick",
     techStack: ["Next.js", "TypeScript", "Supabase", "AI"],
     metrics: ["Risk Management Tools", "Performance Dashboard", "Strategy Backtesting", "40% Better Discipline"],
     details: "",
@@ -195,14 +195,14 @@ export default async function Home() {
               </Card>
             </div>
 
-            {/* Smart Trader */}
+            {/* Daily Wick */}
             <div className="flex-shrink-0 w-full max-w-[500px] px-2">
               <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-purple-500/20 hover:border-purple-500/40 bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/10 dark:to-pink-950/10">
                 <CardHeader className="pb-3 sm:pb-4">
                   <div className="relative">
                     <Image
-                      src="/projects/smart-trader.png"
-                      alt="Smart Trader"
+                      src="/projects/daily-wick.png"
+                      alt="Daily Wick"
                       width={400}
                       height={250}
                       className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105"
@@ -214,7 +214,7 @@ export default async function Home() {
                 </CardHeader>
                 <CardContent className="pt-3 sm:pt-4">
                   <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-purple-600 dark:text-purple-400">
-                    Smart Trader
+                    Daily Wick
                   </CardTitle>
                   <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">
                     AI-powered trading journal with analytics and performance insights for professional traders.
@@ -227,7 +227,7 @@ export default async function Home() {
                     ))}
                   </div>
                   <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10">
-                    <Link href="/projects/smart-trader">
+                    <Link href="/projects/daily-wick">
                       View Project
                     </Link>
                   </Button>

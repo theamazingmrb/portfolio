@@ -1,17 +1,17 @@
 ---
-title: "Building Smart Trader: The AI-Powered Trading Journal That Transformed My Performance"
+title: "Building Daily Wick: The AI-Powered Trading Journal That Transformed My Performance"
 date: "2025-05-05"
 category: "Development"
 tags: ["Trading Technology", "AI", "Next.js", "TypeScript", "Product Development"]
 excerpt: "How I combined GPT, Supabase, and advanced candlestick analysis to build the trading companion that revealed my psychological blind spots and finally broke my destructive patterns."
-coverImage: "/projects/smart-trader.png"
+coverImage: "/projects/daily-wick.png"
 ---
 
 How I combined GPT, Supabase, and advanced candlestick analysis to build the trading companion that revealed my psychological blind spots and finally broke my destructive patterns.
 
 ---
 
-## 🧠 Why I Built Smart Trader
+## 🧠 Why I Built Daily Wick
 
 Like most traders, I discovered my true enemy wasn't the market—it was my own psychology.
 
@@ -39,7 +39,7 @@ I needed something that would serve as both performance tracker and accountabili
 
 ## 🛠️ Engineered for Trading Psychology
 
-Every feature in Smart Trader is built around the unique demands of trading performance and psychology.
+Every feature in Daily Wick is built around the unique demands of trading performance and psychology.
 
 Rather than listing specific technologies, what matters is the *why* behind each component:
 
@@ -55,7 +55,7 @@ The focus has always been aligning functionality with how traders actually think
 
 ## ✍️ Contextual Journaling: Capturing the Complete Picture
 
-Smart Trader's breakthrough is its comprehensive approach to documenting the full trading experience. Each trade entry includes:
+Daily Wick's breakthrough is its comprehensive approach to documenting the full trading experience. Each trade entry includes:
 
 * **Technical Elements**:
 
@@ -112,7 +112,7 @@ The difference between "I bought AAPL at 180" and "I entered AAPL at 180 after c
 
 ## 🤖 Your AI Trading Coach: Personalized Feedback
 
-Smart Trader's most transformative feature is its AI analysis system that identifies patterns impossible to see in your own trading. When you complete a trade entry, Smart Trader processes your data through a specialized GPT model that analyzes:
+Daily Wick's most transformative feature is its AI analysis system that identifies patterns impossible to see in your own trading. When you complete a trade entry, Daily Wick processes your data through a specialized GPT model that analyzes:
 
 1. **Risk Management Execution**
 2. **Entry & Exit Decision Quality**
@@ -130,7 +130,7 @@ This isn't just record-keeping—it's having an experienced trading coach analyz
 
 ## 📊 Visual Intelligence: Seeing Your Trading Clearly
 
-Smart Trader transforms abstract trading data into actionable visual intelligence:
+Daily Wick transforms abstract trading data into actionable visual intelligence:
 
 * **Multi-Dimensional Trade Analysis**
 
@@ -161,7 +161,7 @@ A recent insight changed my approach:
 
 ## 🚀 Development Insights: Building for Traders
 
-Creating Smart Trader taught me valuable lessons:
+Creating Daily Wick taught me valuable lessons:
 
 * **Start With Core Value**: Even a minimal version improved discipline
 * **AI Requires Context**: Only worked after extensive custom prompting
@@ -173,9 +173,9 @@ The meta-lesson: building a tool to improve trading improves trading itself.
 
 ---
 
-## 🎯 The Roadmap: Where Smart Trader Is Heading
+## 🎯 The Roadmap: Where Daily Wick Is Heading
 
-Smart Trader's roadmap includes:
+Daily Wick's roadmap includes:
 
 * **Advanced Mobile Experience**
 * **Personalized AI Coaching System**
@@ -189,7 +189,7 @@ The vision extends beyond journaling to create a full trading companion.
 
 ## 🙌 Beyond the Tool: A Trading Philosophy
 
-Smart Trader blends:
+Daily Wick blends:
 
 * **Deliberate Documentation**
 * **ICT Framework Application**
@@ -198,6 +198,6 @@ Smart Trader blends:
 
 The most profound impact has been the transformation of trading from stress to self-awareness.
 
-If you believe your edge is understanding yourself, not just the markets—Smart Trader was built for you.
+If you believe your edge is understanding yourself, not just the markets—Daily Wick was built for you.
 
-[Join the Smart Trader beta](https://www.smarttrader.tech/) or reach out for early access.
+[Join the Daily Wick beta](https://dailywick.app/) or reach out for early access.

@@ -29,12 +29,12 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "smart-trader",
-    title: "Smart Trader",
+    id: "daily-wick",
+    title: "Daily Wick",
     description: "AI-powered trading journal with analytics and trade performance insights.",
-    image: "/projects/smart-trader.png",
-    details: "Smart Trader is a professional-grade trading journal SaaS for institutional and retail traders. Built with Next.js, TypeScript, and Supabase, the platform turns raw trade logs into actionable insights through AI-powered analysis and interactive dashboards.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, run performance analytics, and use checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
-    url: "https://smarttrader.tech",
+    image: "/projects/daily-wick.png",
+    details: "Daily Wick is a professional-grade trading journal SaaS for institutional and retail traders. Built with Next.js, TypeScript, and Supabase, the platform turns raw trade logs into actionable insights through AI-powered analysis and interactive dashboards.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, run performance analytics, and use checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
+    url: "https://dailywick.app",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -56,9 +56,9 @@ export const projects: Project[] = [
       "Secure auth with Supabase"
     ],
     images: [
-      "/projects/smart-trader.png",
-      "/projects/smart-trader-dashboard.png",
-      "/projects/smart-trader-risk-calculator.png"
+      "/projects/daily-wick.png",
+      "/projects/daily-wick-dashboard.png",
+      "/projects/daily-wick-risk-calculator.png"
     ],
     metrics: [
       "Early Access: 10-15 Active Traders",
@@ -85,7 +85,7 @@ export const projects: Project[] = [
     image: "/projects/baby-tracker.png",
     details: "Baby Tracker is a self-hostable, privacy-focused API and UI for tracking feeding, sleep, growth, and milestones. The backend uses Django REST Framework with a multi-tenant architecture and JWT auth; the frontend leverages Next.js.\n\nDockerized deployments with Nginx make it easy to run on AWS EC2 or locally. The API is fully documented (OpenAPI) and covered by comprehensive tests.\n\nAI modules analyze history to suggest routines and patterns without compromising data ownership.",
     url: "http://babytracker.xyz",
-    githubUrl: "https://github.com/theamazingmrb/baby-tracker-api",
+githubUrl: "https://github.com/theamazingmrb/daily-wick"
     techStack: [
       "Django",
       "Django REST",
@@ -131,7 +131,7 @@ export const projects: Project[] = [
     projectType: "Client",
     details: "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
-    githubUrl: "https://github.com/theamazingmrb/simmr-platform",
+githubUrl: "https://github.com/theamazingmrb/daily-wick"
     techStack: [
       "React",
       "TypeScript",
@@ -332,7 +332,7 @@ export const projects: Project[] = [
     projectType: "Client",
     details: "AMIR BLAQ is a comprehensive e-commerce solution featuring a Next.js/React frontend with a sophisticated dark theme design and a Django backend admin portal that allows the client to manage products. The system includes RESTful APIs for product management, AWS S3 integration for image storage, and a custom admin interface for content management.",
     url: "https://amirb-ui.vercel.app/",
-    githubUrl: "https://github.com/theamazingmrb/amir-blaq",
+githubUrl: "https://github.com/theamazingmrb/daily-wick"
     techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Django", "Django REST Framework", "PostgreSQL", "AWS S3", "Vercel"],
     features: [
       "Next.js frontend with responsive dark-themed UI and interactive product displays",

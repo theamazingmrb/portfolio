@@ -19,7 +19,7 @@ import { Project } from "@/lib/projects";
 function ProfessionalExperience() {
   const experiences = [
     {
-      company: "Smart Trader",
+      company: "Daily Wick",
       role: "Founder & Lead Developer",
       period: "April 2025 - Present",
       description:
@@ -31,7 +31,7 @@ function ProfessionalExperience() {
         "Accessible UI with responsive layout and dark mode."
       ],
       technologies: ["Next.js", "TypeScript", "Supabase", "OpenAI API", "Tailwind CSS"],
-      logo: "/logos/smart-trader-logo.svg",
+      logo: "/logos/daily-wick-logo.svg",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {

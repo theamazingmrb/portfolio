@@ -41,15 +41,15 @@ export const projects: Project[] = [
     businessImpact: "Successfully delivered a full-stack e-commerce platform with an intuitive shopping experience on the frontend and a powerful admin portal that empowers the client to manage their product catalog without technical assistance."
   },
   {
-    id: "smart-trader",
-    title: "Smart Trader",
+    id: "daily-wick",
+    title: "Daily Wick",
     description:
       "An AI-powered trading journal helping 500+ traders make disciplined, data-driven decisions with real-time analysis.",
-    image: "/projects/smart-trader.png",
+    image: "/projects/daily-wick.png",
     details:
-      "Smart Trader is a professional-grade trading journal SaaS for institutional and retail traders. Built with Next.js, TypeScript, and Supabase, the platform turns raw trade logs into actionable insights through AI-powered analysis and interactive dashboards.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, run performance analytics, and use checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
-    url: "https://smarttrader.tech",
-    // githubUrl: "https://github.com/theamazingmrb/smart-trader",
+      "Daily Wick is a professional-grade trading journal SaaS for institutional and retail traders. Built with Next.js, TypeScript, and Supabase, the platform turns raw trade logs into actionable insights through AI-powered analysis and interactive dashboards.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, run performance analytics, and use checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
+    url: "https://dailywick.app",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
     techStack: [
       "Next.js",
       "TypeScript",
@@ -71,9 +71,9 @@ export const projects: Project[] = [
       "Secure auth with Supabase"
     ],
     images: [
-      "/projects/smart-trader.png",
-      "/projects/smart-trader-dashboard.png",
-      "/projects/smart-trader-risk-calculator.png"
+      "/projects/daily-wick.png",
+      "/projects/daily-wick-dashboard.png",
+      "/projects/daily-wick-risk-calculator.png"
     ],
     metrics: [
       "Early Access: 10-15 Active Traders",
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     details:
       "Baby Tracker is a self-hostable, privacy-focused API and UI for tracking feeding, sleep, growth, and milestones. The backend uses Django REST Framework with a multi-tenant architecture and JWT auth; the frontend leverages Next.js.\n\nDockerized deployments with Nginx make it easy to run on AWS EC2 or locally. The API is fully documented (OpenAPI) and covered by comprehensive tests.\n\nAI modules analyze history to suggest routines and patterns without compromising data ownership.",
     url: "http://babytracker.xyz",
-    githubUrl: "https://github.com/theamazingmrb/baby-tracker-api",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
     techStack: [
       "Django",
       "Django REST",
@@ -266,7 +266,7 @@ export const projects: Project[] = [
     description:
       "A bar discovery app for Los Angeles using MongoDB, Express, EJS, and the Yelp API.",
     image: "/projects/drink-drank-la.png",
-    githubUrl: "https://github.com/theamazingmrb/Drink-Drank",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
     details:
       "Drink Drank LA helps users discover, track, and review LA bars with live Yelp data. Users can browse venues, save lists, and view details.\n\nThe app demonstrates NoSQL modeling, third-party API integration, and MVC architecture with server-rendered templates.",
     techStack: ["MongoDB", "Express.js", "EJS", "Yelp API", "Passport.js"],
@@ -334,13 +334,13 @@ export const projects: Project[] = [
 ];
 // export const projects: Project[] = [
 //   {
-//     id: "smart-trader",
-//     title: "Smart Trader",
+//     id: "daily-wick",
+//     title: "Daily Wick",
 //     description: "The all-in-one trading journal and analytics platform that helps traders make data-driven decisions. Serving 500+ active traders with 98% positive feedback. Track, analyze, and improve your trading performance with powerful AI insights and comprehensive trade management tools.",
-//     image: "/projects/smart-trader.png",
-//     details: "Smart Trader is a professional-grade trading journal application designed for active traders who are serious about improving their performance. Built with modern web technologies including Next.js, TypeScript, and Supabase, the platform offers a seamless experience across all devices with its responsive design and dark mode support.\n\nKey features include an intuitive trade journal for logging both long and short positions, a comprehensive dashboard with performance analytics, and AI-powered trade analysis that provides actionable insights. The platform also includes an economic calendar to track market-moving events, a customizable trade checklist to ensure consistent strategy execution, and a risk calculator to help manage position sizing.\n\nSmart Trader stands out with its clean, user-friendly interface that makes it easy to track and analyze trades, identify patterns, and make data-driven decisions. The platform is built with security and privacy in mind, using Supabase for enterprise-grade authentication and data protection.\n\nWhether you're a day trader, swing trader, or long-term investor, Smart Trader provides the tools you need to take your trading to the next level by turning trading data into actionable insights and helping you stick to your trading plan.",
-//     url: "https://smarttrader.tech",
-//     githubUrl: "https://github.com/theamazingmrb/smart-trader",
+//     image: "/projects/daily-wick.png",
+//     details: "Daily Wick is a professional-grade trading journal application designed for active traders who are serious about improving their performance. Built with modern web technologies including Next.js, TypeScript, and Supabase, the platform offers a seamless experience across all devices with its responsive design and dark mode support.\n\nKey features include an intuitive trade journal for logging both long and short positions, a comprehensive dashboard with performance analytics, and AI-powered trade analysis that provides actionable insights. The platform also includes an economic calendar to track market-moving events, a customizable trade checklist to ensure consistent strategy execution, and a risk calculator to help manage position sizing.\n\nDaily Wick stands out with its clean, user-friendly interface that makes it easy to track and analyze trades, identify patterns, and make data-driven decisions. The platform is built with security and privacy in mind, using Supabase for enterprise-grade authentication and data protection.\n\nWhether you're a day trader, swing trader, or long-term investor, Daily Wick provides the tools you need to take your trading to the next level by turning trading data into actionable insights and helping you stick to your trading plan.",
+//     url: "https://dailywick.app",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
 //     techStack: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS", "OpenAI API", "Chart.js"],
 //     features: [
 //       "AI-Powered Trade Analysis: Get detailed feedback on trade execution and risk management",
@@ -355,9 +355,9 @@ export const projects: Project[] = [
 //       "Secure Authentication: Enterprise-grade security with Supabase"
 //     ],
 //     images: [
-//       "/projects/smart-trader.png",
-//       "/projects/smart-trader-dashboard.png",
-//       "/projects/smart-trader-risk-calculator.png"
+//       "/projects/daily-wick.png",
+//       "/projects/daily-wick-dashboard.png",
+//       "/projects/daily-wick-risk-calculator.png"
 //     ],
 //     metrics: [
 //       "500+ Active Users",
@@ -365,7 +365,7 @@ export const projects: Project[] = [
 //       "75% Reduction in Trade Analysis Time",
 //       "40% Improvement in Trading Discipline"
 //     ],
-//     businessImpact: "Smart Trader has revolutionized how traders approach performance analysis, leading to more disciplined trading decisions and improved profitability for users."
+//     businessImpact: "Daily Wick has revolutionized how traders approach performance analysis, leading to more disciplined trading decisions and improved profitability for users."
 //   },
 //   {
 //     id: "tolo",
@@ -374,7 +374,7 @@ export const projects: Project[] = [
 //     image: "/projects/tolo-preview.png",
 //     details: "TOLO (tap on, lift off) helps content be heard and seen quickly and organically. The app comprises a community of creators that dictate what trends and goes viral based on how people engage with content (audio/video/images). We are a virality engine that helps people and content get discovered fast.",
 //     url: "https://toloapp.com",
-//     githubUrl: "https://github.com/theamazingmrb/tolo-app",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
 //     techStack: ["React Native", "Node.js", "Firebase", "AWS", "MongoDB", "Redis"],
 //     features: [
 //       "Content discovery platform for creators",
@@ -401,10 +401,10 @@ export const projects: Project[] = [
 //     "id": "simmr",
 //     "title": "Simmr",
 //     "description": "A platform for the ethically non-monogamous community to connect and discover like-minded individuals.",
-//     "image": "/projects/simmr-preview.png",
+//     image: "/projects/daily-wick.png"
 //     "details": "Simmr is a safe space for individuals to explore their identities, connect with others, and build meaningful relationships. The platform features a robust verification system, allowing users to confidently connect with others who share similar interests and values. Additionally, Simmr offers a range of features, including events, groups, and a unique vouching system, designed to foster a sense of community and belonging.",
 //     "url": "https://simmr.co",
-//     "githubUrl": "https://github.com/theamazingmrb/simmr-platform",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
 //     "techStack": ["React", "TypeScript", "Node.js", "GraphQL", "PostgreSQL", "AWS"],
 //     "features": [
 //       "Robust user verification system for safe connections",
@@ -415,7 +415,7 @@ export const projects: Project[] = [
 //     ],
 //     "images": [
 //       "/projects/simmr-app-store.png",
-//       "/projects/simmr-preview.png",
+//       "/projects/daily-wick.png"
 //       "/projects/simmr-about.png",
 //       // "/projects/simmr-events.png"
 //     ],
@@ -448,7 +448,7 @@ export const projects: Project[] = [
 //     title: "Airbnb Ambassador Site",
 //     description:
 //       "Redesigned key components of the affiliate management platform.",
-//     image: "/projects/airbnb.png",
+//     image: "/projects/daily-wick.png"
 //     details:
 //       "As a contractor for Airbnb, I led the redesign of crucial elements within their affiliate management platform. This project focused on enhancing navigation and improving aesthetic coherence across the site. By leveraging my expertise in front-end development and UX design, I created a more intuitive and visually appealing interface that streamlined the affiliate management process. This redesign not only improved user experience for Airbnb's ambassadors but also contributed to more efficient management of the affiliate program.",
 //     url: "https://airbnb.com",
@@ -480,7 +480,7 @@ export const projects: Project[] = [
 //     id: "artsy",
 //     title: "Artsy",
 //     description: "A community for artists to share, view, and sell their work.",
-//     image: "/projects/artsy-preview.jpg",
+//     image: "/projects/daily-wick.png"
 //     details:
 //       "Artsy is a community for artists. With Artsy, artists have the ability to share their work, view other people's work, and post best practices and tips on their profiles. Users can also share their opinions on other users' art through comments. Users will also have the ability to post prices for their art so that they can sell it on Artsy as well (in the post title).",
 //     metrics: [
@@ -495,10 +495,10 @@ export const projects: Project[] = [
 //     "id": "baby-tracker",
 //     "title": "Baby Tracker",
 //     "description": "A comprehensive, privacy-first baby tracking solution that helps parents monitor feedings, diapers, sleep, growth milestones, and more with AI-powered insights for establishing healthy routines.",
-//     "image": "/projects/baby-tracker.png",
+//     image: "/projects/daily-wick.png"
 //     "details": "Baby Tracker is a privacy-first, self-hostable solution that gives parents complete control over their baby's data. Built with Django REST Framework and PostgreSQL, this comprehensive API allows parents to track all aspects of their baby's development and get AI-powered insights to help establish healthy routines.\n\nThe application features a multi-tenant architecture with robust security measures ensuring complete data isolation between users. Parents can track feedings (breastfeeding, bottle, solid food), diaper changes, sleep sessions, growth milestones, doctor appointments, medications, and pumping sessions. The AI insights module analyzes historical data to provide recommendations for feeding times and sleep patterns.\n\nThe backend is designed with scalability in mind, using Django's powerful ORM for database interactions and JWT authentication for secure API access. The API is fully documented using OpenAPI (via drf-spectacular) and includes comprehensive test coverage to ensure reliability.\n\nBaby Tracker stands out with its focus on data privacy and ownership - unlike commercial alternatives that store sensitive data on third-party servers, this solution can be self-hosted, giving parents complete control over their baby's information while still providing all the features of premium baby tracking apps.",
 //     "url": "http://babytracker.xyz",
-//     "githubUrl": "https://github.com/theamazingmrb/baby-tracker-api",
+//     githubUrl: "https://github.com/theamazingmrb/daily-wick"
 //     "techStack": ["Django", "Django REST Framework", "PostgreSQL", "JWT Authentication", "Docker", "Pandas", "OpenAPI", "Next.js", "Nginx", "Node.js"], // Added Next.js, Nginx, and Node.js
 //     "features": [
 //       "Baby Profile Management: Create and manage multiple baby profiles",
@@ -513,8 +513,8 @@ export const projects: Project[] = [
 //       "Comprehensive Test Coverage: Ensuring reliability and security"
 //     ],
 //     "images": [
-//       "/projects/baby-tracker.png",
-//       "/projects/baby-tracker-dashboard.png",
+//       "/projects/daily-wick.png"
+//       "/projects/daily-wick-dashboard.png"
 //       "/projects/baby-tracker-insights.png"
 //     ],
 //     "metrics": [

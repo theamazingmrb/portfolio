@@ -7,7 +7,6 @@ import AnimatedSection from "@/components/AnimatedSection";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -150,12 +149,11 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Head>
-        <title>Contact Billie Heidelberg Jr. | Available for New Opportunities | Full Stack Developer</title>
+        <title>Contact | Billie Heidelberg Jr.</title>
         <meta
           name="description"
-          content="Get in touch with Billie Heidelberg Jr. - Full Stack Developer with 7+ years experience. Available for full-time, contract, and consulting opportunities. Quick response guaranteed."
+          content="Full Stack Developer with 8+ years experience. Currently open to contract Full Stack and Senior Engineer roles."
         />
-        <meta name="keywords" content="contact developer, hire full stack developer, React developer available, TypeScript expert, team lead available, consulting opportunities" />
       </Head>
       <Navbar />
 
@@ -163,17 +161,12 @@ export default function ContactPage() {
         {/* Hero Section */}
         <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-20 bg-secondary/30 pt-20 sm:pt-24">
           <div className="container mx-auto max-w-4xl text-center px-4">
-            <div className="mb-4 sm:mb-6">
-              <Badge className="text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2">
-                ✓ Available for New Opportunities
-              </Badge>
-            </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
-              Let's Work Together
+              Contact
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
-              Looking for a senior full-stack developer who can hit the ground running?
-              I'm available for full-time roles, contract work, and consulting projects.
+              Currently open to contract Full Stack and Senior Engineer roles.
+              If you are building something interesting, let us talk.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
               <Button asChild className="w-full sm:w-auto">

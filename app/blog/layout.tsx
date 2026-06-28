@@ -4,7 +4,7 @@ import '../code-blocks.css';
 
 export const metadata: Metadata = {
   title: "Blog | Billie Heidelberg Jr. - Insights on Development, Trading & Technology",
-  description: "Read my latest thoughts on full-stack development, trading technology, team leadership, and building scalable applications. Insights from 7+ years in the industry.",
+  description: "Read my latest thoughts on full-stack development, trading technology, team leadership, and building scalable applications. Insights from 8+ years in the industry.",
   keywords: "blog, development insights, trading technology, full stack development, team leadership, React, TypeScript, Node.js, technical writing",
   alternates: {
     canonical: "https://billieheidelberg.com/blog",

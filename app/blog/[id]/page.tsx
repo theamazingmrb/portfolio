@@ -143,17 +143,11 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
         <Navbar />
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-3xl font-bold text-foreground mb-4">Draft Post</h1>
-          <p className="text-muted-foreground mb-4">
-            This is a private draft post.
-          </p>
           <p className="text-muted-foreground mb-8">
-            Access it through the <Link href="/admin/drafts" className="text-primary hover:underline">admin dashboard</Link>.
+            This is a private draft post.
           </p>
           <Link href="/blog" className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors mr-4">
             Back to Blog
-          </Link>
-          <Link href="/admin/drafts" className="inline-block bg-secondary text-secondary-foreground px-6 py-3 rounded-lg hover:bg-secondary/80 transition-colors">
-            Admin Access
           </Link>
         </div>
         <Footer />
@@ -336,7 +330,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                 <div className="flex-grow text-center sm:text-left">
                   <h3 className="text-xl font-bold text-foreground mb-2">About Billie Heidelberg Jr.</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    Full Stack Developer & Technical Leader with 7+ years of experience building scalable applications 
+                    Full Stack Developer & Technical Leader with 8+ years of experience building scalable applications 
                     and leading development teams. Passionate about sharing knowledge and helping others grow.
                   </p>
                   <div className="flex justify-center sm:justify-start gap-3">

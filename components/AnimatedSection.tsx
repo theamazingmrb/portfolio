@@ -47,7 +47,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     <div
       ref={sectionRef}
       id={id}
-      className={`${className}`}
+      className={`opacity-0 ${className}`}
     >
       {children}
     </div>

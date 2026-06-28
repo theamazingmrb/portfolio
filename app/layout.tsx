@@ -11,12 +11,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://billieheidelberg.com'),
-  title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader | 7+ Years Experience | Available for Hire",
-  description: "Results-driven Full Stack Developer & Technical Leader with 7+ years experience. Led teams of 5-8 developers, delivered $50M+ in project value, achieved 92% job placement rate teaching 100+ students. Expert in React, TypeScript, Node.js, AWS. Available for new opportunities.",
-  keywords: "Billie Heidelberg, full stack developer, React developer, TypeScript, Node.js, team leader, technical lead, web development, software engineer, educator, general assembly instructor, JavaScript expert, frontend developer, backend developer, AWS certified, scalable applications, startup CTO, fintech developer, trading applications, enterprise software, available for hire, Los Angeles developer, React Native, mobile app development",
+  title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader | 8+ Years Experience",
+  description: "Results-driven Full Stack Developer & Technical Leader with 8+ years experience. Led teams of 5-8 developers, delivered $50M+ in project value, achieved 92% job placement rate teaching 100+ students. Expert in React, TypeScript, Node.js, AWS.",
+  keywords: "Billie Heidelberg, full stack developer, React developer, TypeScript, Node.js, team leader, technical lead, web development, software engineer, educator, general assembly instructor, JavaScript expert, frontend developer, backend developer, AWS certified, scalable applications, startup CTO, fintech developer, trading applications, enterprise software, Los Angeles developer, React Native, mobile app development",
   openGraph: {
-    title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader | Available for Hire",
-    description: "Results-driven Full Stack Developer with 7+ years experience leading development teams. Delivered $50M+ in project value. Expert in React, TypeScript, Node.js, AWS. Available for new opportunities.",
+    title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader",
+    description: "Results-driven Full Stack Developer with 8+ years experience leading development teams. Delivered $50M+ in project value. Expert in React, TypeScript, Node.js, AWS.",
     url: "https://billieheidelberg.com",
     siteName: "Billie Heidelberg Portfolio",
     images: [
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader | Available for Hire",
-    description: "Results-driven Full Stack Developer with 7+ years experience leading development teams. Delivered $50M+ in project value. Expert in React, TypeScript, Node.js, AWS. Available for new opportunities.",
+    title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader",
+    description: "Results-driven Full Stack Developer with 8+ years experience leading development teams. Delivered $50M+ in project value. Expert in React, TypeScript, Node.js, AWS.",
     images: ["/me.png"],
   },
   robots: {

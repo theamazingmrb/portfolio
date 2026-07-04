@@ -1,0 +1,106 @@
+Billie Paul Heidelberg Jr.
+Senior Full Stack Engineer · Technical Lead
+billie.heidelberg.jr@gmail.com · linkedin.com/in/bheidelberg · github.com/theamazingmrb · billieheidelberg.com
+
+SUMMARY
+Senior Full Stack Engineer with 8+ years of experience designing, building, and scaling production web and mobile
+applications. Skilled in React, Node.js, TypeScript, and AWS with a proven ability to architect reliable systems, lead
+technical teams, and deliver high-impact products. Integrates AI-assisted development tools (Claude Code, Windsurf)
+into daily workflows to accelerate delivery, support test-driven development, and improve system design and code
+quality. Focused on building reliable, production-ready systems used by real users.
+
+TECHNICAL SKILLS
+AI Dev Tools: Claude Code, Windsurf IDE, ChatGPT, GitHub Copilot
+APIs & Tooling: REST APIs, GraphQL, Postman, JSON, SQL (PostgreSQL, MySQL)
+Frontend: React, Next.js, React Native, TypeScript, Tailwind CSS
+Backend & Data: Node.js, Express, Supabase, PostgreSQL, Redis, MongoDB, ETL Pipelines, Data Modeling
+Cloud & DevOps: AWS (Lambda, CloudFront, S3, SQS), Docker, CI/CD, Serverless Framework
+Other: Python, Groovy, Unit Testing, Technical Documentation, Cross-functional Collaboration
+
+WORK EXPERIENCE
+Full Stack Engineer (Freelance) | That Aisle
+
+September 2025 – Present
+
+Hair care discovery platform · React Native mobile app + React admin portal
+
+• Built cross-platform mobile app using React Native (Expo) with Firebase backend — including Firestore, Firebase
+Auth, APNs/FCM push notifications, and Cloud Storage.
+• Developed React admin portal for content and user management, integrating Algolia search with Firebase Cloud
+Functions for real-time product sync.
+• Used Claude Code and Windsurf IDE throughout development to accelerate feature delivery, debug complex
+Firebase integration issues, and rapidly iterate on UI against Figma designs — cutting implementation time by
+~35%.
+• Navigated full iOS/Android App Store submission pipeline including guideline compliance, screenshot
+requirements, and push notification certification.
+Founder & Full Stack Engineer | Smart Trader
+
+April 2025 – Present
+
+AI-powered trading journal SaaS · Solo build
+
+• Built full-stack SaaS platform with Next.js 15, Supabase, and PostgreSQL — including 38+ row-level security
+policies, normalized schema with triggers, and secure storage.
+• Integrated OpenAI’s GPT API for contextual, LLM-powered trade analysis and built interactive TradingView
+charts with optimized React Server Components.
+• Leveraged AI-assisted development (Claude Code, Windsurf) to accelerate feature delivery, support test-driven
+workflows, and reduce iteration cycles across the full stack.
+• Deployed to Vercel with automated CI/CD and zero-downtime release processes.
+Full Stack Engineer (Freelance) | Simmr
+
+July 2023 – December 2025
+
+Social discovery platform · 2,000+ active users
+
+• API design & debugging: Engineered scalable APIs and event-driven architecture using Apollo GraphQL,
+Hasura, and Node.js — including real-time notification systems and async job workers.
+• Data & tooling: Managed PostgreSQL schema, automated migrations, and built internal data workflows for
+analytics and operational visibility.
+• Third-party integrations: Integrated Twilio, Stripe, Mixpanel, and AWS SES — triaging integration edge cases
+and ensuring reliable communication and payment pipelines.
+• Infrastructure: Managed deployment and provisioning using Serverless Framework and Docker, reducing
+environment inconsistencies and improving release reliability.
+CTO & Co-Founder (Freelance) | TOLO
+
+October 2022 – January 2025
+
+Mobile content discovery platform for independent artists
+
+• Led end-to-end development of React Native (Expo) mobile app with Supabase backend — real-time
+subscriptions, role-based access, and media upload infrastructure.
+
+• Built viral content ranking algorithm and improved feed performance by 40% through SWR caching.
+• Directed sprint planning, code reviews, and iOS/Android deployments via Expo Application Services.
+Educator & Mentor (Part-Time) | General Assembly
+October 2020 – Present
+• Instructed 150+ students in full-stack development — React, Node.js, Express, MongoDB, Python, Django.
+• Mentored students through portfolio projects, technical interviews, and career transitions.
+Software Engineer & Technical Trainer | InvestCloud Inc.
+
+July 2018 – June 2025
+Leading provider of digital financial services applications · Promoted through four roles over seven years
+
+• Internal tooling: Built and maintained ETL pipelines, internal automation tools, and data workflows using
+PostgreSQL, MySQL, Python, and Groovy — reducing manual ops and integration setup time by 40%.
+• API & integration support: Debugged and resolved integration issues for 100+ developers globally across
+REST and data pipeline workflows, reducing resolution time through clear documentation and repeatable
+runbooks.
+• Cross-functional triage: Partnered with Engineering and Product teams to identify root causes of system and
+data issues, escalate bugs, and verify fixes before rollout.
+• Documentation & training: Led technical training for 100+ developers globally on debugging, integration
+patterns, and best practices — boosting team efficiency by 30%. Built and maintained support docs and workflow
+guides.
+• Schema & API standards: Contributed to system-wide improvements in schema design, API standards, and UI
+component consistency across the platform.
+
+ADDITIONAL EXPERIENCE
+Jr. Front End Developer, BBDO Los Angeles
+Front End Developer (Contract), Airbnb
+
+EDUCATION
+General Assembly · Web Development Immersive, Santa Monica, CA · 2017
+
+2017 – 2018
+2017
+
+

@@ -6,6 +6,7 @@ const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://localhost:11434';
 const CHAT_MODEL = process.env.CHAT_MODEL || 'llama3.2:latest';
 const EMBED_MODEL = process.env.EMBED_MODEL || 'nomic-embed-text';
 const TOP_K = 3;
+const SIMILARITY_THRESHOLD = 0.25; // Minimum relevance score to proceed
 
 // --- Rate limiting ---
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -125,6 +126,25 @@ export async function POST(request: NextRequest) {
         )
       : [];
 
+    // Gate 1: Pre-filter obvious off-topic queries before burning compute on embedding
+    const lowerMessage = message.toLowerCase();
+    const offTopicSignals = [
+      'weather', 'forecast', 'temperature', 'rain', 'snow',
+      'capital of', 'who invented', 'who discovered', 'who won',
+      'write a poem', 'write a story', 'write a song', 'joke',
+      'recipe for', 'how to cook', 'how to bake',
+      'relationship advice', 'therapy', 'depressed', 'anxious',
+      'solve', 'calculate', 'integral', 'derivative', 'homework',
+      'what is your name', 'who are you', 'what can you do',
+      'sentient', 'conscious', 'feel emotions',
+    ];
+    if (offTopicSignals.some((s) => lowerMessage.includes(s))) {
+      return NextResponse.json({
+        reply: "I can only answer questions about Billie Heidelberg Jr.'s portfolio, projects, and experience. How can I help you learn more about his work?",
+        sources: [],
+      });
+    }
+
     // Load index
     const index = getIndex();
 
@@ -155,12 +175,21 @@ export async function POST(request: NextRequest) {
     // Retrieve top K with page boosting
     const scored = index.map((entry) => {
       let score = cosineSimilarity(queryEmbedding, entry.embedding);
-      if (pageBoostSources.some(s => entry.source.startsWith(s))) {
+      if (pageBoostSources.some((s) => entry.source.startsWith(s))) {
         score = Math.min(score + 0.15, 0.999);
       }
       return { ...entry, score };
     });
     scored.sort((a, b) => b.score - a.score);
+
+    // Gate 2: If even the best match is too weak, the query is off-topic
+    if (scored[0].score < SIMILARITY_THRESHOLD) {
+      return NextResponse.json({
+        reply: "I can only answer questions about Billie Heidelberg Jr.'s portfolio, projects, and experience. How can I help you learn more about his work?",
+        sources: [],
+      });
+    }
+
     const context = scored.slice(0, TOP_K);
 
     // Build prompt
@@ -171,6 +200,12 @@ export async function POST(request: NextRequest) {
     const systemPrompt = `You are Billie Heidelberg Jr.'s portfolio assistant. Billie is a full-stack developer who uses he/him pronouns. You must always refer to Billie using he/him pronouns.
 
 ${pageContextNote}
+
+Your ONLY job is to answer questions about Billie's portfolio, projects, experience, skills, and articles. You have ZERO knowledge of anything else — weather, politics, trivia, math, other people's projects, general coding questions, etc.
+
+If a question is NOT about Billie's work (e.g. "What's the weather?", "Who won the game?", "Write me a poem", "How do I fix this bug?"), respond ONLY with: "I can only answer questions about Billie Heidelberg Jr.'s portfolio, projects, and experience. How can I help you learn more about his work?"
+
+Do NOT attempt to answer off-topic questions using the context below. Do NOT be helpful with unrelated requests. Politely redirect back to Billie's work.
 
 Answer questions based ONLY on the context below. If the answer is not in the context, say "I don't have that information on Billie's site." Be concise, friendly but professional, and accurate.
 

@@ -33,6 +33,14 @@ function getSourceLabel(source: string): string {
   }
 }
 
+const suggestedQuestions = [
+  "What did Billie build at InvestCloud?",
+  "Tell me about Daily Wick",
+  "What technologies does he use?",
+  "How does he run AI locally?",
+  "What's his experience with React Native?",
+];
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -241,25 +249,45 @@ export default function ChatWidget() {
           {/* Input area */}
           <form
             onSubmit={handleSubmit}
-            className="flex items-center gap-2 border-t border-border p-3"
+            className="flex flex-col gap-2 border-t border-border p-3"
           >
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="What would you like to know?"
-              className="flex-1 rounded-lg border border-border bg-muted px-3 py-2 text-sm outline-none ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              disabled={loading}
-            />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background transition-opacity hover:opacity-90 disabled:opacity-50"
-              aria-label="Send message"
-            >
-              <Send className="h-4 w-4" />
-            </button>
+            {/* Suggested questions */}
+            {messages.length === 1 && messages[0].role === "bot" && (
+              <div className="flex flex-wrap gap-1.5">
+                {suggestedQuestions.map((q, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => {
+                      setInput(q);
+                      inputRef.current?.focus();
+                    }}
+                    className="rounded-full border border-border bg-muted px-2.5 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted-foreground/10 hover:text-foreground"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="What would you like to know?"
+                className="flex-1 rounded-lg border border-border bg-muted px-3 py-2 text-sm outline-none ring-offset-background placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                disabled={loading}
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background transition-opacity hover:opacity-90 disabled:opacity-50"
+                aria-label="Send message"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </div>
           </form>
         </div>
       )}

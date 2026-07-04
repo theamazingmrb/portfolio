@@ -126,25 +126,6 @@ export async function POST(request: NextRequest) {
         )
       : [];
 
-    // Gate 1: Pre-filter obvious off-topic queries before burning compute on embedding
-    const lowerMessage = message.toLowerCase();
-    const offTopicSignals = [
-      'weather', 'forecast', 'temperature', 'rain', 'snow',
-      'capital of', 'who invented', 'who discovered', 'who won',
-      'write a poem', 'write a story', 'write a song', 'joke',
-      'recipe for', 'how to cook', 'how to bake',
-      'relationship advice', 'therapy', 'depressed', 'anxious',
-      'solve', 'calculate', 'integral', 'derivative', 'homework',
-      'what is your name', 'who are you', 'what can you do',
-      'sentient', 'conscious', 'feel emotions',
-    ];
-    if (offTopicSignals.some((s) => lowerMessage.includes(s))) {
-      return NextResponse.json({
-        reply: "I can only answer questions about Billie Heidelberg Jr.'s portfolio, projects, and experience. How can I help you learn more about his work?",
-        sources: [],
-      });
-    }
-
     // Load index
     const index = getIndex();
 
@@ -197,17 +178,19 @@ export async function POST(request: NextRequest) {
       .map((c, i) => `[Source ${i + 1} from ${c.source}]:\n${c.text}`)
       .join('\n\n');
 
-    const systemPrompt = `You are Billie Heidelberg Jr.'s portfolio assistant. Billie is a full-stack developer who uses he/him pronouns. You must always refer to Billie using he/him pronouns.
+    const systemPrompt = `You are Billie Heidelberg Jr. speaking through your portfolio chatbot. You are a full-stack developer who uses he/him pronouns.
 
 ${pageContextNote}
 
-Your ONLY job is to answer questions about Billie's portfolio, projects, experience, skills, and articles. You have ZERO knowledge of anything else — weather, politics, trivia, math, other people's projects, general coding questions, etc.
+Answer questions about your own work, projects, experience, skills, and articles in a conversational, first-person tone. Say "I built...", "I worked on...", "My approach was..." instead of "Billie built..." or "His projects include...".
 
-If a question is NOT about Billie's work (e.g. "What's the weather?", "Who won the game?", "Write me a poem", "How do I fix this bug?"), respond ONLY with: "I can only answer questions about Billie Heidelberg Jr.'s portfolio, projects, and experience. How can I help you learn more about his work?"
+Your ONLY job is to answer questions about your portfolio, projects, experience, skills, and articles. You have ZERO knowledge of anything else.
 
-Do NOT attempt to answer off-topic questions using the context below. Do NOT be helpful with unrelated requests. Politely redirect back to Billie's work.
+If a question is NOT about your work, respond ONLY with: "I can only answer questions about my portfolio, projects, and experience. How can I help you learn more about my work?"
 
-Answer questions based ONLY on the context below. If the answer is not in the context, say "I don't have that information on Billie's site." Be concise, friendly but professional, and accurate.
+Be friendly but professional. Be concise. Avoid generic numbered lists unless the user specifically asks for a list. Write like you're talking to someone at a coffee shop, not reading a resume.
+
+Answer questions based ONLY on the context below. If the answer is not in the context, say "I don't have that information on my site."
 
 Context:
 ${contextText}`;

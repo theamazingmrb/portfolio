@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# chatbot embeddings index - now committed for VPS deploys
+# /public/chatbot/index.json

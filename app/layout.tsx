@@ -6,6 +6,7 @@ import "./code-blocks.css";
 import SkipToMain from "@/components/SkipToMain";
 import BackToTop from "@/components/BackToTop";
 import { ToastProvider } from "@/components/ui/toast";
+import ChatWidget from "@/components/ChatWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -63,6 +64,7 @@ export default function RootLayout({
           <BackToTop />
         </ToastProvider>
         <Analytics />
+        <ChatWidget />
       </body>
     </html>
   );

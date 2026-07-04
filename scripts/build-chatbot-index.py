@@ -144,14 +144,14 @@ def extract_projects() -> list:
         if metrics_match:
             metrics_texts = re.findall(r'"([^"]+)"', metrics_match.group(1))
 
-        # Build rich text
+        # Build rich text with explicit labeling
         text_parts = []
         if title_match:
             text_parts.append(f"Project: {title_match.group(1)}.")
         if desc_match:
-            text_parts.append(desc_match.group(1))
+            text_parts.append(f"Description: {desc_match.group(1)}")
         if details_match:
-            text_parts.append(details_match.group(1))
+            text_parts.append(f"Details: {details_match.group(1)}")
         if tech_items:
             text_parts.append(f"Tech stack: {', '.join(tech_items)}.")
         if feature_texts:
@@ -159,7 +159,7 @@ def extract_projects() -> list:
         if metrics_texts:
             text_parts.append(f"Metrics: {'. '.join(metrics_texts)}.")
         if impact_match:
-            text_parts.append(impact_match.group(1))
+            text_parts.append(f"Impact: {impact_match.group(1)}")
 
         text = " ".join(text_parts).replace("\\n", " ")
         text = re.sub(r"\s+", " ", text).strip()

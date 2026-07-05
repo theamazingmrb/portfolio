@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://localhost:11434';
-const CHAT_MODEL = process.env.CHAT_MODEL || 'llama3.2:latest';
+const CHAT_MODEL = process.env.CHAT_MODEL || 'gemma3:4b';
 const EMBED_MODEL = process.env.EMBED_MODEL || 'nomic-embed-text';
 const TOP_K = 3;
 const SIMILARITY_THRESHOLD = 0.25; // Minimum relevance score to proceed

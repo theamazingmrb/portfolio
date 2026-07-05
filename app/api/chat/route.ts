@@ -27,7 +27,33 @@ function checkRateLimit(identifier: string): { allowed: boolean; retryAfter?: nu
   return { allowed: true };
 }
 
-// --- Index cache ---
+// --- Response cache ---
+const responseCache = new Map<string, { reply: string; sources: string[]; timestamp: number }>();
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_MAX_ENTRIES = 50;
+
+function getCacheKey(message: string, currentPage?: string): string {
+  const normalized = message.toLowerCase().trim().replace(/\s+/g, ' ');
+  return currentPage ? `${normalized}::${currentPage}` : normalized;
+}
+
+function getCachedResponse(key: string): { reply: string; sources: string[] } | null {
+  const entry = responseCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    responseCache.delete(key);
+    return null;
+  }
+  return { reply: entry.reply, sources: entry.sources };
+}
+
+function setCachedResponse(key: string, reply: string, sources: string[]) {
+  if (responseCache.size >= CACHE_MAX_ENTRIES) {
+    const oldest = responseCache.keys().next().value;
+    responseCache.delete(oldest);
+  }
+  responseCache.set(key, { reply, sources, timestamp: Date.now() });
+}
 let indexCache: Array<{
   id: string;
   text: string;
@@ -126,6 +152,14 @@ export async function POST(request: NextRequest) {
         )
       : [];
 
+    // Check response cache (skip if there's history to avoid stale context)
+    const cacheKey = getCacheKey(message, currentPage);
+    if (validHistory.length === 0) {
+      const cached = getCachedResponse(cacheKey);
+      if (cached) {
+        return NextResponse.json({ reply: cached.reply, sources: cached.sources });
+      }
+    }
     // Load index
     const index = getIndex();
 
@@ -208,6 +242,15 @@ ${contextText}`;
     ];
 
     const reply = await ollamaChat(messages);
+
+    // Cache the response (only for standalone questions, not conversations)
+    if (validHistory.length === 0) {
+      setCachedResponse(cacheKey, reply, context.map((c) => ({
+        source: c.source,
+        url: c.sourceUrl,
+        score: Math.round(c.score * 1000) / 1000,
+      })));
+    }
 
     return NextResponse.json({
       reply,

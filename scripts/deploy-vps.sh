@@ -36,9 +36,13 @@ apt-get install -y curl git python3 python3-pip nginx certbot python3-certbot-ng
 echo "[4/11] Installing Ollama..."
 curl -fsSL https://ollama.com/install.sh | sh
 
-# Pull models
-ollama pull llama3.2:latest
+# Pull models (gemma3:4b for chat, nomic-embed-text for embeddings)
+echo "[4/11] Pulling AI models..."
+ollama pull gemma3:4b
 ollama pull nomic-embed-text
+
+# Keep model loaded in memory (no idle unload)
+echo "OLLAMA_KEEP_ALIVE=-1" >> /etc/environment
 
 # Create systemd service for Ollama
 cat > /etc/systemd/system/ollama.service << 'EOF'
@@ -50,7 +54,8 @@ After=network.target
 ExecStart=/usr/local/bin/ollama serve
 Restart=always
 User=root
-Environment=HOME=/root
+Environment="HOME=/root"
+Environment="OLLAMA_KEEP_ALIVE=-1"
 
 [Install]
 WantedBy=multi-user.target

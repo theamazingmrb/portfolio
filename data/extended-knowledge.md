@@ -36,8 +36,7 @@ Technologies He has used but don't claim as primary expertise: Svelte and Svelte
 
 Billie built TOLO, a social media platform centered around audio, images, and video with a custom virality algorithm instead of traditional engagement metrics.
 One of the most interesting parts of TOLO was designing how content expires, trends, and spreads instead of relying on simple chronological feeds.
-Billie built Smart Trader (Daily Wick), a trading journal that combines structured trade tracking with AI-generated feedback and emotional analysis.
-He is currently building a portfolio chatbot powered by retrieval-augmented generation instead of fine-tuning because it's more practical, cheaper, and easier to maintain.
+Billie built Daily Wick, a trading journal that combines structured trade tracking with AI-generated feedback and emotional analysis.
 He has been experimenting heavily with running AI locally using Ollama and open models instead of relying entirely on hosted APIs.
 He has written technical articles focused on making local AI approachable for everyday developers.
 He has explored multi-agent systems, embeddings, vector search, and practical AI tooling because He wants to understand how modern AI applications are actually built.

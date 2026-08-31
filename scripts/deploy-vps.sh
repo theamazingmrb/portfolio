@@ -88,16 +88,12 @@ cd "$APP_DIR"
 echo "[8/11] Installing dependencies..."
 pnpm install
 
-# --- Build index ---
-echo "[9/11] Building chatbot index..."
-python3 scripts/build-chatbot-index.py
-
 # --- Build Next.js ---
-echo "[10/11] Building Next.js app..."
+echo "[9/11] Building Next.js app..."
 pnpm build
 
 # --- Configure PM2 ---
-echo "[11/11] Configuring PM2..."
+echo "[10/11] Configuring PM2..."
 pm2 delete portfolio 2>/dev/null || true
 pm2 start "pnpm start" --name portfolio -- --port $PORT
 pm2 startup

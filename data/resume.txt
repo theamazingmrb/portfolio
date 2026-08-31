@@ -33,7 +33,7 @@ Firebase integration issues, and rapidly iterate on UI against Figma designs —
 ~35%.
 • Navigated full iOS/Android App Store submission pipeline including guideline compliance, screenshot
 requirements, and push notification certification.
-Founder & Full Stack Engineer | Smart Trader
+Founder & Full Stack Engineer | Daily Wick
 
 April 2025 – Present
 

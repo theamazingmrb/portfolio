@@ -5,7 +5,7 @@ excerpt: "Complete testing setup for React applications with Vitest, Testing Lib
 tags: ["Testing", "React", "Vitest", "TDD", "JavaScript", "TypeScript"]
 author: "Billie Heidelberg Jr."
 readingTime: 8
-coverImage: "/blogs/testing-setup-cover.jpg"
+coverImage: "/blogs/testing-setup-cover.svg"
 lastUpdated: "2025-02-28"
 ---
 

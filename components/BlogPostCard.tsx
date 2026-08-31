@@ -23,7 +23,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
   coverImage,
 }) => {
   const formattedDate = formatDate(date);
-  const imageSrc = coverImage || '/projects/code-editor.png';
+  const imageSrc = coverImage || '/blog-images/default-cover.svg';
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (

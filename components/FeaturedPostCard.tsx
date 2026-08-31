@@ -23,7 +23,7 @@ const FeaturedPostCard: React.FC<FeaturedPostCardProps> = ({
   coverImage,
 }) => {
   const formattedDate = formatDate(date);
-  const imageSrc = coverImage || '/projects/code-editor.png'; // fallback image
+  const imageSrc = coverImage || '/blog-images/default-cover.svg'; // fallback image
 
   return (
     <Link href={`/blog/${id}`} className="block">
@@ -42,7 +42,7 @@ const FeaturedPostCard: React.FC<FeaturedPostCardProps> = ({
           </div>
           <div className="p-8 flex flex-col justify-between relative">
             {/* Featured badge */}
-            <div className="absolute -top-4 -right-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+            <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
               Featured
             </div>
             <div>

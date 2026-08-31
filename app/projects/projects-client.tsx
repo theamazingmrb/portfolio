@@ -53,7 +53,7 @@ function ProfessionalExperience() {
     {
       company: "Simmr",
       role: "Full Stack Engineer",
-      period: "January 2023 - July 2025",
+      period: "July 2023 - December 2025",
       description:
         "Specialized social platform focused on safety, privacy, and inclusive discovery for an ENM and polyamorous community.",
       achievements: [
@@ -69,7 +69,7 @@ function ProfessionalExperience() {
     {
       company: "InvestCloud",
       role: "Technical Trainer & Integration Developer",
-      period: "December 2019 - June 2025",
+      period: "July 2018 - June 2025",
       description:
         "Designed onboarding and training for API and integration developers at a fintech platform serving large institutions.",
       achievements: [

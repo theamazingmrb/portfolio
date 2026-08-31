@@ -5,6 +5,7 @@ date: "2025-02-24"
 tags: ["React", "Next.js", "Server Components", "Web Development"]
 category: "Web Development"
 author: "Billie Heidelberg Jr."
+coverImage: "/blog-images/default-cover.svg"
 ---
 
 # Understanding Server Components in Next.js 14

@@ -110,7 +110,7 @@ export const freelanceProjects: Experience[] = [
   {
     title: "Simmr",
     company: "Full Stack Engineer (Freelance)",
-    period: "July 2023 – January 2026",
+    period: "July 2023 – December 2025",
     description: "A social platform serving the non-monogamous and polyamorous communities.",
     achievements: [
       "Engineered scalable discovery platform serving 2,000+ users with React, TypeScript, and Apollo GraphQL",

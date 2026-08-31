@@ -62,7 +62,7 @@ export function ProjectCarousel({ children, className }: ProjectCarouselProps) {
 
   return (
     <div className={cn('relative', className)} role="region" aria-label="Featured projects carousel">
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div className="overflow-hidden mx-10 sm:mx-12" ref={emblaRef}>
         <div className="flex gap-4 sm:gap-6 lg:gap-8">{children}</div>
       </div>
 

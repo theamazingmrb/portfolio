@@ -57,6 +57,7 @@ export const projects: Project[] = [
     ],
     images: [
       "/projects/daily-wick.png",
+      "/projects/daily-wick-full.png",
       "/projects/daily-wick-dashboard.png",
       "/projects/daily-wick-risk-calculator.png"
     ],

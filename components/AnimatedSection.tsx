@@ -18,12 +18,28 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const reveal = () => {
+      el.classList.remove("opacity-0");
+      el.classList.add("animate-in", animationType);
+    };
+
+    // Reduced motion: never rely on JS animation — show immediately.
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      reveal();
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.remove("opacity-0");
-            entry.target.classList.add("animate-in", animationType);
+            reveal();
             observer.unobserve(entry.target);
           }
         });
@@ -31,24 +47,28 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       { threshold: 0.1 }
     );
 
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
+    observer.observe(el);
+
+    // If already in viewport on mount, trigger immediately.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      reveal();
+      observer.unobserve(el);
     }
 
+    // Fallback: if the observer never fires (scroll race, JS timing, older
+    // browsers), guarantee the section reveals after a bounded window so
+    // content is never left permanently invisible at opacity-0.
+    const fallback = window.setTimeout(reveal, 500);
+
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      observer.unobserve(el);
+      window.clearTimeout(fallback);
     };
   }, [animationType]);
 
   return (
-    <div
-      ref={sectionRef}
-      id={id}
-      className={`opacity-0 ${className}`}
-    >
+    <div ref={sectionRef} id={id} className={`opacity-0 ${className}`}>
       {children}
     </div>
   );

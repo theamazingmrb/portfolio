@@ -3,7 +3,7 @@
 import AnimatedSection from "@/components/AnimatedSection";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function ImpactSection() {
+export default function ImpactSection({ articlesCount }: { articlesCount: number }) {
   return (
     <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
@@ -13,7 +13,7 @@ export default function ImpactSection() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { num: "11+", label: "Technical Articles", desc: "Sharing knowledge with the developer community" },
+            { num: `${articlesCount}+`, label: "Technical Articles", desc: "Sharing knowledge with the developer community" },
             { num: "8+", label: "Years Building", desc: "Production applications people use daily" },
             { num: "150+", label: "Developers Mentored", desc: "Through bootcamps and 1-on-1 coaching" },
             { num: "$2B+", label: "Daily Assets Processed", desc: "Enterprise fintech systems at InvestCloud" },

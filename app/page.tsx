@@ -10,8 +10,10 @@ import { ProjectCarousel } from "@/components/ProjectCarousel";
 import HeroSection from "@/components/sections/HeroSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ImpactSection from "@/components/sections/ImpactSection";
+import { getSortedPostsData } from "@/lib/posts";
 
 export default async function Home() {
+  const articlesCount = getSortedPostsData().length;
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
@@ -64,9 +66,9 @@ export default async function Home() {
                 </CardHeader>
                 <CardContent className="pt-3 sm:pt-4">
                   <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-purple-600 dark:text-purple-400">Daily Wick</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">AI-powered trading journal with analytics and performance insights for professional traders.</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">AI trading journal for prop traders that logs trades, spots patterns, and coaches you with personalized insights — not generic advice.</CardDescription>
                   <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["Next.js", "TypeScript", "Supabase", "AI"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
+                    {["Next.js", "TypeScript", "Supabase", "AI Coach"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
                   </div>
                   <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/daily-wick">View Project</Link></Button>
                 </CardContent>
@@ -183,7 +185,7 @@ export default async function Home() {
       </AnimatedSection>
 
       <SkillsSection />
-      <ImpactSection />
+      <ImpactSection articlesCount={articlesCount} />
 
       <Footer />
     </main>

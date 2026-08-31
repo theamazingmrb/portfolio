@@ -31,9 +31,9 @@ export const projects: Project[] = [
   {
     id: "daily-wick",
     title: "Daily Wick",
-    description: "AI-powered trading journal with analytics and trade performance insights.",
+    description: "AI trading journal for prop traders that logs trades, spots patterns, and coaches you with personalized insights.",
     image: "/projects/daily-wick.png",
-    details: "Daily Wick is a professional-grade trading journal SaaS for institutional and retail traders. Built with Next.js, TypeScript, and Supabase, the platform turns raw trade logs into actionable insights through AI-powered analysis and interactive dashboards.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, run performance analytics, and use checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
+    details: "Daily Wick is a trading journal built for active and prop traders. It turns raw trade logs into personalized, data-backed coaching — logging trades, surfacing losing habits automatically, and letting traders ask an AI Coach to analyze their history and psychology.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, prop-firm combines, and run performance analytics using checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
     url: "https://dailywick.app",
     techStack: [
       "Next.js",

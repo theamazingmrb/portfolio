@@ -167,7 +167,7 @@ export default function Blog() {
               What You'll Find Here
             </h2>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-              Real-world insights from building products that scale, leading development teams,
+              Real-world insights from building products that scale, working with development teams,
               and solving complex technical challenges with TypeScript, React, and modern frameworks. No fluff—just practical knowledge you can apply immediately.
             </p>
           </div>
@@ -183,7 +183,7 @@ export default function Blog() {
                 <CardTitle className="text-xl">Battle-Tested Solutions</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Lessons learned from 8+ years of building scalable applications and leading development teams</p>
+                <p className="text-muted-foreground">Lessons learned from 8+ years of shipping production applications and working with engineering teams</p>
               </CardContent>
             </Card>
             
@@ -208,10 +208,10 @@ export default function Blog() {
                     <path d="M16 4c0-2.21-1.79-4-4-4S8 1.79 8 4s1.79 4 4 4 4-1.79 4-4zM15 11H9c-2.21 0-4 1.79-4 4v6h2v-6c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v6h2v-6c0-2.21-1.79-4-4-4z"/>
                   </svg>
                 </div>
-                <CardTitle className="text-xl">Team Leadership</CardTitle>
+                <CardTitle className="text-xl">Teaching &amp; Collaboration</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Practical advice on mentoring developers, managing technical projects, and building high-performing engineering teams</p>
+                <p className="text-muted-foreground">Practical advice on mentoring developers, collaborating on technical projects, and growing strong engineering practices</p>
               </CardContent>
             </Card>
           </div>
@@ -247,7 +247,7 @@ export default function Blog() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 sm:mb-12 md:mb-16">
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">All Articles</h2>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground px-2">Browse all my articles on development, technology, and leadership.</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground px-2">Browse all my articles on development, technology, and engineering practice.</p>
               </div>
 
               {/* Search Bar */}

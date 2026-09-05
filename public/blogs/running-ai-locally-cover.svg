@@ -1,103 +1,89 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <!-- Background -->
-  <rect width="1200" height="630" fill="#0f172a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" aria-label="A local laptop running an AI model, flanked by a stylized llama and a winged caduceus">
+  <rect width="1200" height="630" fill="#f4f1ea"/>
 
-  <!-- Subtle circuit board pattern -->
-  <g stroke="#1e293b" stroke-width="1" fill="none">
-    <path d="M 0 100 L 200 100 L 250 150 L 400 150"/>
-    <path d="M 0 250 L 100 250 L 150 200 L 350 200 L 400 250 L 600 250"/>
-    <path d="M 1200 400 L 1000 400 L 950 350 L 750 350"/>
-    <path d="M 1200 150 L 1100 150 L 1050 100 L 850 100"/>
-    <circle cx="200" cy="100" r="3" fill="#1e293b"/>
-    <circle cx="400" cy="150" r="3" fill="#1e293b"/>
-    <circle cx="250" cy="150" r="3" fill="#1e293b"/>
-    <circle cx="400" cy="250" r="3" fill="#1e293b"/>
-    <circle cx="600" cy="250" r="3" fill="#1e293b"/>
-    <circle cx="950" cy="350" r="3" fill="#1e293b"/>
-    <circle cx="750" cy="350" r="3" fill="#1e293b"/>
-    <circle cx="1050" cy="100" r="3" fill="#1e293b"/>
-    <circle cx="850" cy="100" r="3" fill="#1e293b"/>
-  </g
->
+  <!-- Editorial grid -->
+  <g stroke="#d9d5cb" stroke-width="1" opacity="0.5">
+    <line x1="0" y1="157.5" x2="1200" y2="157.5"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="472.5" x2="1200" y2="472.5"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+  </g>
 
-  <!-- Neural network nodes -->
-  <g fill="#06b6d4" opacity="0.15">
-    <circle cx="150" cy="180" r="40"/>
-    <circle cx="1050" cy="450" r="60"/>
-    <circle cx="950" cy="120" r="30"/>
-    <circle cx="300" cy="500" r="45"/>
-  </g
->
+  <!-- Subtle construction frame -->
+  <g stroke="#c44226" stroke-width="1.5" fill="none" opacity="0.35">
+    <path d="M 80 80 L 80 150 L 150 150"/>
+    <path d="M 1120 80 L 1120 150 L 1050 150"/>
+    <path d="M 80 550 L 80 480 L 150 480"/>
+    <path d="M 1120 550 L 1120 480 L 1050 480"/>
+  </g>
 
-  <!-- Central laptop shape -->
+  <!-- Central laptop -->
   <g transform="translate(600, 315)">
     <!-- Laptop base -->
-    <path d="M -180 80 L -200 120 L 200 120 L 180 80 Z" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-    <!-- Laptop screen -->
-    <rect x="-160" y="-80" width="320" height="160" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
-    <!-- Screen glow -->
-    <rect x="-155" y="-75" width="310" height="150" rx="6" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
-    <!-- Screen content lines -->
-    <g stroke="#06b6d4" stroke-width="2" opacity="0.4" stroke-linecap="round">
-      <line x1="-130" y1="-50" x2="-40" y2="-50"/>
-      <line x1="-130" y1="-30" x2="80" y2="-30"/>
-      <line x1="-130" y1="-10" x2="50" y2="-10"/>
-      <line x1="-130" y1="10" x2="110" y2="10"/>
-      <line x1="-130" y1="30" x2="60" y2="30"/>
-      <line x1="-130" y1="50" x2="-20" y2="50"/>
-    </g
->
+    <path d="M -180 85 L -200 120 L 200 120 L 180 85 Z" fill="#24231f" opacity="0.08"/>
+    <path d="M -180 85 L -200 120 L 200 120 L 180 85 Z" fill="none" stroke="#24231f" stroke-width="1.5"/>
+    <!-- Screen -->
+    <rect x="-170" y="-100" width="340" height="185" rx="10" fill="#fff" stroke="#24231f" stroke-width="2"/>
+    <rect x="-165" y="-95" width="330" height="175" rx="6" fill="none" stroke="#d9d5cb" stroke-width="1"/>
+    <!-- Terminal content -->
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" fill="#24231f">
+      <text x="-145" y="-60">$</text>
+      <text x="-130" y="-60" fill="#c44226">ollama run hermes</text>
+      <text x="-145" y="-35" fill="#6b9b88">pulling manifest...</text>
+      <text x="-145" y="-10" fill="#6b9b88">success</text>
+      <text x="-145" y="30" fill="#24231f">&gt; ready</text>
+      <rect x="-83" y="18" width="8" height="16" fill="#c44226" opacity="0.6"/>
+    </g>
+    <!-- Window controls -->
+    <circle cx="-155" cy="-80" r="4" fill="#c44226"/>
+    <circle cx="-140" cy="-80" r="4" fill="#d9d5cb"/>
+    <circle cx="-125" cy="-80" r="4" fill="#24231f" opacity="0.3"/>
+  </g>
 
-    <!-- Holographic floating elements -->
-    <g opacity="0.8">
-      <!-- Code bracket left -->
-      <g transform="translate(-220, -40)" stroke="#06b6d4" stroke-width="3" fill="none" stroke-linecap="round">
-        <path d="M 0 0 L -15 15 L -15 35 L 0 50"/>
-        <path d="M 40 0 L 55 15 L 55 35 L 40 50"/>
-      </g
->
+  <!-- Stylized Ollama llama -->
+  <g transform="translate(260, 315)">
+    <!-- Body and neck -->
+    <path d="M -55 70 Q -70 40 -55 0 Q -45 -30 -20 -45 Q 0 -55 25 -45 Q 50 -30 60 5 Q 70 40 55 75 Q 40 95 10 95 Q -20 95 -50 80 Q -65 75 -55 70 Z" fill="#fff" stroke="#24231f" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Long neck/hump suggestion -->
+    <path d="M -30 -30 Q -15 -60 15 -70 Q 40 -60 50 -35" fill="none" stroke="#24231f" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Ears -->
+    <path d="M 15 -70 L 5 -105 L 35 -80" fill="#fff" stroke="#24231f" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M 40 -65 L 60 -95 L 55 -60" fill="#fff" stroke="#24231f" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Snout area -->
+    <ellipse cx="35" cy="-25" rx="18" ry="14" fill="#fff" stroke="#24231f" stroke-width="2"/>
+    <circle cx="40" cy="-30" r="3" fill="#24231f"/>
+    <path d="M 25 -15 Q 38 -10 52 -15" fill="none" stroke="#24231f" stroke-width="2" stroke-linecap="round"/>
+    <!-- Blanket / pack -->
+    <path d="M -35 25 Q 0 45 45 20 Q 55 40 40 65 Q 0 85 -40 65 Q -55 45 -35 25 Z" fill="#c44226" opacity="0.12" stroke="#c44226" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M -35 25 Q 0 45 45 20" fill="none" stroke="#c44226" stroke-width="2" stroke-linecap="round"/>
+  </g>
 
-      <!-- Code bracket right -->
-      <g transform="translate(220, 20)" stroke="#06b6d4" stroke-width="3" fill="none" stroke-linecap="round">
-        <path d="M 0 0 L -15 15 L -15 35 L 0 50"/>
-        <path d="M 40 0 L 55 15 L 55 35 L 40 50"/>
-      </g
->
+  <!-- Hermes caduceus -->
+  <g transform="translate(940, 315)">
+    <!-- Staff -->
+    <line x1="0" y1="-85" x2="0" y2="85" stroke="#c44226" stroke-width="4" stroke-linecap="round"/>
+    <!-- Wings -->
+    <path d="M 0 -80 L -45 -105 L -15 -80 L -45 -60 L 0 -55 L 45 -60 L 15 -80 L 45 -105 Z" fill="#fff" stroke="#24231f" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Serpents coiled around staff -->
+    <path d="M -18 55 C -35 35, -25 5, -2 -15 C 18 -35, 25 -55, 5 -70" fill="none" stroke="#24231f" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 18 55 C 35 35, 25 5, 2 -15 C -18 -35, -25 -55, -5 -70" fill="none" stroke="#24231f" stroke-width="3" stroke-linecap="round"/>
+    <!-- Orb at top -->
+    <circle cx="0" cy="-80" r="10" fill="#c44226" stroke="none"/>
+  </g>
 
-      <!-- AI node -->
-      <g transform="translate(-240, 40)">
-        <polygon points="0,-15 13,-8 13,8 0,15 -13,8 -13,-8" fill="#06b6d4" opacity="0.3"/>
-        <circle cx="0" cy="0" r="6" fill="#06b6d4"/>
-      </g
->
+  <!-- Connection dots to laptop -->
+  <g fill="#c44226" opacity="0.6">
+    <circle cx="360" cy="315" r="4"/>
+    <circle cx="840" cy="315" r="4"/>
+  </g>
+  <g stroke="#c44226" stroke-width="1" opacity="0.4" fill="none" stroke-dasharray="4 4">
+    <line x1="360" y1="315" x2="430" y2="315"/>
+    <line x1="840" y1="315" x2="770" y2="315"/>
+  </g>
 
-      <!-- AI node 2 -->
-      <g transform="translate(240, -30)">
-        <polygon points="0,-12 10,-6 10,6 0,12 -10,6 -10,-6" fill="#0e7490" opacity="0.4"/>
-        <circle cx="0" cy="0" r="5" fill="#0e7490"/>
-      </g
->
-
-      <!-- Connection lines -->
-      <g stroke="#06b6d4" stroke-width="1" opacity="0.3" stroke-dasharray="4,4">
-        <line x1="-220" y1="-40" x2="-160" y2="-60"/>
-        <line x1="-240" y1="40" x2="-160" y2="20"/>
-        <line x1="220" y1="20" x2="160" y2="40"/>
-        <line x1="240" y1="-30" x2="160" y2="-50"/>
-      </g
->
-    </g
->
-
-    <!-- Laptop glow -->
-    <ellipse cx="0" cy="120" rx="160" ry="15" fill="#06b6d4" opacity="0.15"/>
-  </g
->
-
-  <!-- Corner accents -->
-  <g stroke="#06b6d4" stroke-width="1.5" opacity="0.2" fill="none">
-    <path d="M 20 20 L 20 60 L 60 60"/>
-    <path d="M 1180 610 L 1180 570 L 1140 570"/>
-  </g
->
+  <!-- Editorial coordinates -->
+  <text x="70" y="65" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#c44226" letter-spacing="0.08em">FIG. 02 — LOCAL FIRST</text>
+  <text x="970" y="595" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#24231f" opacity="0.5" letter-spacing="0.08em">NO API KEYS REQUIRED</text>
 </svg>

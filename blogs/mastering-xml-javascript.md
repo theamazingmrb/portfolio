@@ -1399,7 +1399,7 @@ Offload XML parsing to a background thread using Web Workers to prevent blocking
 // PERFORMANCE OPTIMIZATION: Using Web Workers for non-blocking XML parsing
 // This prevents the UI from freezing when parsing large XML documents
 // main.js - Main thread code
-const worker = new Worker('xml-worker.js');
+const worker = new Worker('xml-worker.js', { type: 'module' });
 
 // Send XML data to worker
 worker.postMessage({ action: 'parse', xmlData: xmlString });
@@ -1415,21 +1415,27 @@ worker.onmessage = function(e) {
 };
 
 // xml-worker.js - Web Worker code
-importScripts('path/to/xml-parser-lib.js'); // Import parser library
+// Native DOMParser is a main-thread browser API and may be undefined in workers.
+// Use a worker-compatible XML library such as fast-xml-parser.
+import { XMLParser } from 'fast-xml-parser';
 
 self.onmessage = function(e) {
   if (e.data.action === 'parse') {
     try {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(e.data.xmlData, 'text/xml');
-      
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix: '',
+        parseAttributeValue: false
+      });
+      const doc = parser.parse(e.data.xmlData);
+
       // Extract relevant data to return (avoid sending the entire DOM)
-      const books = Array.from(xmlDoc.querySelectorAll('book')).map(book => ({
-        title: book.querySelector('title')?.textContent || '',
-        author: book.querySelector('author')?.textContent || '',
-        year: book.querySelector('year')?.textContent || ''
+      const books = (doc.catalog?.book || []).map(book => ({
+        title: book.title || '',
+        author: book.author || '',
+        year: book.year || ''
       }));
-      
+
       self.postMessage({ action: 'parseResult', result: books });
     } catch (error) {
       self.postMessage({ action: 'error', message: error.message });
@@ -1673,8 +1679,8 @@ Offload XML processing to a background thread:
 // In main script
 function processLargeXmlInWorker(xmlString) {
   return new Promise((resolve, reject) => {
-    const worker = new Worker('xml-worker.js');
-    
+    const worker = new Worker('xml-worker.js', { type: 'module' });
+
     worker.onmessage = function(e) {
       if (e.data.error) {
         reject(new Error(e.data.error));
@@ -1683,26 +1689,27 @@ function processLargeXmlInWorker(xmlString) {
       }
       worker.terminate();
     };
-    
+
     worker.onerror = function(error) {
       reject(error);
       worker.terminate();
     };
-    
+
     worker.postMessage({ action: 'process', xml: xmlString });
   });
 }
 
 // In xml-worker.js
+import { XMLParser } from 'fast-xml-parser';
+
 self.onmessage = function(e) {
   if (e.data.action === 'process') {
     try {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(e.data.xml, 'text/xml');
-      
-      // Process the XML document
-      const result = processXmlDocument(xmlDoc);
-      
+      const parser = new XMLParser({ ignoreAttributes: false, parseAttributeValue: false });
+      const doc = parser.parse(e.data.xml);
+
+      const result = processXmlDocument(doc);
+
       // Send the result back to the main thread
       self.postMessage({ result });
     } catch (error) {
@@ -1711,15 +1718,14 @@ self.onmessage = function(e) {
   }
 };
 
-function processXmlDocument(xmlDoc) {
-  // Extract and process data from the XML document
-  const books = xmlDoc.getElementsByTagName('book');
-  return Array.from(books).map(book => ({
-    title: book.querySelector('title')?.textContent || '',
-    author: book.querySelector('author')?.textContent || '',
-    year: book.querySelector('year')?.textContent || '',
+function processXmlDocument(doc) {
+  const books = doc.catalog?.book || [];
+  return Array.isArray(books) ? books.map(book => ({
+    title: book.title || '',
+    author: book.author || '',
+    year: book.year || ''
     // Extract other data as needed
-  }));
+  })) : [];
 }
 ```
 

@@ -176,7 +176,7 @@ function ProductList() {
 // Different query keys = different cache entries
 ['products']              // All products
 ['products', 'featured']  // Only featured products
-['product', 123]          // Product with ID 123
+['products', 'detail', 123]  // Product with ID 123
 ['user', userId]          // User-specific data
 ```
 
@@ -539,22 +539,31 @@ function DeleteProduct({ productId }: { productId: number }) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (id: number) => {
-      return fetch(`/api/products/${id}`, { method: 'DELETE' });
+    mutationFn: async (id: number) => {
+      const response = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error(`Delete failed: ${response.status} ${response.statusText}`);
+      }
+      return response;
     },
 
     // Before mutation runs
     onMutate: async (deletedId) => {
-      // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ['products'] });
+      const listKey = ['products'];
+      const detailKey = ['products', 'detail', deletedId];
+
+      // Cancel any outgoing refetches for the affected queries
+      await queryClient.cancelQueries({ queryKey: listKey });
+      await queryClient.cancelQueries({ queryKey: detailKey });
 
       // Snapshot current data (for rollback)
-      const previousProducts = queryClient.getQueryData(['products']);
+      const previousProducts = queryClient.getQueryData(listKey);
 
-      // Optimistically update UI
-      queryClient.setQueryData(['products'], (old: Product[]) => {
-        return old.filter(product => product.id !== deletedId);
+      // Optimistically update list and remove detail
+      queryClient.setQueryData(listKey, (old: Product[] | undefined) => {
+        return old?.filter(product => product.id !== deletedId) ?? [];
       });
+      queryClient.removeQueries({ queryKey: detailKey });
 
       // Return snapshot for rollback
       return { previousProducts };
@@ -593,9 +602,9 @@ function DeleteProduct({ productId }: { productId: number }) {
 // Invalidate exact match
 queryClient.invalidateQueries({ queryKey: ['products'] });
 
-// Invalidate all product-related queries
+// Invalidate all product-related queries that start with ['products']
 queryClient.invalidateQueries({ queryKey: ['products'], exact: false });
-// Invalidates: ['products'], ['products', 'featured'], ['product', 123]
+// Invalidates: ['products'], ['products', 'featured'], ['products', 'detail', 123]
 
 // Invalidate multiple query keys
 await Promise.all([

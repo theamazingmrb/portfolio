@@ -29,6 +29,7 @@ npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-
 
 **vitest.config.ts:**
 ```typescript
+import { resolve } from 'node:path'
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 

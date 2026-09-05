@@ -217,7 +217,7 @@ function Greeting({ name, onGreet }) {
 
 **Angular Components** are classes with decorators:
 ```typescript
-import { Component, Input, Output, EventEmitter, signal, effect } from '@angular/core';
+import { Component, input, output, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -228,11 +228,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./greeting.component.scss']
 })
 export class GreetingComponent {
-  // Inputs = Props in React
-  @Input() name = signal('');         // Reactive input with Signals
-  
+  // Inputs = Props in React (signal inputs)
+  name = input('');
+
   // Outputs = Event handlers passed as props
-  @Output() greet = new EventEmitter<void>();
+  greet = output<void>();
   
   // Local state (like useState)
   count = signal(0);

@@ -217,19 +217,20 @@ Understanding how types relate to each other is crucial for mastering TypeScript
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                         any & unknown                        │
-│                              ▲                              │
-│                              │                              │
+│                          unknown                             │
+│                              ▲                               │
+│                              │                               │
 ├──────────┬──────────┬────────┼────────┬──────────┬─────────┤
 │          │          │        │        │          │         │
 │  string  │  number  │ boolean│  object│  array   │ function│
 │          │          │        │        │          │         │
 ├──────────┴──────────┴────────┼────────┴──────────┴─────────┤
-│                              │                              │
-│                            null                            │
-│                          undefined                         │
 │                                                            │
-└─────────────────────────────────────────────────────────────┘
+│                   null  ·  undefined                       │
+│                                                            │
+├────────────────────────────────────────────────────────────┤
+│                            never                           │
+└────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
 │                      Type Relationships                      │
@@ -255,9 +256,10 @@ Understanding how types relate to each other is crucial for mastering TypeScript
 
 **Key concepts illustrated:**
 
-- `any` and `unknown` are at the top of the hierarchy (least type-safe)
-- Primitive types form the foundation of the system
-- `null` and `undefined` are special bottom types
+- `unknown` is the type-safe top type: any value can be assigned to it, but it must be narrowed before use
+- `any` is an escape hatch that disables type checking; use it as a last resort
+- `never` is the bottom type: it has no values and is assignable to every other type
+- `null` and `undefined` are literal types with strict-null-check semantics, not the general bottom type
 - Union types combine multiple types
 - Literal types are specific values of a primitive type
 

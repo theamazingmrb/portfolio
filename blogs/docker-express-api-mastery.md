@@ -12,7 +12,7 @@ featured: true
 
 # Docker & Express API Mastery: From REST Fundamentals to Production-Ready Containers
 
-Tired of "it works on my machine" problems? Ready to build APIs that scale and deploy anywhere? Docker and Express are the perfect combination for modern backend development. This comprehensive guide will take you from REST API basics to production-ready containerized services that your team can deploy with confidence.
+Tired of "it works on my machine" problems? Ready to build APIs that scale and deploy anywhere? Docker and Express are the perfect combination for modern backend development. This comprehensive guide will take you from REST API basics to a well-structured, containerized Express service that provides a solid foundation for production. Real deployments require additional hardening, monitoring, and review.
 
 ## 🎯 What You'll Learn
 
@@ -36,7 +36,7 @@ Everything else is optimization and best practices.
 ## 📚 Prerequisites
 
 Before diving in, make sure you have:
-- ✅ Node.js 16+ and npm installed
+- ✅ Node.js 22 LTS or newer and npm installed
 - ✅ Docker Desktop installed and running
 - ✅ Basic JavaScript knowledge (functions, objects, async/await)
 - ✅ Understanding of HTTP methods (GET, POST, PUT, DELETE)
@@ -194,8 +194,8 @@ npm init -y
 Install the essential dependencies:
 
 ```bash
-npm install express mongoose dotenv cors helmet
-npm install --save-dev nodemon eslint jest supertest
+npm install express@5.1.0 mongoose@8.18.0 dotenv@17.2.1 cors@2.8.5 helmet@8.1.0 bcryptjs@3.0.2 jsonwebtoken@9.0.2 express-rate-limit@8.1.0
+npm install --save-dev nodemon@3.1.10 jest@30.0.5 supertest@7.1.4
 ```
 
 Create this folder structure:
@@ -243,7 +243,17 @@ const app = express();
 
 // Middleware
 app.use(helmet()); // Security headers
-app.use(cors()); // Enable CORS
+// Restrict CORS to your known origins in production.
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:3000'];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true
+}));
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
@@ -285,21 +295,17 @@ Create a user route file at `src/routes/userRoutes.js`:
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { protect, authorize } = require('../middleware/auth');
 
-// GET all users
-router.get('/', userController.getAllUsers);
+// Public registration and login
+router.post('/register', userController.registerUser);
+router.post('/login', userController.loginUser);
 
-// GET single user by ID
-router.get('/:id', userController.getUserById);
-
-// POST create new user
-router.post('/', userController.createUser);
-
-// PUT update user
-router.put('/:id', userController.updateUser);
-
-// DELETE user
-router.delete('/:id', userController.deleteUser);
+// Protected admin routes
+router.get('/', protect, authorize('admin'), userController.getAllUsers);
+router.get('/:id', protect, userController.getUserById);
+router.put('/:id', protect, userController.updateUser);
+router.delete('/:id', protect, authorize('admin'), userController.deleteUser);
 
 module.exports = router;
 ```
@@ -307,9 +313,72 @@ module.exports = router;
 Create a controller at `src/controllers/userController.js`:
 
 ```javascript
+const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
-// Get all users
+// Whitelist the fields a client may set during registration/update.
+// `role` is never writable through the API; it is set by an admin out of band.
+const PUBLIC_FIELDS = ['name', 'email', 'password'];
+const UPDATE_FIELDS = ['name', 'email'];
+
+const signToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, {
+  expiresIn: process.env.JWT_EXPIRE || '7d'
+});
+
+// Register a new user (public)
+exports.registerUser = async (req, res, next) => {
+  try {
+    const payload = {};
+    for (const field of PUBLIC_FIELDS) {
+      if (req.body[field] !== undefined) payload[field] = req.body[field];
+    }
+
+    const user = await User.create(payload);
+    const token = signToken(user._id);
+
+    res.status(201).json({
+      success: true,
+      token,
+      data: user,
+      message: 'User registered successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Log in an existing user (public)
+exports.loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 400, message: 'Please provide email and password' }
+      });
+    }
+
+    const user = await User.findOne({ email }).select('+password');
+    if (!user || !(await user.comparePassword(password))) {
+      return res.status(401).json({
+        success: false,
+        error: { code: 401, message: 'Invalid credentials' }
+      });
+    }
+
+    const token = signToken(user._id);
+    res.status(200).json({
+      success: true,
+      token,
+      data: user,
+      message: 'Logged in successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get all users (admin only)
 exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
@@ -326,18 +395,22 @@ exports.getAllUsers = async (req, res, next) => {
 // Get single user by ID
 exports.getUserById = async (req, res, next) => {
   try {
+    if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) {
+      return res.status(403).json({
+        success: false,
+        error: { code: 403, message: 'Not authorized to access this resource' }
+      });
+    }
+
     const user = await User.findById(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
-        error: {
-          code: 404,
-          message: 'User not found'
-        }
+        error: { code: 404, message: 'User not found' }
       });
     }
-    
+
     res.status(200).json({
       success: true,
       data: user
@@ -347,39 +420,34 @@ exports.getUserById = async (req, res, next) => {
   }
 };
 
-// Create new user
-exports.createUser = async (req, res, next) => {
-  try {
-    const user = await User.create(req.body);
-    res.status(201).json({
-      success: true,
-      data: user,
-      message: 'User created successfully'
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 // Update user
 exports.updateUser = async (req, res, next) => {
   try {
+    if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) {
+      return res.status(403).json({
+        success: false,
+        error: { code: 403, message: 'Not authorized to update this resource' }
+      });
+    }
+
+    const payload = {};
+    for (const field of UPDATE_FIELDS) {
+      if (req.body[field] !== undefined) payload[field] = req.body[field];
+    }
+
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      payload,
       { new: true, runValidators: true }
     );
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
-        error: {
-          code: 404,
-          message: 'User not found'
-        }
+        error: { code: 404, message: 'User not found' }
       });
     }
-    
+
     res.status(200).json({
       success: true,
       data: user,
@@ -390,21 +458,18 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
-// Delete user
+// Delete user (admin only via routes, kept explicit here)
 exports.deleteUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
-        error: {
-          code: 404,
-          message: 'User not found'
-        }
+        error: { code: 404, message: 'User not found' }
       });
     }
-    
+
     res.status(200).json({
       success: true,
       data: {},
@@ -422,6 +487,11 @@ Create a user model at `src/models/userModel.js`:
 
 ```javascript
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+const SALT_ROUNDS = 12;
+const MIN_PASSWORD_LENGTH = 12;
+const MAX_PASSWORD_LENGTH = 72; // bcrypt truncates at 72 bytes
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -446,7 +516,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters'],
+    minlength: [MIN_PASSWORD_LENGTH, `Password must be at least ${MIN_PASSWORD_LENGTH} characters`],
+    maxlength: [MAX_PASSWORD_LENGTH, `Password must not exceed ${MAX_PASSWORD_LENGTH} characters`],
     select: false // Don't return password in queries
   },
   createdAt: {
@@ -454,6 +525,23 @@ const userSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+userSchema.pre('save', async function hashPassword(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+  next();
+});
+
+userSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+userSchema.methods.toJSON = function toJSON() {
+  const obj = this.toObject();
+  delete obj.password;
+  delete obj.__v;
+  return obj;
+};
 
 module.exports = mongoose.model('User', userSchema);
 ```
@@ -492,7 +580,7 @@ To understand Docker's value, let's compare traditional deployment methods with 
 
 1. **Consistent Environment**: The same container runs identically in development, testing, and production, eliminating "works on my machine" problems. This means no more surprises when deploying to production.
 
-2. **Isolation**: Each service runs in its own container with its own dependencies, preventing conflicts. For example, you can run one service that needs Node.js 14 and another that requires Node.js 16 on the same host without issues.
+2. **Isolation**: Each service runs in its own container with its own dependencies, preventing conflicts. For example, you can run one service that needs Node.js 22 and another that requires Node.js 24 on the same host without issues.
 
 3. **Scalability**: When traffic increases, you can easily spin up more containers to handle the load. This horizontal scaling is much more efficient than scaling entire virtual machines.
 
@@ -523,10 +611,10 @@ A Dockerfile is a text document that contains all the commands needed to build a
 
 ```dockerfile
 # Base image - We start with a lightweight Alpine Linux with Node.js pre-installed
-# WHY: Alpine is much smaller than standard Linux images (100MB vs 1GB+), 
-# making our final image download and start faster. Node 16 is chosen for 
-# its stability and performance with modern JavaScript features.
-FROM node:16-alpine
+# WHY: Alpine is much smaller than standard Linux images (100MB vs 1GB+),
+# making our final image download and start faster. Node 24 LTS is chosen for
+# its stability, security updates, and modern JavaScript features.
+FROM node:24-alpine
 
 # Set working directory - Creates and switches to /app directory inside container
 # WHY: This keeps our container organized and prevents conflicts with system files.
@@ -540,18 +628,17 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-# WHY: We run this as a separate step from copying the source code so that 
-# dependencies are cached. This means if you only change your source code 
-# (not dependencies), npm install won't run again, saving build time.
-RUN npm install
+# WHY: npm ci is deterministic and faster for CI/CD. When NODE_ENV=production,
+# development dependencies are not installed, keeping the image smaller.
+ENV NODE_ENV=production
+RUN npm ci
 
 # Copy app source - Now we copy the rest of the application code
-# WHY: We copy this AFTER installing dependencies to leverage Docker's layer 
+# WHY: We copy this AFTER installing dependencies to leverage Docker's layer
 # caching. This way, changing your source code doesn't invalidate the dependency cache.
 COPY . .
 
 # Set environment variables
-ENV NODE_ENV=production
 ENV PORT=3000
 
 # Expose port - Documents that the container listens on port 3000
@@ -681,7 +768,7 @@ services:
   # MongoDB service configuration
   mongo:
     # WHY: Using official MongoDB image saves us from having to configure MongoDB ourselves
-    image: mongo:5.0
+    image: mongo:8.0
     
     # Port mapping - makes MongoDB accessible from host for debugging
     ports:
@@ -751,7 +838,7 @@ services:
     # Remove development-specific volumes and use production command
 
   mongo:
-    image: mongo:5.0
+    image: mongo:8.0
     volumes:
       - mongo-prod-data:/data/db
     # Add authentication and other security measures for production
@@ -772,7 +859,7 @@ docker-compose -f docker-compose.prod.yml up -d
 Create a development Dockerfile (`Dockerfile.dev`):
 
 ```dockerfile
-FROM node:16-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
@@ -819,37 +906,66 @@ afterAll(async () => {
 });
 
 describe('User API', () => {
-  // Test creating a user
-  it('should create a new user', async () => {
+  // Test registering a user
+  it('should register a new user', async () => {
     const userData = {
       name: 'Test User',
       email: 'test@example.com',
-      password: 'password123'
+      password: 'Str0ng!Password99'
     };
 
     const response = await request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(userData);
 
     expect(response.statusCode).toBe(201);
     expect(response.body.success).toBe(true);
     expect(response.body.data.name).toBe(userData.name);
     expect(response.body.data.email).toBe(userData.email);
+    expect(response.body.token).toBeDefined();
   });
 
-  // Test getting all users
-  it('should get all users', async () => {
-    // Create test users
-    await User.create([
-      { name: 'User 1', email: 'user1@example.com', password: 'password123' },
-      { name: 'User 2', email: 'user2@example.com', password: 'password123' }
-    ]);
+  // Test logging in
+  it('should log in an existing user', async () => {
+    const userData = {
+      name: 'Test User',
+      email: 'test@example.com',
+      password: 'Str0ng!Password99'
+    };
+    await User.create(userData);
 
-    const response = await request(app).get('/api/users');
+    const response = await request(app)
+      .post('/api/users/login')
+      .send({ email: userData.email, password: userData.password });
 
     expect(response.statusCode).toBe(200);
     expect(response.body.success).toBe(true);
-    expect(response.body.data.length).toBe(2);
+    expect(response.body.token).toBeDefined();
+  });
+
+  // Test getting all users as admin
+  it('should get all users when authenticated as admin', async () => {
+    // Create an admin user directly so the role is set
+    const admin = await User.create({
+      name: 'Admin User',
+      email: 'admin@example.com',
+      password: 'Str0ng!Password99',
+      role: 'admin'
+    });
+
+    const login = await request(app)
+      .post('/api/users/login')
+      .send({ email: admin.email, password: 'Str0ng!Password99' });
+
+    const token = login.body.token;
+
+    const response = await request(app)
+      .get('/api/users')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.length).toBe(1);
   });
 });
 ```
@@ -874,7 +990,7 @@ services:
     command: npm test
 
   mongo-test:
-    image: mongo:5.0
+    image: mongo:8.0
     ports:
       - "27018:27017"
 ```
@@ -882,7 +998,7 @@ services:
 Create a test Dockerfile (`Dockerfile.test`):
 
 ```dockerfile
-FROM node:16-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
@@ -938,9 +1054,16 @@ exports.protect = async (req, res, next) => {
   try {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Attach user to request
-    req.user = await User.findById(decoded.id);
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return res.status(401).json({
+        success: false,
+        error: { code: 401, message: 'User no longer exists' }
+      });
+    }
+    req.user = currentUser;
     next();
   } catch (error) {
     return res.status(401).json({
@@ -1002,21 +1125,26 @@ Create an optimized production Dockerfile:
 
 ```dockerfile
 # Build stage
-FROM node:16-alpine AS builder
+FROM node:24-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
 
 # Production stage
-FROM node:16-alpine
+FROM node:24-alpine
 WORKDIR /app
 COPY --from=builder /app/package*.json ./
-RUN npm ci --only=production
+ENV NODE_ENV=production
+RUN npm ci --omit=dev
 COPY --from=builder /app ./
 
+# Run as a non-root user for better security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+USER nodejs
+
 # Set environment variables
-ENV NODE_ENV=production
 ENV PORT=3000
 
 # Expose port
@@ -1054,7 +1182,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo:5.0
+    image: mongo:8.0
     volumes:
       - mongo-data:/data/db
     deploy:
@@ -1072,7 +1200,7 @@ volumes:
 
 ## Conclusion
 
-Congratulations! You've learned how to build a production-ready Express API with Docker. You now have the skills to:
+Congratulations! You've learned how to build a solid foundation for a production Express API with Docker. You now have the skills to:
 
 - Design RESTful APIs with proper resource naming and HTTP methods
 - Implement a structured Express.js application with controllers and models

@@ -16,7 +16,7 @@ Most developers call an API and call it AI. Here's how to build something better
 
 When people hear "train a chatbot on my data" they picture fine-tuning — feeding your articles into a model and retraining its weights. That's expensive, slow, and overkill for a portfolio bot.
 
-What we're building instead is **RAG**: Retrieval-Augmented Generation. You take your content, split it into chunks, generate embeddings for each chunk, and store them. When someone asks a question, you find the most relevant chunks and hand them to the model as context. The model answers using your actual words.
+What we're building instead is **RAG**: Retrieval-Augmented Generation. You take your content, split it into chunks, generate embeddings for each chunk, and store them. When someone asks a question, you find the most relevant chunks and hand them to the model as context. The model is more likely to stay grounded in your content, but it can still hallucinate or misinterpret retrieved chunks. RAG reduces unsupported answers; it does not eliminate them.
 
 The twist: **everything runs on a DigitalOcean Basic Droplet** ($6/month). Ollama handles both embeddings and chat generation locally. No OpenAI keys. No usage limits. No free-tier anxiety.
 
@@ -90,7 +90,7 @@ ollama list
 This is where it gets specific to your site. My portfolio is a Next.js project with:
 
 - Blog posts in `/blogs/*.md`
-- Project data in `/data/projects.ts`
+- Project data in `/lib/projects.ts`
 - Work history in `/data/experience.ts`
 - An about page at `/app/about/page.tsx`
 
@@ -105,17 +105,26 @@ The script does three things:
 Here's the chunking logic:
 
 ```python
+import re
+
+
 def chunk_text(text, source, chunk_size=800, overlap=100):
+    if not isinstance(text, str):
+        raise ValueError("text must be a string")
+    if not isinstance(chunk_size, int) or chunk_size <= overlap:
+        raise ValueError("chunk_size must be an integer greater than overlap")
+    if not isinstance(overlap, int) or overlap < 0:
+        raise ValueError("overlap must be a non-negative integer")
+
     normalized = re.sub(r"\s+", " ", text).strip()
+    if not normalized:
+        return []
+
     chunks = []
     start = 0
 
     while start < len(normalized):
         end = min(start + chunk_size, len(normalized))
-
-        if end == len(normalized):
-            chunks.append(normalized[start:].strip())
-            break
 
         # Prefer sentence boundaries, fall back to word boundaries
         search_start = max(start + chunk_size - 80, start)
@@ -126,12 +135,19 @@ def chunk_text(text, source, chunk_size=800, overlap=100):
             word_match = normalized.rfind(" ", search_start, end)
             break_point = word_match if word_match > search_start else end
 
+        # Always return the remainder as a record, even if it is short
+        if break_point <= start:
+            break_point = end
+
         chunk = normalized[start:break_point].strip()
-        if len(chunk) > 30:
+        if chunk:
             chunks.append({"id": f"{source}-{len(chunks)}", "text": chunk, "source": source})
 
+        if break_point >= len(normalized):
+            break
+
         start = break_point - overlap
-        if start >= break_point or start <= 0:
+        if start <= 0 or start >= break_point:
             start = break_point
 
     return chunks
@@ -139,7 +155,7 @@ def chunk_text(text, source, chunk_size=800, overlap=100):
 
 Sentence-aware chunking matters. If you slice mid-sentence, the embedding loses semantic coherence. A chunk that starts with "and the database..." won't match a query about your backend architecture.
 
-The full script lives at `scripts/build-chatbot-index.py` in the repo. Running it on the VPS:
+Save the script as `scripts/build-chatbot-index.py` and run it on the VPS:
 
 ```bash
 python3 scripts/build-chatbot-index.py
@@ -281,7 +297,7 @@ Here's what a real query looks like on the deployed VPS:
 
 **Sources:** `experience/general-assembly` (score: 0.553)
 
-The bot quotes from the actual experience data. It doesn't hallucinate job titles or invent technologies. That's the point of RAG — the model speaks with your voice because it has your words in context.
+The bot quotes from the actual experience data. RAG makes it less likely to hallucinate job titles or invent technologies, but it is not a guarantee. Verify important answers against the original sources.
 
 Page-aware context in action:
 
@@ -328,6 +344,8 @@ systemctl status ollama
 
 ## Performance
 
+These numbers are from my own testing on a DigitalOcean Basic Droplet and will vary with model quantization, system load, and concurrent visitors.
+
 On a DigitalOcean Basic Droplet ($6/month, 1 vCPU, 1GB RAM):
 - **Embedding query:** ~200ms (nomic-embed-text is tiny)
 - **Chat generation:** 6-10 seconds (llama3.2 3B — can swap with 1GB RAM)
@@ -335,9 +353,9 @@ On a DigitalOcean Basic Droplet ($6/month, 1 vCPU, 1GB RAM):
 
 That's acceptable for a portfolio bot. It's a conversation starter, not a production service.
 
-**Upgrade to $12/month (2GB RAM)** if you want faster responses:
-- Chat generation drops to 3-5 seconds
-- No swapping during model loading
+**Upgrade to $12/month (2GB RAM)** if you want faster, more stable responses:
+- Chat generation typically drops to 3-5 seconds in my tests
+- Less swapping during model loading
 - More headroom for concurrent visitors
 
 ## Updating Content
@@ -366,7 +384,7 @@ The shipped version already includes conversation history, source links, rate li
 
 A portfolio chatbot isn't impressive because it's hard. It's impressive because most developers haven't built one.
 
-You wrote the embedding pipeline. You chose the right model for the job. You built the retrieval logic. You wired it to a frontend. You deployed it on a $5 VPS with no external AI dependencies.
+You wrote the embedding pipeline. You chose the right model for the job. You built the retrieval logic. You wired it to a frontend. You deployed it on a $6 VPS with no external AI dependencies.
 
 When someone asks about this in an interview, you can walk them through every line — because you wrote every line.
 

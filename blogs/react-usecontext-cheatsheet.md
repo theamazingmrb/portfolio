@@ -260,11 +260,17 @@ interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
+type ThemeMode = 'light' | 'dark';
+
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState({
+  const [theme, setTheme] = useState<{
+    primary: string;
+    secondary: string;
+    mode: ThemeMode;
+  }>({
     primary: '#007bff',
     secondary: '#6c757d',
-    mode: 'light' as const
+    mode: 'light'
   });
 
   const toggleMode = useCallback(() => {

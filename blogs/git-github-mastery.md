@@ -1177,12 +1177,15 @@ git mergetool
 The nuclear option (when things get too messy):
 
 ```bash
-# Sometimes it's easier to start over
+# Before rewriting history, make sure you really need to.
+# Safer: create a backup branch first, then reset locally.
 git checkout feature/my-feature
-git reset --hard origin/main    # ⚠️ This loses your changes!
+git branch backup/feature/my-feature-before-reset
+git reset --hard origin/main    # ⚠️ DESTRUCTIVE: this discards all uncommitted and branch-local changes!
 
 # Then re-apply your changes manually
 # Only do this if you have small, simple changes
+# Never use --hard on a branch you have already pushed to a shared remote
 ```
 
 ## Advanced Team Workflows
@@ -1276,23 +1279,23 @@ git log --oneline -3
 # def456 Previous commit
 # ghi789 Even older commit
 
-# Solution: Move the commit to the right branch
+# Solution: Move the commit to the right branch (only if main is local-only)
 git checkout feature/my-feature
 git cherry-pick abc123           # Copy the commit here
-git checkout main  
-git reset --hard def456          # Remove it from main
+git checkout main
+git reset --hard def456          # ⚠️ DESTRUCTIVE: only safe on local, unpushed main
 ```
 
 "I need to undo my last commit!"
 
 ```bash
-# If you haven't pushed yet:
-git reset --soft HEAD~1          # Undo commit, keep changes staged
-git reset --mixed HEAD~1         # Undo commit, unstage changes  
-git reset --hard HEAD~1          # ⚠️ Undo commit, lose changes completely
+# If you haven't pushed yet (local-only history — safe to rewrite):
+git reset --soft HEAD~1          # Undo commit, keep changes staged (safest)
+git reset --mixed HEAD~1         # Undo commit, unstage changes
+git reset --hard HEAD~1          # ⚠️ DESTRUCTIVE: undo commit and permanently discard changes
 
-# If you already pushed:
-git revert HEAD                  # Create new commit that undoes the last one
+# If you already pushed (shared history — do not rewrite):
+git revert HEAD                  # Create a new commit that undoes the last one (safe for shared branches)
 ```
 
 "I accidentally deleted a file!"
@@ -1309,13 +1312,15 @@ git checkout abc123 -- deleted-file.js         # Restore from that commit
 "My branch is messed up, I want to start over!"
 
 ```bash
-# Reset your branch to match main exactly
+# Reset your branch to match main exactly (local-only)
 git checkout feature/my-branch
 git fetch origin
-git reset --hard origin/main
+git branch backup/feature/my-branch-before-reset
+git reset --hard origin/main  # ⚠️ DESTRUCTIVE: discards all local work on this branch
 
 # Then re-apply your changes manually
 # This is often faster than trying to fix complex conflicts
+# Only do this on branches that have not been pushed to a shared remote
 ```
 
 ### Advanced Recovery Techniques
@@ -1591,7 +1596,7 @@ git commit                      # Complete the merge
 ```bash
 git stash                       # Save work temporarily
 git stash pop                   # Restore stashed work
-git reset --hard HEAD~1         # Undo last commit (⚠️ destructive)
+git reset --hard HEAD~1         # ⚠️ DESTRUCTIVE: only use on local, unpushed commits
 git reflog                      # See all recent actions
 ```
 

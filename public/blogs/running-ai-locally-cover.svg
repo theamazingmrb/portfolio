@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Subtle circuit board pattern -->
+  <g stroke="#1e293b" stroke-width="1" fill="none">
+    <path d="M 0 100 L 200 100 L 250 150 L 400 150"/>
+    <path d="M 0 250 L 100 250 L 150 200 L 350 200 L 400 250 L 600 250"/>
+    <path d="M 1200 400 L 1000 400 L 950 350 L 750 350"/>
+    <path d="M 1200 150 L 1100 150 L 1050 100 L 850 100"/>
+    <circle cx="200" cy="100" r="3" fill="#1e293b"/>
+    <circle cx="400" cy="150" r="3" fill="#1e293b"/>
+    <circle cx="250" cy="150" r="3" fill="#1e293b"/>
+    <circle cx="400" cy="250" r="3" fill="#1e293b"/>
+    <circle cx="600" cy="250" r="3" fill="#1e293b"/>
+    <circle cx="950" cy="350" r="3" fill="#1e293b"/>
+    <circle cx="750" cy="350" r="3" fill="#1e293b"/>
+    <circle cx="1050" cy="100" r="3" fill="#1e293b"/>
+    <circle cx="850" cy="100" r="3" fill="#1e293b"/>
+  </g
+>
+
+  <!-- Neural network nodes -->
+  <g fill="#06b6d4" opacity="0.15">
+    <circle cx="150" cy="180" r="40"/>
+    <circle cx="1050" cy="450" r="60"/>
+    <circle cx="950" cy="120" r="30"/>
+    <circle cx="300" cy="500" r="45"/>
+  </g
+>
+
+  <!-- Central laptop shape -->
+  <g transform="translate(600, 315)">
+    <!-- Laptop base -->
+    <path d="M -180 80 L -200 120 L 200 120 L 180 80 Z" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+    <!-- Laptop screen -->
+    <rect x="-160" y="-80" width="320" height="160" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Screen glow -->
+    <rect x="-155" y="-75" width="310" height="150" rx="6" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.5"/>
+    <!-- Screen content lines -->
+    <g stroke="#06b6d4" stroke-width="2" opacity="0.4" stroke-linecap="round">
+      <line x1="-130" y1="-50" x2="-40" y2="-50"/>
+      <line x1="-130" y1="-30" x2="80" y2="-30"/>
+      <line x1="-130" y1="-10" x2="50" y2="-10"/>
+      <line x1="-130" y1="10" x2="110" y2="10"/>
+      <line x1="-130" y1="30" x2="60" y2="30"/>
+      <line x1="-130" y1="50" x2="-20" y2="50"/>
+    </g
+>
+
+    <!-- Holographic floating elements -->
+    <g opacity="0.8">
+      <!-- Code bracket left -->
+      <g transform="translate(-220, -40)" stroke="#06b6d4" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M 0 0 L -15 15 L -15 35 L 0 50"/>
+        <path d="M 40 0 L 55 15 L 55 35 L 40 50"/>
+      </g
+>
+
+      <!-- Code bracket right -->
+      <g transform="translate(220, 20)" stroke="#06b6d4" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M 0 0 L -15 15 L -15 35 L 0 50"/>
+        <path d="M 40 0 L 55 15 L 55 35 L 40 50"/>
+      </g
+>
+
+      <!-- AI node -->
+      <g transform="translate(-240, 40)">
+        <polygon points="0,-15 13,-8 13,8 0,15 -13,8 -13,-8" fill="#06b6d4" opacity="0.3"/>
+        <circle cx="0" cy="0" r="6" fill="#06b6d4"/>
+      </g
+>
+
+      <!-- AI node 2 -->
+      <g transform="translate(240, -30)">
+        <polygon points="0,-12 10,-6 10,6 0,12 -10,6 -10,-6" fill="#0e7490" opacity="0.4"/>
+        <circle cx="0" cy="0" r="5" fill="#0e7490"/>
+      </g
+>
+
+      <!-- Connection lines -->
+      <g stroke="#06b6d4" stroke-width="1" opacity="0.3" stroke-dasharray="4,4">
+        <line x1="-220" y1="-40" x2="-160" y2="-60"/>
+        <line x1="-240" y1="40" x2="-160" y2="20"/>
+        <line x1="220" y1="20" x2="160" y2="40"/>
+        <line x1="240" y1="-30" x2="160" y2="-50"/>
+      </g
+>
+    </g
+>
+
+    <!-- Laptop glow -->
+    <ellipse cx="0" cy="120" rx="160" ry="15" fill="#06b6d4" opacity="0.15"/>
+  </g
+>
+
+  <!-- Corner accents -->
+  <g stroke="#06b6d4" stroke-width="1.5" opacity="0.2" fill="none">
+    <path d="M 20 20 L 20 60 L 60 60"/>
+    <path d="M 1180 610 L 1180 570 L 1140 570"/>
+  </g
+>
+</svg>

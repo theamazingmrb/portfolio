@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import "./editorial.css";
 import "./code-blocks.css";
 import SkipToMain from "@/components/SkipToMain";
 import BackToTop from "@/components/BackToTop";

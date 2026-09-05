@@ -1,192 +1,109 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowUpRight, Asterisk } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ProjectCarousel } from "@/components/ProjectCarousel";
 import HeroSection from "@/components/sections/HeroSection";
-import SkillsSection from "@/components/sections/SkillsSection";
-import ImpactSection from "@/components/sections/ImpactSection";
+import EditorialProjectCard from "@/components/EditorialProjectCard";
 import { getSortedPostsData } from "@/lib/posts";
+import { projects } from "@/lib/projects";
 
-export default async function Home() {
-  const articlesCount = getSortedPostsData().length;
+export default function Home() {
+  const posts = getSortedPostsData();
+  const featuredPost = posts[0];
+  const projectById = (id: string, index: number) => {
+    const project = projects.find(project => project.id === id);
+    return project ? <EditorialProjectCard project={project} index={index} /> : null;
+  };
+  const archiveProject = (id: string) => {
+    const project = projects.find(project => project.id === id);
+    return project ? <Link href={`/projects/${id}`} className="archive-link"><span>{project.title}</span><span>{project.techStack.slice(0, 2).join(" / ")}</span><ArrowUpRight size={18} aria-hidden="true" /></Link> : null;
+  };
+
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="studio-home min-h-screen bg-background text-foreground">
       <Navbar />
       <HeroSection />
 
+      <div className="experience-strip studio-container">
+        <span className="eyebrow">A few places I’ve<br />made an impact</span>
+        <span className="company-wordmark">airbnb</span>
+        <span className="company-wordmark company-investcloud">InvestCloud</span>
+        <span className="company-wordmark company-ga">General Assembly</span>
+        <span className="company-wordmark company-bbdo">BBDO</span>
+      </div>
+
       {/* Projects Carousel */}
-      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary/50">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">Featured Projects</h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">Innovative solutions built with modern technologies</p>
-          </div>
-          <ProjectCarousel className="mb-8 sm:mb-12 md:mb-16">
-            {/* That Aisle - Featured Hero */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-blue-500/20 hover:border-blue-500/40 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/10 dark:to-purple-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/that_aisle/TA_App Screens_6.5 Display_Frame_1.png" alt="That Aisle" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute top-2 right-2 flex gap-1 sm:gap-2">
-                      <Badge className="bg-green-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">Client</Badge>
-                      <Badge className="bg-blue-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">App Store</Badge>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-blue-600 dark:text-blue-400">That Aisle Platform</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">Complete platform solution with React Native mobile app and React admin portal for hair product discovery and community engagement.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["React Native", "React", "Firebase", "Admin Portal"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Button asChild className="flex-1 text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/thataisle">View Project</Link></Button>
-                    <Button variant="outline" size="sm" asChild className="text-xs sm:text-sm h-9 sm:h-10">
-                      <Link href="https://apps.apple.com/ca/app/that-aisle/id6504048646" target="_blank" rel="noopener noreferrer">App Store</Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Daily Wick */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-purple-500/20 hover:border-purple-500/40 bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/10 dark:to-pink-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/daily-wick.png" alt="Daily Wick" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-purple-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">Featured</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-purple-600 dark:text-purple-400">Daily Wick</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">AI trading journal for prop traders that logs trades, spots patterns, and coaches you with personalized insights — not generic advice.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["Next.js", "TypeScript", "Supabase", "AI Coach"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/daily-wick">View Project</Link></Button>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Baby Tracker */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-green-500/20 hover:border-green-500/40 bg-gradient-to-br from-green-50/50 to-blue-50/50 dark:from-green-950/10 dark:to-blue-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/baby-tracker.png" alt="Baby Tracker" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-green-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">Privacy-First</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-green-600 dark:text-green-400">Baby Tracker</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">Privacy-first baby tracking app for parents with secure data storage and offline functionality.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["React Native", "TypeScript", "Secure Storage", "Offline"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/baby-tracker">View Project</Link></Button>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Simmr */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-pink-500/20 hover:border-pink-500/40 bg-gradient-to-br from-pink-50/50 to-purple-50/50 dark:from-pink-950/10 dark:to-purple-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/simmr-about.png" alt="Simmr" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-pink-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">Social Platform</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-pink-600 dark:text-pink-400">Simmr</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">Privacy-first social discovery platform for non-monogamous and polyamorous communities with real-time features.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["React", "TypeScript", "Next.js", "GraphQL"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/simmr">View Project</Link></Button>
-                </CardContent>
-              </Card>
-            </div>
-
+      <section id="work" className="studio-section studio-container" aria-labelledby="work-title">
+        <div className="section-heading">
+          <div><span className="eyebrow section-kicker">01 / Selected work</span><h2 id="work-title">Ideas made <span className="serif-word">real.</span></h2></div>
+          <Link href="/projects" className="text-link">All projects <span className="link-count">{projects.length}</span><ArrowUpRight size={18} aria-hidden="true" /></Link>
+        </div>
+        <div className="editorial-project-grid">
+          {/* That Aisle - Featured Hero */}
+          {projectById("thataisle", 0)}
+          {/* Daily Wick */}
+          {projectById("daily-wick", 1)}
+          {/* Baby Tracker */}
+          {projectById("baby-tracker", 2)}
+          {/* Simmr */}
+          {projectById("simmr", 3)}
+        </div>
+        <div className="project-archive">
+          <span className="eyebrow">More from the archive</span>
+          <div>
             {/* TOLO */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-orange-500/20 hover:border-orange-500/40 bg-gradient-to-br from-orange-50/50 to-red-50/50 dark:from-orange-950/10 dark:to-red-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/tolo-preview.png" alt="TOLO" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-orange-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">Venture</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-orange-600 dark:text-orange-400">TOLO</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">Content discovery platform helping underground artists get discovered through fair algorithm-based ranking.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["React Native", "TypeScript", "Supabase", "Segment"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/tolo">View Project</Link></Button>
-                </CardContent>
-              </Card>
-            </div>
-
+            {archiveProject("tolo")}
             {/* AMIR BLAQ */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-gray-500/20 hover:border-gray-500/40 bg-gradient-to-br from-gray-50/50 to-slate-50/50 dark:from-gray-950/10 dark:to-slate-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/amir-b-preview.png" alt="AMIR BLAQ" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-gray-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">E-commerce</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-gray-600 dark:text-gray-400">AMIR BLAQ</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">Luxury fashion e-commerce platform with Next.js frontend and Django admin portal for content management.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["Next.js", "Django", "PostgreSQL", "AWS"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/amirblaq">View Project</Link></Button>
-                </CardContent>
-              </Card>
-            </div>
-
+            {archiveProject("amirblaq")}
             {/* Love & Service 1st */}
-            <div className="flex-shrink-0 w-full max-w-[500px] px-2">
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-2 border-blue-500/20 hover:border-blue-500/40 bg-gradient-to-br from-blue-50/50 to-green-50/50 dark:from-blue-950/10 dark:to-green-950/10">
-                <CardHeader className="pb-3 sm:pb-4">
-                  <div className="relative">
-                    <Image src="/projects/love-and-service-first.png" alt="Love & Service 1st" width={400} height={250} className="w-full h-40 sm:h-48 object-cover rounded-t-lg transition-transform duration-500 group-hover:scale-105" />
-                    <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-blue-600 text-white shadow-lg text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">Nonprofit</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-3 sm:pt-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-blue-600 dark:text-blue-400">Love & Service 1st</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none">Professional nonprofit landing page with community resources and mission-driven content sections.</CardDescription>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4 md:mb-6">
-                    {["Next.js", "Tailwind CSS", "Responsive"].map((tech) => <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1">{tech}</Badge>)}
-                  </div>
-                  <Button asChild className="w-full text-xs sm:text-sm h-9 sm:h-10"><Link href="/projects/love-service">View Project</Link></Button>
-                </CardContent>
-              </Card>
-            </div>
-          </ProjectCarousel>
-
-          <div className="text-center">
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/projects">View All Projects</Link>
-            </Button>
+            {archiveProject("love-service")}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      <SkillsSection />
-      <ImpactSection articlesCount={articlesCount} />
+      <section id="writing" className="writing-section" aria-labelledby="writing-title">
+        <div className="studio-container studio-section">
+          <div className="section-heading">
+            <div><span className="eyebrow section-kicker">02 / Field notes</span><h2 id="writing-title">Learn. Build. <span className="serif-word">Share.</span></h2></div>
+            <Link href="/blog" className="text-link">All writing <span className="link-count">{posts.length}</span><ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </div>
+          <p className="section-description">Notes from the workbench. Practical guides, honest lessons, and the things I’m figuring out along the way.</p>
+          {featuredPost && (
+            <div className="writing-layout">
+              <Link href={`/blog/${featuredPost.id}`} className="featured-writing">
+                <div className="writing-cover"><Image src={featuredPost.coverImage || "/blog-images/default-cover.svg"} alt="" fill sizes="(max-width: 767px) 90vw, 45vw" /><span className="latest-label">Latest dispatch</span></div>
+                <div className="featured-writing-copy">
+                  <div className="eyebrow article-meta"><span>{featuredPost.tags?.[0] || featuredPost.category}</span><span>{featuredPost.readingTime} min read</span></div>
+                  <h3>{featuredPost.title}</h3>
+                  <span className="text-link">Read the story <ArrowUpRight size={18} aria-hidden="true" /></span>
+                </div>
+              </Link>
+              <div className="writing-list">
+                {posts.slice(1, 4).map((post, index) => (
+                  <Link key={post.id} href={`/blog/${post.id}`} className="writing-row">
+                    <span className="writing-index">0{index + 1}</span>
+                    <div><span className="eyebrow">{post.tags?.[0] || post.category} / {post.readingTime} min read</span><h3>{post.title}</h3><time dateTime={post.date}>{new Date(post.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}</time></div>
+                    <ArrowUpRight size={21} aria-hidden="true" />
+                  </Link>
+                ))}
+                <div className="writing-footnote"><Asterisk size={23} aria-hidden="true" /><p>Good knowledge is better shared.<br />Always learning, always passing it on.</p></div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
 
+      <section className="studio-section studio-container about-preview" aria-labelledby="about-title">
+        <div className="about-portrait"><Image src="/me.png" alt="Billie Heidelberg" fill sizes="(max-width: 767px) 90vw, 30vw" /><span className="portrait-label">The human behind the code.</span></div>
+        <div className="about-copy">
+          <span className="eyebrow section-kicker">03 / A little about me</span>
+          <h2 id="about-title">Builder’s mindset.<br /><span className="serif-word">Teacher’s heart.</span></h2>
+          <p>I care about what happens on the other side of the screen. Whether I’m building a product, untangling a system, or helping a developer find their footing, the goal is the same: make something genuinely useful.</p>
+          <div className="about-stats"><div><strong>8+</strong><span>years of building</span></div><div><strong>100+</strong><span>developers taught</span></div><div><strong>Full stack.</strong><span>from idea to production</span></div></div>
+          <Link href="/about" className="text-link">A bit more about me <ArrowUpRight size={18} aria-hidden="true" /></Link>
+        </div>
+      </section>
       <Footer />
     </main>
   );

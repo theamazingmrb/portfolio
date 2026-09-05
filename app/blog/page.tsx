@@ -153,26 +153,14 @@ export default function Blog() {
       <Navbar />
 
       {/* Hero Section */}
-      <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-20 bg-secondary/30 pt-20 sm:pt-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="mb-4 sm:mb-6">
-              <Badge variant="secondary" className="text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2">
-                📝 Technical Blog
-              </Badge>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
-              Insights & Experiences
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
-              Deep dives into full-stack development, trading technology, team leadership, and lessons learned building scalable applications
-            </p>
-          </div>
-        </div>
-      </AnimatedSection>
+      <section className="editorial-page-header studio-container">
+        <span className="eyebrow section-kicker">The notebook / Ideas worth sharing</span>
+        <h1>From the<br /><span className="serif-word">workbench.</span></h1>
+        <p>Things I’ve built, lessons I’ve learned, and ideas I’m still exploring. Practical notes on engineering, technology, and being human.</p>
+      </section>
 
       {/* What You'll Find Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
+      <AnimatedSection animationType="fadeInUp" className="notebook-intro studio-container">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
@@ -234,15 +222,10 @@ export default function Blog() {
       {featuredPost && (
         <AnimatedSection
           animationType="fadeInUp"
-          className="py-16 md:py-24 bg-secondary/50"
+          className="studio-container notebook-feature-section"
         >
-          <div className="container mx-auto px-4 max-w-7xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Featured Article
-              </h2>
-              <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
-            </div>
+          <div>
+            <div className="eyebrow section-kicker">Start here / Featured story</div>
 
             <FeaturedPostCard
               id={featuredPost.id}
@@ -258,9 +241,9 @@ export default function Blog() {
       )}
 
       {/* All Posts Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
+      <AnimatedSection id="articles" animationType="fadeInUp" className="notebook-articles studio-section">
+        <div className="studio-container">
+          <div>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 sm:mb-12 md:mb-16">
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">All Articles</h2>
@@ -530,25 +513,14 @@ export default function Blog() {
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                   </svg>
                 </div>
-                <CardTitle className="text-xl mb-2">Stay in the Loop</CardTitle>
+                <CardTitle className="text-xl mb-2">What are you curious about?</CardTitle>
                 <CardDescription>
-                  Get notified when I publish new insights on development, trading tech, and leadership
+                  The best articles start with a good question. Tell me what you’d like to explore next.
                 </CardDescription>
               </div>
-              <div className="space-y-4" suppressHydrationWarning>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-3 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  suppressHydrationWarning
-                />
-                <Button className="w-full">
-                  Subscribe to Newsletter
-                </Button>
-                <p className="text-xs text-muted-foreground text-center">
-                  No spam, unsubscribe anytime. I respect your privacy.
-                </p>
-              </div>
+              <Button className="w-full" asChild>
+                <a href="mailto:billie@houseofheidelberg.com?subject=An%20idea%20for%20the%20notebook">Suggest a topic</a>
+              </Button>
             </Card>
           </div>
         </div>

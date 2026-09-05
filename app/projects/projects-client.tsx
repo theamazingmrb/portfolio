@@ -2,16 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ProjectImage } from "@/components/ProjectImage";
 import AnimatedSection from "@/components/AnimatedSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { UnifiedProjectCard } from "@/components/UnifiedProjectCard";
 import { ModernProjectGrid } from "@/components/ModernProjectGrid";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
 // Import the Project type from our unified data structure
 import { Project } from "@/lib/projects";
@@ -118,53 +112,20 @@ function ProfessionalExperience() {
   ];
 
   return (
-    <div className="space-y-6">
-      {experiences.map((exp, index) => (
-        <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-          <CardHeader>
-            <div className="flex flex-col sm:flex-row justify-between gap-4">
-              <div className="flex items-start gap-4">
-                {exp.logo && (
-                  <div className={`${exp.logoBg} h-16 w-16 flex-shrink-0 flex items-center justify-center rounded-lg shadow-sm`}>
-                    <div className="relative h-10 w-10">
-                      <Image
-                        src={exp.logo}
-                        alt={`${exp.company} logo`}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                )}
-                <div>
-                  <CardTitle className="text-lg sm:text-xl md:text-2xl">{exp.company}</CardTitle>
-                  <CardDescription className="text-sm sm:text-base md:text-lg font-medium">{exp.role}</CardDescription>
-                  <p className="text-xs sm:text-sm text-muted-foreground">{exp.period}</p>
-                </div>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground mb-4">{exp.description}</p>
-            
-            <div className="mb-4">
-              <h4 className="font-semibold mb-2">Key Achievements:</h4>
-              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                {exp.achievements.map((achievement, i) => (
-                  <li key={i}>{achievement}</li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className="flex flex-wrap gap-2">
-              {exp.technologies.map((tech) => (
-                <Badge key={tech} variant="secondary" className="text-xs">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+    <div className="experience-timeline">
+      {experiences.map(exp => (
+        <details key={exp.company}>
+          <summary>
+            <span className="experience-company"><Image src={exp.logo} alt="" width={38} height={38} /><span>{exp.company}<span className="experience-role">{exp.role}</span></span></span>
+            <span className="experience-period">{exp.period}</span>
+            <span className="experience-expand" aria-hidden="true">+</span>
+          </summary>
+          <div className="experience-detail">
+            <p>{exp.description}</p>
+            <ul>{exp.achievements.map(achievement => <li key={achievement}>{achievement}</li>)}</ul>
+            <div className="project-technologies">{exp.technologies.map(tech => <span key={tech}>{tech}</span>)}</div>
+          </div>
+        </details>
       ))}
     </div>
   );
@@ -181,46 +142,22 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       <Navbar />
 
       {/* Hero Section */}
-      <AnimatedSection animationType="fadeIn" className="relative py-12 sm:py-16 md:py-24 lg:py-32 bg-secondary/30 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2">
-              Projects & Experience
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
-              A curated collection of innovative projects and professional work across various technologies and industries
-            </p>
-          </div>
-        </div>
-      </AnimatedSection>
+      <section className="editorial-page-header studio-container">
+        <span className="eyebrow section-kicker">The portfolio / Selected projects</span>
+        <h1>Less theory.<br /><span className="serif-word">More shipped.</span></h1>
+        <p>From independent experiments to platforms people rely on. A collection of products built with care, curiosity, and a full-stack perspective.</p>
+      </section>
 
       {/* Projects Section */}
-      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-              Featured Projects
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-              Explore a diverse range of projects showcasing expertise in modern web development,
-              mobile applications, and innovative solutions.
-            </p>
-          </div>
+      <section className="studio-container studio-section" aria-label="Project collection">
+        <ModernProjectGrid projects={actualProjects} />
+      </section>
 
-          <ModernProjectGrid projects={actualProjects} />
-        </div>
-      </AnimatedSection>
-
-      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-secondary/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-              Professional Experience
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-              A journey through various roles and organizations, contributing to impactful projects
-              and growing as a developer and leader.
-            </p>
+      <AnimatedSection animationType="fadeInUp" className="studio-section bg-secondary/50">
+        <div className="studio-container">
+          <div className="section-heading">
+            <div><span className="eyebrow section-kicker">The journey / Professional experience</span><h2>Good work.<br /><span className="serif-word">Good company.</span></h2></div>
+            <span className="eyebrow text-muted-foreground">Select a role to explore</span>
           </div>
           
           <ProfessionalExperience />
@@ -228,29 +165,10 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
       </AnimatedSection>
 
       {/* Call to Action */}
-      <AnimatedSection animationType="fadeInUp" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 px-2">
-            Let's Build Something Amazing
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 md:mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
-            I'm always excited to take on new challenges and collaborate on innovative projects.
-            Let's discuss how we can work together to bring your ideas to life.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
-            <Button size="lg" asChild className="w-full sm:w-auto">
-              <Link href="/contact">
-                Get In Touch
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
-              <Link href="/blog">
-                Read My Blog
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </AnimatedSection>
+      <div className="studio-container project-next-step">
+        <span className="eyebrow">There’s a story behind every build.</span>
+        <Link href="/blog" className="text-link">Read the field notes ↗</Link>
+      </div>
 
       <Footer />
     </main>

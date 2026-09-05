@@ -109,7 +109,7 @@ console.log(user.profile?.settings?.theme); // Safe with optional chaining
 
 ### Real-World Benefits
 
-- Catch bugs early: 80% of runtime errors can be prevented at compile time
+- Catch type-related bugs before execution; TypeScript does not validate network data or prevent every runtime error
 - Better IntelliSense: Your editor knows exactly what properties and methods are available
 - Refactoring confidence: Rename a property and TypeScript finds all usages
 - Self-documenting code: Types serve as inline documentation
@@ -684,6 +684,8 @@ app.post('/users', createUser);
 
 ### Working with APIs
 
+The generic return type below describes the expected response; it does not validate JSON at runtime. Check `response.ok`, parse external data as `unknown`, and validate its shape at the API boundary before treating it as `ApiResponse<T>`.
+
 ```typescript
 // API response types
 interface ApiUser {
@@ -871,6 +873,8 @@ const id: string | number = "123";
 
 **Error**: `TS2339: Property 'X' does not exist on type 'Y'`
 
+Optional chaining only protects against a nullish receiver; it does not add missing properties to a type. In the example below, `user?.phone` is valid only after `phone` has been added to `User`. Type assertions also do not validate external data at runtime.
+
 **Common causes**:
 - Typos in property names
 - Accessing properties that might not exist
@@ -1048,8 +1052,8 @@ function isValidResponse(response: unknown): response is ApiResponse {
     // Fix "Cannot find name 'document'"
     "lib": ["dom", "dom.iterable", "esnext"],
     
-    // Fix "Property 'x' does not exist on type 'y'"
-    "strictNullChecks": false, // (use with caution!)
+    // Keep null checks enabled; fix property errors by narrowing or correcting the type
+    "strictNullChecks": true, // Preserve null-safety checks
     
     // Fix "Cannot find module 'x'"
     "moduleResolution": "node",
@@ -1206,7 +1210,9 @@ Now that you understand TypeScript basics, here's your learning path:
 - Read: Explore the TypeScript handbook
 
 ### Intermediate Challenges:
-- Advanced types: Dive deeper## Migration Strategies
+- Advanced types: Explore generics, conditional types, and mapped types
+
+## Migration Strategies
 
 ### Real-World Migration Case Studies
 

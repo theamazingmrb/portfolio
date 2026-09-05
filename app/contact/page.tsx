@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import Footer from "@/components/Footer";
@@ -148,13 +147,6 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Head>
-        <title>Contact | Billie Heidelberg Jr.</title>
-        <meta
-          name="description"
-          content="Full Stack Developer with 8+ years experience. Currently open to contract Full Stack and Senior Engineer roles."
-        />
-      </Head>
       <Navbar />
 
       <main className="flex-grow">
@@ -165,7 +157,7 @@ export default function ContactPage() {
               Contact
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
-              Currently open to contract Full Stack and Senior Engineer roles.
+              Currently open to full-time senior engineering roles.
               If you are building something interesting, let us talk.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">

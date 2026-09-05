@@ -1174,7 +1174,9 @@ git mergetool
 # This opens VS Code with a nice 3-way merge interface
 ```
 
-The nuclear option (when things get too messy):
+Resetting a disposable local branch:
+
+A backup branch saves **commits**, not uncommitted edits or untracked files. Before any `reset --hard` example below, stop and inspect `git status`; commit or separately back up work you want to keep. A hard reset is not a general fix for merge conflicts. Prefer `git merge --abort` or `git rebase --abort` when you only want to cancel an in-progress operation.
 
 ```bash
 # Before rewriting history, make sure you really need to.
@@ -1408,10 +1410,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '22'
       - run: npm ci
       - run: npm test
       - run: npm run lint
@@ -1430,10 +1432,12 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Check PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if ! echo "${{ github.event.pull_request.title }}" | grep -E "^(feat|fix|docs|style|refactor|test|chore):"
+          if ! printf '%s\n' "$PR_TITLE" | grep -E "^(feat|fix|docs|style|refactor|test|chore):"
           then
             echo "PR title must start with: feat:, fix:, docs:, style:, refactor:, test:, or chore:"
             exit 1

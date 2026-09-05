@@ -1,6 +1,6 @@
 ---
 title: "Next.js: Advanced Features Every React Developer Should Master"
-description: "A version-aware guide to Next.js 16: Server Components, caching, revalidation, Turbopack, and production deployment."
+excerpt: "A version-aware guide to Next.js 16: Server Components, caching, revalidation, Turbopack, and production deployment."
 date: "2025-01-15"
 lastUpdated: "2026-09-04"
 tags: ["Next.js", "React", "Performance", "Caching", "Web Development"]

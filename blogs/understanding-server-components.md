@@ -14,7 +14,7 @@ Server Components represent a paradigm shift in how we think about rendering in 
 
 ## Why Server Components Matter
 
-Traditional React components run in the browser, requiring JavaScript to be downloaded, parsed, and executed before anything renders. Server Components flip this model — they execute on the server and stream HTML to the client.
+Client-side-only React applications need JavaScript to render their initial UI, but server rendering can also produce HTML for Client Components. In the Next.js App Router, Server Components produce a React Server Component payload; Next.js uses that payload and Client Components to prerender HTML for the initial page load. Client Components then hydrate for interactivity. Server Components are not simply another name for server-side rendering.
 
 **Key benefits:**
 
@@ -26,7 +26,7 @@ Traditional React components run in the browser, requiring JavaScript to be down
 ## When to Use Server vs Client Components
 
 Use **Server Components** for:
-- Data fetching and subscriptions
+- Server-side data fetching and rendering
 - Accessing backend resources directly
 - Keeping sensitive logic on the server
 
@@ -34,5 +34,8 @@ Use **Client Components** for:
 - Interactive UI (event listeners, state)
 - Browser-only APIs
 - Custom hooks that need client features
+- Live browser subscriptions, such as WebSocket listeners, with cleanup on unmount
+
+A `'use client'` directive establishes a client module boundary; it does not mean the component can only render in the browser. Keep credentials and database access in server-only modules, and authorize each protected read or mutation.
 
 The future of React is hybrid — knowing when to reach for each type is the key to building performant applications.

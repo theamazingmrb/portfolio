@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowDown, ArrowUpRight, Asterisk } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import HeroArt from "@/components/HeroArt";
 
 export default function HeroSection() {
   return (
@@ -23,12 +24,7 @@ export default function HeroSection() {
         <div className="hero-art" aria-hidden="true">
           <div className="art-coordinate art-coordinate-top">FIG. 01 — ALWAYS IN THE MAKING</div>
           <div className="orbit-grid" />
-          <div className="orbit-sculpture">
-            {Array.from({ length: 13 }, (_, index) => (
-              <span key={index} style={{ transform: `rotate(${index * 14}deg)` }} />
-            ))}
-            <div className="orbit-center"><Asterisk strokeWidth={1} /></div>
-          </div>
+          <HeroArt />
           <div className="art-caption"><span>Curiosity → craft → impact</span><span>↗</span></div>
           <div className="floating-note"><span className="note-dot" /><span>Built to make a difference.<br /><span className="note-muted">Not just to ship.</span></span></div>
         </div>

@@ -8,7 +8,7 @@ export default async function BlogStructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     'headline': 'Billie Heidelberg Jr. Blog',
-    'description': 'Insights on full-stack development, trading technology, and team leadership',
+    'description': 'Insights on full-stack development, trading technology, and software engineering',
     'url': 'https://billieheidelberg.com/blog',
     'author': {
       '@type': 'Person',

@@ -25,20 +25,12 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
     const headingElements = doc.querySelectorAll('h2, h3, h4');
     
     const tocItems: TocItem[] = Array.from(headingElements).map((heading) => ({
-      id: heading.textContent?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || '',
+      id: heading.id || heading.textContent?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || '',
       text: heading.textContent || '',
       level: parseInt(heading.tagName.charAt(1)),
     }));
 
     setHeadings(tocItems);
-
-    // Add IDs to the headings in the content
-    headingElements.forEach((heading, index) => {
-      const id = tocItems[index].id;
-      if (id) {
-        heading.id = id;
-      }
-    });
 
     // Track scroll progress
     const handleScroll = () => {

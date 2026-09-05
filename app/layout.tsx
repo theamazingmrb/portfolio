@@ -12,12 +12,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://billieheidelberg.com'),
-  title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader | 8+ Years Experience",
-  description: "Results-driven Full Stack Developer & Technical Leader with 8+ years experience. Led teams of 5-8 developers, delivered $50M+ in project value, achieved 92% job placement rate teaching 100+ students. Expert in React, TypeScript, Node.js, AWS.",
-  keywords: "Billie Heidelberg, full stack developer, React developer, TypeScript, Node.js, team leader, technical lead, web development, software engineer, educator, general assembly instructor, JavaScript expert, frontend developer, backend developer, AWS certified, scalable applications, startup CTO, fintech developer, trading applications, enterprise software, Los Angeles developer, React Native, mobile app development",
+  title: "Billie Heidelberg Jr. | Full Stack Engineer | 8+ Years Experience",
+  description: "Full stack engineer with 8+ years building production web and mobile platforms across React, Next.js, Node.js, and PostgreSQL. Founded a trading journal SaaS, ships iOS/Android contract work, and spent seven years at InvestCloud supporting enterprise API integrations at scale.",
+  keywords: "Billie Heidelberg, full stack engineer, software engineer, React, TypeScript, Node.js, Next.js, PostgreSQL, web development, mobile engineer, React Native, educator, General Assembly instructor, fintech, InvestCloud, Los Angeles",
   openGraph: {
-    title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader",
-    description: "Results-driven Full Stack Developer with 8+ years experience leading development teams. Delivered $50M+ in project value. Expert in React, TypeScript, Node.js, AWS.",
+    title: "Billie Heidelberg Jr. | Full Stack Engineer",
+    description: "Full stack engineer with 8+ years building production web and mobile platforms across React, Next.js, Node.js, and PostgreSQL.",
     url: "https://billieheidelberg.com",
     siteName: "Billie Heidelberg Portfolio",
     images: [
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Billie Heidelberg Jr. | Full Stack Developer & Team Leader",
-    description: "Results-driven Full Stack Developer with 8+ years experience leading development teams. Delivered $50M+ in project value. Expert in React, TypeScript, Node.js, AWS.",
+    title: "Billie Heidelberg Jr. | Full Stack Engineer",
+    description: "Full stack engineer with 8+ years building production web and mobile platforms across React, Next.js, Node.js, and PostgreSQL.",
     images: ["/me.png"],
   },
   robots: {

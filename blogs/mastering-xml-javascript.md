@@ -35,10 +35,10 @@ By the end of this guide, you'll master:
 
 ## 📋 Table of Contents
 
-1. [Understanding XML Basics](#understanding-xml-basics)
+1. [XML Basics](#xml-basics)
 2. [Modern XML Parsing in JavaScript](#modern-xml-parsing-in-javascript)
-3. [DOM Traversal & Manipulation](#dom-traversal--manipulation)
-4. [Advanced Querying with XPath](#advanced-querying-with-xpath)
+3. [DOM Navigation & Manipulation](#dom-navigation--manipulation)
+4. [XPath Querying](#xpath-querying)
 5. [Performance & Security Best Practices](#performance--security-best-practices)
 6. [Practical XML Utilities](#practical-xml-utilities)
 7. [Real-World Applications & Next Steps](#real-world-applications--next-steps)
@@ -229,8 +229,8 @@ const parserOptions = {
   allowBooleanAttributes: true,
   parseAttributeValue: true,
   // Security settings
-  processEntities: false,  // Prevent XXE attacks
-  doctype: false           // Disable DTD processing
+  processEntities: false,  // Disable entity processing
+  ignoreDeclaration: true // Omit the XML declaration from the result
 };
 
 // Parse XML file to JavaScript object
@@ -352,7 +352,9 @@ console.table(bookDetails); // Displays a nice table in the console
 // Advanced selectors
 const fictionBooks = xmlDoc.querySelectorAll('book[category="fiction"]');
 const expensiveBooks = xmlDoc.querySelectorAll('book:has(price)');
-const recentBooks = xmlDoc.querySelectorAll('book:has(year[text()>"2000"])');
+const recentBooks = Array.from(xmlDoc.querySelectorAll('book')).filter(book =>
+  Number(book.querySelector('year')?.textContent) > 2000
+);
 ```
 
 **Why querySelector is better than getElementsByTagName:**
@@ -628,7 +630,9 @@ These traversal techniques provide a solid foundation for working with XML data 
 
 ## ⚠️ Security Considerations
 
-When working with XML in JavaScript, especially with untrusted input, several security vulnerabilities need to be addressed:
+When working with XML in JavaScript, especially with untrusted input, several security vulnerabilities need to be addressed. Use a maintained parser release and enforce input-size and resource limits. In `fast-xml-parser`, `processEntities: false` disables entity processing; `doctype: false` is not a supported security switch. `ignoreDeclaration` only affects output and is not DTD protection. If your format does not need DTDs, reject declarations before parsing rather than relying on an ignored option.
+
+In libxml2, the confusingly named `noent: true` **enables** entity substitution. Leave it disabled for untrusted input, along with DTD loading and validation. Network restrictions alone do not prevent local-file entity access. See the [libxml2 parser option reference](https://gnome.pages.gitlab.gnome.org/libxml2/html/parser_8h.html).
 
 ### XML External Entity (XXE) Attacks
 
@@ -651,9 +655,8 @@ const options = {
   allowBooleanAttributes: true,
   parseAttributeValue: true,
   ignoreAttributes: false,
-  // Security: Disable DOCTYPE and entity processing
-  processEntities: false,
-  doctype: false
+  // Security: Disable entity processing; reject DTDs separately when not required
+  processEntities: false
 };
 
 const parser = new XMLParser(options);
@@ -687,8 +690,8 @@ This is a denial-of-service attack that uses nested entity definitions to cause 
 import { parseXml } from 'libxmljs2';
 
 try {
-  // Set nonet:true to disable network access, noent:true to disable entity expansion
-  const doc = parseXml(xmlString, { nonet: true, noent: true });
+  // Disable network access and leave entity substitution and DTD loading disabled
+  const doc = parseXml(xmlString, { nonet: true, noent: false, dtdload: false, dtdvalid: false });
   // Process the document safely
 } catch (error) {
   console.error('XML parsing error:', error);
@@ -840,11 +843,11 @@ Here are some useful XPath patterns:
 
 ### XPath in Node.js
 
-For Node.js, you'll need a library like `xpath` and `xmldom`:
+For Node.js, use `xpath` with the maintained `@xmldom/xmldom` package, not the old unscoped `xmldom` package. Pin maintained versions and validate input before parsing:
 
 ```javascript
 const xpath = require('xpath');
-const { DOMParser } = require('xmldom');
+const { DOMParser } = require('@xmldom/xmldom');
 
 function queryXPathNode(xmlString, xpathExpression) {
   const doc = new DOMParser().parseFromString(xmlString);
@@ -1236,8 +1239,10 @@ function addMultipleBooks(xmlDoc, books) {
 
 // 2. Use XPath for complex queries instead of multiple DOM traversals
 function findExpensiveBooksByAuthor(xmlDoc, authorName) {
-  const xpathExpr = `//book[author="${authorName}" and number(price) > 10]/title`;
-  return queryXPath(xmlDoc, xpathExpr);
+  return queryXPath(xmlDoc, '//book[number(price) > 10]')
+    .filter(book => book.querySelector('author')?.textContent === authorName)
+    .map(book => book.querySelector('title'))
+    .filter(Boolean);
 }
 
 // 3. Reuse parsers and serializers
@@ -1540,8 +1545,8 @@ function findBooksByAuthor(xmlDoc, authorName) {
 // Efficient - direct query for what you need
 function findBooksByAuthorEfficient(xmlDoc, authorName) {
   // Using XPath
-  const xpathExpr = `//book[author="${authorName}"]`;
-  return queryXPath(xmlDoc, xpathExpr);
+  return queryXPath(xmlDoc, '//book')
+    .filter(book => book.querySelector('author')?.textContent === authorName);
   
   // Or using querySelector
   // return Array.from(xmlDoc.querySelectorAll('book')).filter(book => 
@@ -1558,7 +1563,7 @@ When working with XML in production environments, follow these critical security
 
 ✅ **Disable DTD/entity expansion in Node parsers** to prevent XXE attacks
 ```javascript
-const options = { processEntities: false, doctype: false };
+const options = { processEntities: false };
 ```
 
 ✅ **Treat external XML as untrusted input**; validate size and structure before processing
@@ -1930,7 +1935,12 @@ fetch('icon.svg')
     const modifiedSvgString = serializer.serializeToString(modifiedSvg);
     
     // Use the modified SVG
-    document.getElementById('svg-container').innerHTML = modifiedSvgString;
+    const image = new Image();
+    image.alt = 'Recolored icon';
+    const objectUrl = URL.createObjectURL(new Blob([modifiedSvgString], { type: 'image/svg+xml' }));
+    image.onload = image.onerror = () => URL.revokeObjectURL(objectUrl);
+    image.src = objectUrl;
+    document.getElementById('svg-container').replaceChildren(image);
   });
 ```
 

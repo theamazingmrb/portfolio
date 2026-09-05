@@ -1,6 +1,6 @@
 ---
 title: "How to Use TanStack Query in React: A Complete Guide"
-description: "A comprehensive guide to TanStack Query for React developers, covering core concepts, usage patterns, and best practices for data fetching and caching."
+excerpt: "A guide to TanStack Query v5: query keys, cache lifetimes, mutations, optimistic updates, and server rendering."
 date: "2025-01-15"
 tags: ["React", "TanStack Query", "Data Fetching", "Caching", "API"]
 author: "Billie Heidelberg Jr."
@@ -42,7 +42,7 @@ Think of it as:
 - Apps with loading state boilerplate everywhere
 - Anyone wanting significant reduction in API costs
 
-> **Note:** This guide covers **TanStack Query v5**, the current major version. Some patterns differ from v4 — key differences are called out where relevant.
+> **Note:** This guide covers **TanStack Query v5**. Examples are independent sketches with application-specific helpers omitted, not a single copy-paste application. Use `isPending` for the no-data state; `isLoading` additionally requires an in-flight fetch. A paused query can be pending without loading. Consume the query function's `signal` to cancel a `fetch` request; unused requests are not automatically aborted by default. See the [cancellation guide](https://tanstack.com/query/v5/docs/framework/react/guides/query-cancellation).
 
 ---
 
@@ -112,12 +112,16 @@ function ProductList() {
 import { useQuery } from '@tanstack/react-query';
 
 function ProductList() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ['products'],
-    queryFn: () => fetch('/api/products').then(r => r.json())
+    queryFn: async ({ signal }) => {
+      const response = await fetch('/api/products', { signal });
+      if (!response.ok) throw new Error('Failed to fetch products');
+      return response.json();
+    }
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isPending) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
   return <div>{/* render data */}</div>;
 }
@@ -142,7 +146,7 @@ function ProductList() {
 | Problem | Impact | TanStack Query Solution |
 |---------|--------|------------------------|
 | No cache | Re-fetch same data repeatedly | Smart caching with configurable freshness |
-| Race conditions | Wrong data displayed | Automatic request cancellation |
+| Race conditions | Wrong data displayed | Separate query keys; cancellation when the query function consumes its signal |
 | Stale data | Users see outdated info | Background refetching |
 | Manual state | Hundreds of lines of boilerplate | Automatic loading/error management |
 | Duplicate requests | 3 components = 3 API calls | Request deduplication |
@@ -237,15 +241,16 @@ gcTime: 5 * 60 * 1000 // Keep in memory for 5 minutes after last use
 2. After `gcTime` passes → Data removed from memory (garbage collected)
 3. If component remounts within `gcTime` → Instant cached data
 
-**The Relationship:** `staleTime < gcTime` (always)
+**The Relationship:** These settings are independent. `staleTime` controls freshness; `gcTime` controls how long an inactive query remains cached. There is no required ordering between them, and active queries are not removed just because `gcTime` has elapsed.
 
 **Example:** `staleTime: 5 minutes`, `gcTime: 30 minutes`
 
-```
+```text
 Timeline:
 0 min  → Data fetched (fresh)
-5 min  → Data becomes stale (but still cached)
-30 min → Data removed from memory
+5 min  → Data becomes stale; this alone does not trigger a fetch
+10 min → Last observer unmounts; garbage-collection timer starts
+40 min → Inactive data removed if no observer has returned
 ```
 
 💡 **Pro Tip:** Set `gcTime` at least 2x longer than `staleTime` to ensure smooth navigation. Example: `staleTime: 5min`, `gcTime: 10-15min`.
@@ -283,12 +288,16 @@ useQuery({
 import { useQuery } from '@tanstack/react-query';
 
 function Products() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ['products'],
-    queryFn: () => fetch('/api/products').then(r => r.json())
+    queryFn: async ({ signal }) => {
+      const response = await fetch('/api/products', { signal });
+      if (!response.ok) throw new Error('Failed to fetch products');
+      return response.json();
+    }
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isPending) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -319,13 +328,13 @@ async function fetchProducts(): Promise<Product[]> {
 }
 
 function Products() {
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isPending, error, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: fetchProducts,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isPending) return <LoadingSpinner />;
   if (error) {
     return (
       <ErrorMessage
@@ -356,13 +365,13 @@ function Products() {
 
 ```tsx
 function ProductDetail({ productId }: { productId: number }) {
-  const { data, isLoading } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ['product', productId], // ← Include ID in key
     queryFn: () => fetch(`/api/products/${productId}`).then(r => r.json()),
     staleTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isPending) return <div>Loading...</div>;
   return <div>{data.name}</div>;
 }
 ```
@@ -443,7 +452,7 @@ function Dashboard() {
   });
 
   // Check if ALL queries are loading
-  if (products.isLoading || categories.isLoading || stats.isLoading) {
+  if (products.isPending || categories.isPending || stats.isPending) {
     return <div>Loading dashboard...</div>;
   }
 
@@ -469,10 +478,10 @@ function Dashboard() {
     ],
   });
 
-  const isLoading = results.some(result => result.isLoading);
+  const isPending = results.some(result => result.isPending);
   const [products, categories, stats] = results.map(r => r.data);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isPending) return <div>Loading...</div>;
   return <div>{/* render all data */}</div>;
 }
 ```
@@ -600,7 +609,7 @@ function DeleteProduct({ productId }: { productId: number }) {
 
 ```tsx
 // Invalidate exact match
-queryClient.invalidateQueries({ queryKey: ['products'] });
+queryClient.invalidateQueries({ queryKey: ['products'], exact: true });
 
 // Invalidate all product-related queries that start with ['products']
 queryClient.invalidateQueries({ queryKey: ['products'], exact: false });
@@ -768,7 +777,7 @@ function InfiniteProducts() {
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 function ProductDetail({ id }: { id: number }) {
-  // No isLoading check needed - Suspense handles it
+  // No isPending check needed - Suspense handles it
   const { data } = useSuspenseQuery({
     queryKey: ['product', id],
     queryFn: () => fetch(`/api/products/${id}`).then(r => r.json()),
@@ -1046,7 +1055,7 @@ function OldProductList() {
 
 // After
 function NewProductList() {
-  const { data: products, isLoading } = useQuery({
+  const { data: products, isPending } = useQuery({
     queryKey: ['products'],
     queryFn: fetchProducts,
     staleTime: 5 * 60 * 1000,
@@ -1140,24 +1149,18 @@ const after = {
 
 ### Cost Savings Calculation
 
-```
+The request counts alone do not explain a bill falling from $300 to $80. Using an illustrative API Gateway request rate of $3.50 per million:
+
+```text
 // AWS API Gateway: ~$3.50 per million requests
 // Lambda: ~$0.20 per million requests
 
-Before:
-- 450,000 API calls/month
-- Gateway: $1.58 + Lambda costs
-- Total: ~$300/month
-
-After:
-- 120,000 API calls/month
-- Gateway: $0.42 + Lambda costs
-- Total: ~$80/month
-
-Annual Savings: $2,640
-Implementation Time: 2 weeks
-ROI: Immediate (first month)
+450,000 requests × $3.50 / 1,000,000 = $1.575
+120,000 requests × $3.50 / 1,000,000 = $0.420
+Request-charge difference = $1.155 per month
 ```
+
+At an illustrative Lambda request rate of $0.20 per million, 330,000 fewer invocations save another $0.066 in request charges. Compute duration, memory, database usage, transfer, free tiers, region, and API type affect the actual bill. Any larger savings claim needs an itemized billing comparison; do not infer it from request counts alone.
 
 ### User Experience Impact
 
@@ -1304,7 +1307,7 @@ useQuery({
 // ────────────────────────────────────────────────────────
 // BASIC QUERY
 // ────────────────────────────────────────────────────────
-const { data, isLoading, error } = useQuery({
+const { data, isPending, error } = useQuery({
   queryKey: ['key'],
   queryFn: fetchFunction,
 })
@@ -1448,7 +1451,7 @@ async function fetchProduct(id: number): Promise<Product> {
 export function ProductList() {
   const queryClient = useQueryClient();
 
-  const { data: products, isLoading, error } = useQuery({
+  const { data: products, isPending, error } = useQuery({
     queryKey: ['products'],
     queryFn: fetchProducts,
     staleTime: 5 * 60 * 1000, // Fresh for 5 minutes
@@ -1462,7 +1465,7 @@ export function ProductList() {
     });
   };
 
-  if (isLoading) {
+  if (isPending) {
     return <div>Loading products...</div>;
   }
 
@@ -1503,7 +1506,7 @@ export function ProductDetail() {
   const productId = parseInt(id!);
   const queryClient = useQueryClient();
 
-  const { data: product, isLoading } = useQuery({
+  const { data: product, isPending } = useQuery({
     queryKey: ['product', productId],
     queryFn: () => fetchProduct(productId),
     staleTime: 10 * 60 * 1000,
@@ -1514,7 +1517,7 @@ export function ProductDetail() {
     },
   });
 
-  if (isLoading && !product) {
+  if (isPending && !product) {
     return <div>Loading product...</div>;
   }
 

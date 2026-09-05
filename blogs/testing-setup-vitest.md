@@ -49,7 +49,7 @@ export default defineConfig({
 
 **test/setup.ts - Global Mocks:**
 ```typescript
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/vitest'
 import { vi } from 'vitest'
 
 // Mock Next.js router so tests don't break
@@ -63,7 +63,10 @@ vi.mock('next/navigation', () => ({
 vi.mock('@/lib/supabase', () => ({
   supabase: {
     auth: { getSession: vi.fn(), getUser: vi.fn() },
-    from: vi.fn(() => ({ select: vi.fn(), eq: vi.fn() })),
+    from: vi.fn(() => ({
+      select: vi.fn().mockReturnThis(),
+      eq: vi.fn().mockResolvedValue({ data: [], error: null }),
+    })),
   },
 }))
 ```
@@ -176,7 +179,7 @@ it('should handle zero position size', () => {
 if (!trade.exit_price || !trade.position_size) return null;
 
 // AFTER (handle 0 as valid case)
-if (!trade.exit_price || trade.position_size === null) return null;
+if (trade.exit_price == null || trade.position_size == null) return null;
 if (trade.position_size === 0) return 0;  // NEW!
 ```
 
@@ -186,6 +189,21 @@ if (trade.position_size === 0) return 0;  // NEW!
 ```
 
 ### 🏃‍♂️ **How to Run Tests**
+
+Add these scripts to your application's `package.json` before using the commands below:
+
+```json
+{
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
+  }
+}
+```
+
+The optional UI and coverage commands also require `@vitest/ui` and `@vitest/coverage-v8`, respectively. Install versions matching your installed Vitest version. For TypeScript globals, include `vitest/globals` in the test project's `compilerOptions.types`. Adapt the aliases, mocks, and domain imports to your application; this article is not a standalone test fixture. Vitest does not currently support testing async Next.js Server Components directly; use end-to-end tests for those.
 
 ```bash
 # Development - watch mode
@@ -290,7 +308,7 @@ import { TradeJournal } from '@/components/TradeJournal'
 // Mock the API calls
 vi.mock('@/lib/api', () => ({
   getTrades: vi.fn(() => Promise.resolve([])),
-  createTrade: vi.fn(() => Promise.resolve({ id: '1' })),
+  createTrade: vi.fn(async (trade) => ({ ...trade, id: '1' })),
 }))
 
 describe('TradeJournal Integration', () => {
@@ -307,7 +325,7 @@ describe('TradeJournal Integration', () => {
     await user.click(screen.getByRole('button', { name: /add trade/i }))
 
     // Assert - Trade should appear in the list
-    expect(screen.getByText('AAPL')).toBeInTheDocument()
+    expect(await screen.findByText('AAPL')).toBeInTheDocument()
     expect(screen.getByText('$150.00')).toBeInTheDocument()
   })
 })

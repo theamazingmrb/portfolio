@@ -6,7 +6,7 @@ tags: ["AI", "Hermes", "Local LLM", "Agent Configuration", "Productivity"]
 excerpt: "The first time you run Hermes, it works. The second time, it answers every question like a polite customer support bot who has never met you. Here's how to fix that."
 author: "Billie Heidelberg Jr."
 coverImage: "/blogs/customizing-ai-agent-cover.svg"
-lastUpdated: "2026-07-01"
+lastUpdated: "2026-09-05"
 ---
 
 The first time you run Hermes, it works. The second time, it answers every question like a polite customer support bot who has never met you.
@@ -58,7 +58,7 @@ This isn't decorative. The SOUL.md changes how Hermes makes decisions. An agent 
 
 ## Skills: Reusable Workflows That Actually Compound
 
-Hermes skills are saved prompts with YAML frontmatter. Each one lives in its own directory under `~/.hermes/skills/` as a file named `SKILL.md`. The agent loads them at startup and you invoke them by name in conversation.
+Hermes skills are reusable instructions with YAML frontmatter. Each one lives in a directory under `~/.hermes/skills/` as `SKILL.md`. Hermes uses progressive disclosure: it discovers skill metadata and loads the full instructions when needed, rather than putting every skill into the startup context. You can request a skill by name in conversation.
 
 Here's a PR review skill I use:
 
@@ -111,7 +111,7 @@ The first three skills worth building:
 
 Hermes has two kinds of memory, and confusing them is the fastest way to build an agent that acts like it has amnesia.
 
-**Session memory** is everything in the current conversation. It's bounded by your context window and gone the moment you close the terminal. Use this for debugging sessions, code reviews, and anything scoped to a single sitting.
+**Session context** is the conversation currently available to the model, bounded by its context window. Closing the terminal does not erase saved history: Hermes stores sessions and supports resuming the latest CLI conversation with `hermes --continue`. That saved history is distinct from the curated facts in persistent memory. See the [session documentation](https://hermes-agent.nousresearch.com/docs/user-guide/sessions).
 
 **Persistent memory** survives across sessions. Hermes keeps two built-in memory files in `~/.hermes/memories/`:
 
@@ -165,13 +165,15 @@ Here's the pattern I landed on:
 
 | Task | Model | Why |
 |------|-------|-----|
-| Quick questions, git commands, file lookups | `qwen2.5:3b` | Fast, cheap, good enough |
-| Code generation, refactoring | `codellama:7b` or `gemma3:12b` | Tuned for code |
-| Debugging, architecture decisions | `gemma3:12b` or larger | Needs reasoning |
-| Agent workflows (multi-step tool calls) | `gemma3:12b` minimum | Smaller models drop tool calls |
-| Writing, documentation, SOUL.md edits | `gemma3:12b` | Prose quality matters here |
+| Quick questions without tool execution | `qwen2.5:3b` | A small local chat model is a useful baseline |
+| Code suggestions in chat | `codellama:7b` | Code-oriented model; not a guarantee of agent tool support |
+| Debugging and architecture discussion | A reasoning model that fits your hardware | Evaluate on representative problems, not parameter count alone |
+| Agent workflows (multi-step tool calls) | A model with verified tool support, such as `gemma4` | Listed in Ollama's Hermes integration guide; test the complete tool loop |
+| Writing and documentation | A local chat model you have evaluated | Compare factual accuracy and editing quality |
 
-The key insight: model switching isn't about finding one perfect model. It's about matching the model to the cost of failure. If the model hallucinates a git command, you lose five seconds and try again. If it hallucinates an architecture decision, you lose an afternoon.
+These are starting points, not benchmark results. Gemma 3 is not interchangeable with Gemma 4 for tool calling. Check the [current Hermes integration guide](https://docs.ollama.com/integrations/hermes) and your runtime version before switching.
+
+Model switching is about matching capabilities to the cost of failure. A wrong Git command can lose work, not just time. Use read-only tasks to evaluate a model first, inspect proposed commands, and require approval for destructive operations. Written instructions express your preferences; tool permissions and isolation enforce boundaries.
 
 To switch, update the `model` field in `~/.hermes/config.yaml` before you start the session:
 
@@ -184,7 +186,7 @@ model:
 
 For a cloud or managed provider, `default` is the model ID and `provider` is the provider slug. For local Ollama, use `provider: custom` and point `base_url` at `http://localhost:11434/v1`.
 
-Or change it mid-session via the CLI config command. One string change and suddenly your agent is a different specialist.
+Use `hermes model` to reconfigure the provider and default model for subsequent sessions. For an in-session switch, check the slash commands supported by your installed Hermes version. A configuration edit does not automatically reconfigure an already-running conversation.
 
 ## Multi-Agent Delegation
 

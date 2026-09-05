@@ -3,14 +3,29 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import { runInNewContext } from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { remark } from 'remark';
+import html from 'remark-html';
+import remarkGfm from 'remark-gfm';
+import remarkToc from 'remark-toc';
+import { rehype } from 'rehype';
+import rehypeSlug from 'rehype-slug';
 import ts from 'typescript';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const articles = path.join(root, 'blogs');
 const load = name => matter(fs.readFileSync(path.join(articles, name), 'utf8')).content;
+const renderArticle = async name => {
+  const processed = await remark()
+    .use(remarkGfm)
+    .use(remarkToc, { tight: true })
+    .use(html, { sanitize: false })
+    .process(load(name));
+  const withIds = await rehype().use(rehypeSlug).process(processed.toString());
+  return withIds.toString();
+};
 const codeBlocks = name => {
   const result = [];
   const visit = node => {
@@ -72,4 +87,64 @@ test('typed React context provider accepts both theme modes', () => {
   host.getSourceFile = (name, languageVersion, ...rest) => name === filename ? ts.createSourceFile(name, source, languageVersion, true, ts.ScriptKind.TSX) : originalGetSourceFile(name, languageVersion, ...rest);
   const diagnostics = ts.getPreEmitDiagnostics(ts.createProgram([filename], options, host));
   assert.deepEqual(diagnostics.map(diagnostic => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')), []);
+});
+
+test('published articles have valid metadata and local cover assets', () => {
+  const titles = new Set();
+  for (const name of fs.readdirSync(articles).filter(name => name.endsWith('.md'))) {
+    const { data } = matter(fs.readFileSync(path.join(articles, name), 'utf8'));
+    if (data.draft) continue;
+    assert.ok(data.title && !titles.has(data.title), name);
+    titles.add(data.title);
+    assert.ok(Number.isFinite(Date.parse(data.date)), name);
+    assert.ok(data.excerpt || data.description, `Missing summary: ${name}`);
+    if (data.coverImage?.startsWith('/')) {
+      assert.ok(fs.existsSync(path.join(root, 'public', data.coverImage)), `Missing cover: ${name}`);
+    }
+  }
+});
+
+test('PR title validation treats shell syntax as data', () => {
+  const block = codeBlocks('git-github-mastery.md').find(block => block.value.includes('name: PR Validation')).value;
+  assert.match(block, /PR_TITLE: \$\{\{ github\.event\.pull_request\.title \}\}/);
+  const script = block.split('run: |\n')[1].split('\n').map(line => line.replace(/^ {10}/, '')).join('\n');
+  assert.ok(!script.includes('${{'));
+  const run = title => execFileSync('bash', ['-c', script], { env: { ...process.env, PR_TITLE: title }, stdio: 'pipe' });
+  run('fix: validate input');
+  assert.throws(() => run('$(printf fix): should not execute'));
+});
+
+test('trade guard accepts zero exit prices and rejects missing values', () => {
+  const block = codeBlocks('testing-setup-vitest.md').find(block => block.value.includes('// AFTER')).value;
+  const guard = block.split('// AFTER')[1].split('\n').slice(1).join('\n');
+  const calculate = runInNewContext(`trade => { ${guard}\nreturn (trade.exit_price - trade.entry_price) * trade.position_size; }`);
+  assert.equal(calculate({ entry_price: 100, exit_price: 0, position_size: 10 }), -1000);
+  assert.equal(calculate({ entry_price: 100, exit_price: 110, position_size: 0 }), 0);
+  assert.equal(calculate({ entry_price: 100, exit_price: null, position_size: 10 }), null);
+  assert.equal(calculate({ entry_price: 100, exit_price: 110 }), null);
+});
+
+test('XML examples do not enable entity substitution or inject SVG markup', () => {
+  const blocks = codeBlocks('mastering-xml-javascript.md').map(block => block.value).join('\n');
+  assert.doesNotMatch(blocks, /noent:\s*true|doctype:\s*false|\.innerHTML\s*=/);
+  assert.doesNotMatch(blocks, /author="\$\{authorName\}"/);
+  assert.match(blocks, /noent:\s*false/);
+});
+
+test('production container does not overwrite production dependencies', () => {
+  const block = codeBlocks('docker-express-api-mastery.md').find(block => block.value.includes('AS builder')).value;
+  assert.match(block, /COPY --from=builder \/app\/src \.\/src/);
+  assert.doesNotMatch(block, /COPY --from=builder \/app \.\//);
+});
+
+test('published articles do not contain broken internal anchors', async () => {
+  for (const name of fs.readdirSync(articles).filter(name => name.endsWith('.md'))) {
+    const { data } = matter(fs.readFileSync(path.join(articles, name), 'utf8'));
+    if (data.draft) continue;
+    const html = await renderArticle(name);
+    const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map(match => match[1]));
+    const anchors = [...html.matchAll(/<a[^>]+href="#([^"]*)"/g)].map(match => match[1]);
+    const broken = [...new Set(anchors)].filter(anchor => anchor && !ids.has(decodeURIComponent(anchor)));
+    assert.deepEqual(broken, [], `${name} has broken internal anchors`);
+  }
 });

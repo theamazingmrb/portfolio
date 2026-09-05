@@ -13,6 +13,7 @@ import TableOfContents from '@/components/TableOfContents';
 import MobileTableOfContents from '@/components/MobileTableOfContents';
 import RelatedPosts from '@/components/RelatedPosts';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 // Using the imported calculateReadingTime function from lib/posts
 
@@ -23,15 +24,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   
   // Extract tags for keywords
   const keywords = postData?.tags ? 
-    `${postData.tags.join(', ')}, development, trading technology, full stack, React, TypeScript, Node.js` : 
-    'development, trading technology, full stack, React, TypeScript, Node.js, team leadership, technical insights';
+    `${postData.tags.join(', ')}, development, trading technology, full stack, React, TypeScript, Node.js` :
+    'development, trading technology, full stack, React, TypeScript, Node.js, software engineering, technical insights';
   
   // Determine canonical URL
   const canonicalUrl = `https://billieheidelberg.com/blog/${id}`;
   
   return {
     title: postData ? `${postData.title} | Billie Heidelberg Jr. Blog` : 'Blog Post | Billie Heidelberg Jr.',
-    description: postData?.excerpt || 'Read insights on full-stack development, trading technology, and team leadership.',
+    description: postData?.excerpt || 'Read insights on full-stack development, trading technology, and software engineering.',
     keywords: keywords,
     alternates: {
       canonical: canonicalUrl,
@@ -138,21 +139,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
 
   // Check if post is a draft
   if (postData.draft) {
-    return (
-      <div className="min-h-screen bg-background text-foreground">
-        <Navbar />
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-3xl font-bold text-foreground mb-4">Draft Post</h1>
-          <p className="text-muted-foreground mb-8">
-            This is a private draft post.
-          </p>
-          <Link href="/blog" className="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors mr-4">
-            Back to Blog
-          </Link>
-        </div>
-        <Footer />
-      </div>
-    );
+    notFound();
   }
 
   const formattedDate = new Date(postData.date).toLocaleDateString('en-US', {
@@ -330,8 +317,8 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                 <div className="flex-grow text-center sm:text-left">
                   <h3 className="text-xl font-bold text-foreground mb-2">About Billie Heidelberg Jr.</h3>
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    Full Stack Developer & Technical Leader with 8+ years of experience building scalable applications 
-                    and leading development teams. Passionate about sharing knowledge and helping others grow.
+                    Full Stack Engineer & Educator with 8+ years of experience building production web and mobile
+                    platforms. Passionate about sharing knowledge and helping others grow.
                   </p>
                   <div className="flex justify-center sm:justify-start gap-3">
                     <a href="https://github.com/theamazingmrb" target="_blank" rel="noopener noreferrer" 

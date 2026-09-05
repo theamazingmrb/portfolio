@@ -4,14 +4,14 @@ import '../code-blocks.css';
 
 export const metadata: Metadata = {
   title: "Blog | Billie Heidelberg Jr. - Insights on Development, Trading & Technology",
-  description: "Read my latest thoughts on full-stack development, trading technology, team leadership, and building scalable applications. Insights from 8+ years in the industry.",
-  keywords: "blog, development insights, trading technology, full stack development, team leadership, React, TypeScript, Node.js, technical writing",
+  description: "Read my latest thoughts on full-stack development, trading technology, and software engineering. Insights from 8+ years in the industry.",
+  keywords: "blog, development insights, trading technology, full stack development, software engineering, React, TypeScript, Node.js, technical writing",
   alternates: {
     canonical: "https://billieheidelberg.com/blog",
   },
   openGraph: {
     title: "Blog | Billie Heidelberg Jr. - Insights on Development & Technology",
-    description: "Read my latest thoughts on full-stack development, trading technology, team leadership, and building scalable applications.",
+    description: "Read my latest thoughts on full-stack development, trading technology, and software engineering.",
     url: "https://billieheidelberg.com/blog",
     siteName: "Billie Heidelberg Jr. Portfolio",
     locale: "en_US",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog | Billie Heidelberg Jr.",
-    description: "Read my latest thoughts on full-stack development, trading technology, and team leadership.",
+    description: "Read my latest thoughts on full-stack development, trading technology, and software engineering.",
     creator: "@bheidelberg",
     images: ["https://billieheidelberg.com/me.png"],
   },

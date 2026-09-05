@@ -9,5 +9,6 @@
 - `npm run lint`
 - `npx tsc --noEmit`
 - `npm run build`
+- `node --test scripts/check-articles.mjs` checks Markdown fences, article metadata/assets, and selected tutorial regressions. It does not validate every article example end to end.
 - Stop the development server before building: both commands use `.next`. After building, `npm run start` serves the production build.
 - Check the homepage at mobile and desktop widths, theme persistence, mobile-menu keyboard behavior, project filtering, article search, and project/article detail links after UI changes.

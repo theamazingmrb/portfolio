@@ -13,7 +13,11 @@ author: "Billie Heidelberg Jr."
 
 React and Angular are two of the most popular frontend frameworks, but they come with fundamentally different philosophies. If you're already a confident React developer, learning Angular may feel like switching from jazz improvisation to classical composition. React gives you freedom and flexibility; Angular provides structure and convention.
 
-This comprehensive guide bridges the gap, mapping React concepts directly to Angular equivalents with real-world examples. By the end, you'll understand not just the syntax differences, but the philosophical shifts that make Angular powerful for enterprise applications.
+This guide maps familiar React concepts to Angular patterns. The comparisons are learning aids, not exact equivalences: lifecycle timing, dependency tracking, and rendering differ.
+
+**Version and scope:** The examples use Angular 18-era APIs. In Angular 18, components that use standalone imports must explicitly set `standalone: true`; Angular 19 made that the decorator default. Signal inputs and outputs were still preview APIs in Angular 18. Several snippets omit application-specific types, imports, and components and are not a complete runnable starter. Use a supported Angular release for new production work and check its migration guide.
+
+Create React App is deprecated; use the Vite example below for a client-only learning project or a framework when you need server rendering. Both React and Angular support large applications—the team's experience and application requirements matter more than headcount.
 
 ---
 
@@ -37,7 +41,7 @@ Understanding the philosophical differences is crucial for making the mental shi
 | **State & Logic** | Hooks for state & lifecycle | Decorators + lifecycle methods + Signals |
 | **Dependency Management** | Context / external state libraries | Built-in Dependency Injection |
 | **Philosophy** | Lightweight core, choose your stack | Opinionated, integrated ecosystem |
-| **Compilation** | Runtime JSX transformation | Compile-time template compilation with AOT |
+| **Compilation** | JSX transformed by build tooling before execution | Compile-time template compilation with AOT |
 | **Learning Curve** | Shallow initial, steep for ecosystem | Steeper initial, plateau faster |
 | **Team Size Sweet Spot** | Small to medium teams | Medium to large enterprise teams |
 
@@ -95,7 +99,7 @@ ng serve  # Runs on http://localhost:4200
 **What Angular's CLI Gives You Out of the Box**:
 - TypeScript configuration optimized for Angular
 - Testing setup (Karma + Jasmine)
-- Linting configuration (ESLint)
+- Linting can be added with angular-eslint; it is not installed by the default CLI scaffold
 - Build optimization (AOT compilation, tree-shaking)
 - Development server with hot reload
 - Production build configuration
@@ -1168,12 +1172,12 @@ import { CommonModule } from '@angular/common';
           formControlName="confirmPassword"
           placeholder="Confirm Password"
         />
-        @if (form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched) {
+        @if (form.get('confirmPassword')?.touched && (form.get('confirmPassword')?.invalid || form.hasError('passwordMismatch'))) {
           <span class="error">
             @if (form.get('confirmPassword')?.errors?.['required']) {
               Please confirm password
             }
-            @if (form.get('confirmPassword')?.errors?.['passwordMismatch']) {
+            @if (form.hasError('passwordMismatch')) {
               Passwords do not match
             }
           </span>
@@ -2034,7 +2038,7 @@ export class TaskService {
 **Step 4: Create Task List Component**
 ```typescript
 // components/task-list/task-list.component.ts
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task.service';
 import { TaskItemComponent } from '../task-item/task-item.component';
@@ -2372,7 +2376,7 @@ Get VS Code extensions:
 
 ### 3. Use Standalone Components
 
-Modern Angular (18+) uses standalone components by default:
+Angular CLI has generated standalone applications by default since v17. The `@Component` decorator defaults to standalone starting in v19; explicitly set `standalone: true` in v18:
 
 ```typescript
 // Old way (NgModules - avoid for new projects)

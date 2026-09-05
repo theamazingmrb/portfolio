@@ -18,10 +18,12 @@ export default function TeachingTab() {
             <div>
               <h4 className="font-semibold mb-2">Teaching Experience:</h4>
               <ul className="list-disc list-inside space-y-1">
-                <li>General Assembly Software Engineering Immersive - Instructor & Mentor</li>
-                <li>Mentored 150+ junior developers through career transitions</li>
-                <li>Taught full-stack development with React, Node.js, and Python</li>
-                <li>Developed curriculum and coding exercises for enterprise applications</li>
+                <li>General Assembly Web Development Immersive — Instructor & Mentor</li>
+                <li>Taught 150+ students across 9+ full-time and part-time cohorts</li>
+                <li>Taught full-stack development with React, Node.js, Express, MongoDB, Python, and Django</li>
+                <li>Developed curriculum and coding exercises for full-stack engineering programs</li>
+                <li>Led interview prep workshops and lectures on technical interviewing and job search strategy</li>
+                <li>Mentored students through capstone projects, code reviews, and career transitions</li>
               </ul>
             </div>
           </div>

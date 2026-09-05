@@ -280,9 +280,19 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
+    throw new Error('MONGO_URI and JWT_SECRET are required');
+  }
+  mongoose.connect(process.env.MONGO_URI)
+    .then(() => app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    }))
+    .catch(() => {
+      console.error('Database connection failed');
+      process.exitCode = 1;
+    });
+}
 
 module.exports = app; // For testing
 ```
@@ -517,7 +527,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required'],
     minlength: [MIN_PASSWORD_LENGTH, `Password must be at least ${MIN_PASSWORD_LENGTH} characters`],
-    maxlength: [MAX_PASSWORD_LENGTH, `Password must not exceed ${MAX_PASSWORD_LENGTH} characters`],
+    validate: {
+      validator: value => typeof value === 'string' && Buffer.byteLength(value, 'utf8') <= MAX_PASSWORD_LENGTH,
+      message: `Password must not exceed ${MAX_PASSWORD_LENGTH} UTF-8 bytes`
+    },
     select: false // Don't return password in queries
   },
   createdAt: {
@@ -774,7 +787,7 @@ services:
     ports:
       # WHY: Maps host port 27017 to container port 27017
       # This allows you to connect to the database from the host using MongoDB tools
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     
     # Volume mounts - persists database data
     volumes:
@@ -878,7 +891,7 @@ CMD ["npm", "run", "dev"]
 
 ### Unit Testing with Jest
 
-Create a test file at `tests/user.test.js`:
+Create a test file at `tests/user.test.js`. These are API integration tests, not isolated unit tests: they require a disposable MongoDB database named `test_db`. Set `NODE_ENV=test`, `TEST_MONGO_URI`, and a separate test `JWT_SECRET`. Never point them at development or production data; the suite deletes test users between cases.
 
 ```javascript
 const mongoose = require('mongoose');
@@ -888,11 +901,14 @@ const User = require('../src/models/userModel');
 
 // Connect to test database before tests
 beforeAll(async () => {
-  const url = process.env.MONGO_URI || 'mongodb://localhost:27017/test_db';
-  await mongoose.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+  if (process.env.NODE_ENV !== 'test' || !process.env.TEST_MONGO_URI) {
+    throw new Error('Use NODE_ENV=test and a dedicated TEST_MONGO_URI');
+  }
+  const url = new URL(process.env.TEST_MONGO_URI);
+  if (url.pathname !== '/test_db') {
+    throw new Error('Refusing to clear a database not named test_db');
+  }
+  await mongoose.connect(process.env.TEST_MONGO_URI);
 });
 
 // Clear database between tests
@@ -984,7 +1000,8 @@ services:
       dockerfile: Dockerfile.test
     environment:
       - NODE_ENV=test
-      - MONGO_URI=mongodb://mongo-test:27017/test_db
+      - TEST_MONGO_URI=mongodb://mongo-test:27017/test_db
+      - JWT_SECRET=${TEST_JWT_SECRET:?Set a separate test signing secret}
     depends_on:
       - mongo-test
     command: npm test
@@ -1137,7 +1154,7 @@ WORKDIR /app
 COPY --from=builder /app/package*.json ./
 ENV NODE_ENV=production
 RUN npm ci --omit=dev
-COPY --from=builder /app ./
+COPY --from=builder /app/src ./src
 
 # Run as a non-root user for better security
 RUN addgroup -g 1001 -S nodejs && \

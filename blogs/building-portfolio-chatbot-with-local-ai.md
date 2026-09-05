@@ -8,6 +8,7 @@ author: "Billie Heidelberg Jr."
 coverImage: "/blogs/portfolio-chatbot-cover.svg"
 lastUpdated: "2026-07-03"
 featured: true
+draft: true
 ---
 
 Most developers call an API and call it AI. Here's how to build something better: a portfolio chatbot that knows your work history, your articles, your projects — and runs entirely on a cheap VPS with no external AI dependencies.

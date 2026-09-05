@@ -264,13 +264,23 @@ export async function getPostData(id: string): Promise<PostData> {
 export function getAllPostIds() {
   const fileNames = fs.readdirSync(postsDirectory);
 
-  return fileNames.map(fileName => {
-    return {
-      params: {
-        id: fileName.replace(/\.md$/, '')
+  return fileNames
+    .filter(fileName => fileName.endsWith('.md'))
+    .map(fileName => {
+      const id = fileName.replace(/\.md$/, '');
+      const fullPath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const matterResult = matter(fileContents);
+
+      if (matterResult.data.draft) {
+        return null;
       }
-    };
-  });
+
+      return {
+        params: { id }
+      };
+    })
+    .filter((path): path is { params: { id: string } } => path !== null);
 }
 
 // Get related posts based on shared tags

@@ -34,7 +34,9 @@ export default function ExperienceTab() {
                         )}
                         <span>•</span>
                         <span>{exp.period}</span>
-                        <Badge variant="outline" className="ml-2">Contract</Badge>
+                        {exp.contract && (
+                          <Badge variant="outline" className="ml-2">Contract</Badge>
+                        )}
                       </CardDescription>
                     </div>
                   </div>
@@ -80,6 +82,9 @@ export default function ExperienceTab() {
                         )}
                         <span>•</span>
                         <span>{exp.period}</span>
+                        {exp.contract && (
+                          <Badge variant="outline" className="ml-2">Contract</Badge>
+                        )}
                         {exp.appStoreUrl && (
                           <>
                             <span>•</span>
@@ -136,6 +141,9 @@ export default function ExperienceTab() {
                         )}
                         <span>•</span>
                         <span>{exp.period}</span>
+                        {exp.contract && (
+                          <Badge variant="outline" className="ml-2">Contract</Badge>
+                        )}
                       </CardDescription>
                     </div>
                   </div>

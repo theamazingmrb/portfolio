@@ -6,7 +6,7 @@ tags: ["AI", "Ollama", "Hermes", "Local LLM", "JavaScript", "Tutorial"]
 excerpt: "Twenty minutes from now you'll have a real AI assistant running entirely on your laptop. No API keys. No cloud account. No monthly bill. Just Ollama, a lightweight language model, and Hermes."
 author: "Billie Heidelberg Jr."
 coverImage: "/blogs/running-ai-locally-cover.svg"
-lastUpdated: "2026-07-01"
+lastUpdated: "2026-09-05"
 featured: true
 ---
 
@@ -55,7 +55,7 @@ Start the service:
 ollama serve
 ```
 
-This runs in the background. Leave it going.
+This runs in the foreground. Leave that terminal open and use a second terminal for the commands below. If Ollama is already running as a desktop app or service, do not start a second server on the same port.
 
 ### 2. Download Your First Model
 
@@ -92,10 +92,10 @@ The 4B model you just verified is great for chat — fast, lightweight, and it p
 For agent work, start by stepping up:
 
 ```bash
-ollama pull gemma3:12b
+ollama pull gemma4
 ```
 
-Yes, it's larger and needs more RAM. Larger models are usually more reliable for tool calls, but this is not a guarantee.
+The [Ollama Hermes integration guide](https://docs.ollama.com/integrations/hermes) lists `gemma4` as a local option and estimates roughly 16 GB of VRAM. This is a different model family from Gemma 3, not simply a larger version of the chat model above. Long contexts require additional memory. Check the exact model tag, quantization, and tool support on your machine before committing to an agent workflow.
 
 Check the hardware reference below if you're unsure whether your machine can handle it.
 
@@ -111,7 +111,7 @@ This drops Hermes into `~/.hermes/` and walks you through a setup wizard on firs
 
 ### 6. Fix the Context Window Before You Do Anything Else
 
-This is the step almost everyone misses, and it will make Hermes behave erratically if you skip it. Hermes requires a large context window — 64,000 tokens is a safe target — to hold its working memory across multi-step tool calls. Ollama defaults are much smaller (often 4,096). If you don't raise this first, Hermes may start fine and then lose track after a few tool calls.
+Agent workflows need room for instructions, tool descriptions, and history. Check your model's effective context length and your installed Hermes version's requirements before a long session. A 64,000-token context is an example configuration, not a universal safe setting: it can require substantial extra memory. Ollama defaults vary with hardware and version, and current Hermes setup can auto-detect context length.
 
 There are several ways to raise the context window; the right one depends on how you run Ollama:
 
@@ -119,11 +119,11 @@ There are several ways to raise the context window; the right one depends on how
 
 ```bash
 cat > Modelfile << 'EOF'
-FROM gemma3:12b
+FROM gemma4
 PARAMETER num_ctx 64000
 EOF
 
-ollama create gemma3-12b-64k -f Modelfile
+ollama create gemma4-64k -f Modelfile
 ```
 
 **Option B: Environment variable (for the Ollama server)**
@@ -136,7 +136,7 @@ OLLAMA_CONTEXT_LENGTH=64000 ollama serve
 
 ```bash
 curl http://localhost:11434/api/generate -d '{
-  "model": "gemma3:12b",
+  "model": "gemma4",
   "prompt": "reply with just: OK",
   "stream": false,
   "options": { "num_ctx": 64000 }
@@ -146,14 +146,14 @@ curl http://localhost:11434/api/generate -d '{
 **Option D: Set it inside `ollama run`**
 
 ```bash
-ollama run gemma3:12b
+ollama run gemma4
 >>> /set parameter num_ctx 64000
 ```
 
 Verify the context is actually in effect by checking the **CONTEXT** column while the model is loaded:
 
 ```bash
-ollama run gemma3-12b-64k
+ollama run gemma4-64k
 >>> /show parameters
 ollama ps
 ```
@@ -166,7 +166,7 @@ When the Hermes setup wizard asks for a provider, choose the custom OpenAI-compa
 
 - **Endpoint:** `http://localhost:11434/v1`
 - **API key:** leave blank (Ollama doesn't require one)
-- **Model:** the exact name from `ollama list` — in our case, `gemma3-12b-64k`
+- **Model:** the exact name from `ollama list` — in our case, `gemma4-64k`
 
 Hermes writes this to `~/.hermes/config.yaml` automatically. That's it — you now have a local, agentic AI assistant.
 
@@ -183,7 +183,7 @@ ollama pull qwen2.5:3b
 Need stronger reasoning?
 
 ```bash
-ollama pull gemma3:12b
+ollama pull gemma4
 ```
 
 Need coding assistance?
@@ -192,9 +192,9 @@ Need coding assistance?
 ollama pull codellama:7b
 ```
 
-Same API. Same workflow. Different model. One string in your config flips from `gemma3:12b` to `codellama:7b` and suddenly you have a coding specialist running locally.
+Same API. Same workflow. Different model. One string in your config flips from `gemma4` to `codellama:7b` and suddenly you have a coding specialist running locally.
 
-**Remember:** If you plan to use a new model with Hermes, raise its context window first. Skipping this is the most common reason Hermes loses track after a few tool calls.
+**Remember:** Verify tool-call support, effective context length, and available memory when switching models. Chat quality alone does not prove that the model can run an agent.
 
 ## When You Outgrow Your Laptop
 
@@ -251,7 +251,7 @@ It will break. Here is what to check:
 
 - **Model won't load?** You probably ran out of RAM. Close Chrome. Close VS Code. Try again.
 - **Slow responses?** On a Mac with Apple Silicon, Ollama should use the GPU automatically. Verify with `ollama ps`.
-- **Hermes losing track after a few steps?** Check that your context window is actually set to 64K — this is the single most common cause.
+- **Hermes losing track after a few steps?** Check effective context length, truncation, tool-call compatibility, and memory pressure. Increasing context will not fix an unsupported tool-call format.
 - **Weird output?** Local models are more sensitive to prompt structure than cloud models. Be more explicit. Give it examples. Tell it exactly what format you want.
 
 This is the trade-off. A little polish for total control. After a week, you stop noticing.

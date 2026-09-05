@@ -297,6 +297,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
 ### 🎨 Theme Management System
 
+This example assumes a client-only React application with browser storage available. In a server-rendered app, use a stable initial state and read storage after mounting; reading `localStorage` during server rendering fails. Handle malformed or unavailable storage, and keep writes outside state updater functions because React may invoke those functions more than once in development.
+
 ```jsx
 // contexts/ThemeContext.js
 const ThemeContext = createContext();
@@ -493,6 +495,8 @@ export function CartProvider({ children }) {
 
 #### 1. Memoize Context Values
 
+Context distributes a value; it does not store state by itself. Memoizing the provider value can avoid unnecessary notifications when a parent renders without changing that value. It does not stop updates when the state actually changes.
+
 ```jsx
 function MyProvider({ children }) {
   const [state, setState] = useState(initialState);
@@ -532,7 +536,9 @@ const ThemeContext = createContext();
 const CartContext = createContext();
 ```
 
-#### 3. Use React.memo for Consumer Components
+#### 3. Understand What React.memo Can Skip
+
+`React.memo` can skip parent-driven renders when props are unchanged. It does **not** prevent a component from rendering when a context it reads changes. The `useMemo` below only avoids repeating the calculation when `theme` is unchanged. Split contexts or pass a selected value to a memoized child when unrelated context changes are expensive. See the [React context reference](https://react.dev/reference/react/useContext).
 
 ```jsx
 const ExpensiveComponent = React.memo(function ExpensiveComponent() {

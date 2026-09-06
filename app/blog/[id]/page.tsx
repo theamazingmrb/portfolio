@@ -236,7 +236,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
               {/* Main Content */}
-              <div className="flex-1 lg:max-w-4xl lg:ml-72">
+              <div className="flex-1 lg:max-w-6xl lg:ml-72">
                 <div className="bg-card rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden border border-border">
                   {/* Progress Bar */}
                   <div className="h-1 bg-gradient-to-r from-primary via-primary/70 to-primary/50"></div>
@@ -307,7 +307,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
             </div>
             
             {/* Author Bio Card */}
-            <div className="mt-12 bg-gradient-to-br from-primary/5 to-secondary/50 rounded-2xl p-8 border border-border">
+            <div className="mt-12 bg-gradient-to-br from-primary/5 to-secondary/50 rounded-2xl p-8 border border-border lg:ml-72 lg:max-w-6xl">
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">

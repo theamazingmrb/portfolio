@@ -28,7 +28,7 @@ export default function ShareButtons({ url, title, summary = '' }: ShareButtonsP
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm text-gray-600 font-medium">Share:</span>
+      <span className="text-sm text-muted-foreground font-medium">Share:</span>
       <div className="flex gap-2">
         <button 
           onClick={handleTwitterShare}

@@ -1,14 +1,14 @@
 ---
 title: "Playwright Testing Guide: End-to-End Testing for Modern Web Apps"
-date: "2025-03-15"
+date: "2026-09-05"
 category: "Testing"
 excerpt: "Master end-to-end testing with Playwright. Learn to write reliable, fast browser tests with real-world examples, best practices, and debugging techniques."
 tags: ["Testing", "Playwright", "E2E", "TypeScript", "JavaScript", "Automation"]
 author: "Billie Heidelberg Jr."
 readingTime: 10
 coverImage: "/blogs/playwright-testing-cover.svg"
-lastUpdated: "2025-03-15"
-featured: false
+lastUpdated: "2026-09-05"
+featured: true
 ---
 
 ## Playwright Testing Guide

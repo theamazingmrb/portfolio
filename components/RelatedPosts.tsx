@@ -14,13 +14,13 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-secondary/50 text-foreground">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Related Articles
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-muted-foreground">
             Continue exploring similar topics and insights
           </p>
         </div>
@@ -30,10 +30,10 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
             <Link
               key={post.id}
               href={`/blog/${post.id}`}
-              className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              className="group bg-card rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-border"
             >
               {/* Cover Image */}
-              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100">
+              <div className="relative h-48 overflow-hidden bg-muted">
                 <Image
                   src={post.coverImage || getCoverImage(post.coverImage)}
                   alt={post.title}
@@ -56,17 +56,17 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
                 )}
 
                 {/* Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
                   {post.title}
                 </h3>
 
                 {/* Excerpt */}
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
 
                 {/* Meta */}
-                <div className="flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

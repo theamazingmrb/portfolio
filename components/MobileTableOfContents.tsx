@@ -108,7 +108,7 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
       {/* Floating Button with Progress Ring */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-110 group"
+        className="relative bg-primary text-primary-foreground p-3 rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-110 group"
         aria-label="Table of Contents"
       >
         {/* Progress Ring */}
@@ -120,7 +120,7 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
             stroke="currentColor"
             strokeWidth="2"
             fill="none"
-            className="text-blue-800 opacity-30"
+            className="text-primary-foreground/30"
           />
           <circle
             cx="24"
@@ -131,17 +131,17 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
             fill="none"
             strokeDasharray={`${2 * Math.PI * 20}`}
             strokeDashoffset={`${2 * Math.PI * 20 * (1 - scrollProgress / 100)}`}
-            className="text-white transition-all duration-300"
+            className="text-primary-foreground transition-all duration-300"
           />
         </svg>
-        
+
         {/* Icon */}
         <svg className="w-6 h-6 relative z-10" fill="currentColor" viewBox="0 0 24 24">
           <path d="M3 9h14V7H3v2zm0 4h14v-2H3v2zm0 4h14v-2H3v2zm16 0h2v-2h-2v2zm0-10v2h2V7h-2zm0 6h2v-2h-2v2z"/>
         </svg>
-        
+
         {/* Progress percentage on hover */}
-        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-card text-foreground border border-border text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
           {Math.round(scrollProgress)}% read
         </div>
       </button>
@@ -149,29 +149,29 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
       {/* Slide-in Menu */}
       <div className={`fixed inset-0 z-50 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         {/* Backdrop */}
-        <div 
-          className={`absolute inset-0 bg-black transition-all duration-300 ease-out ${
-            isOpen ? 'bg-opacity-50 backdrop-blur-sm' : 'bg-opacity-0'
+        <div
+          className={`absolute inset-0 bg-black/50 transition-all duration-300 ease-out ${
+            isOpen ? 'opacity-100 backdrop-blur-sm' : 'opacity-0'
           }`}
           onClick={() => setIsOpen(false)}
         />
-        
+
         {/* Menu Content - Slides in from left with spring animation */}
-        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-all duration-500 ease-out ${
+        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-card shadow-2xl transform transition-all duration-500 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
           <div className="h-full flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
-              <h3 className="text-lg font-bold text-gray-900 flex items-center">
-                <svg className="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center justify-between p-4 border-b border-border bg-muted/50">
+              <h3 className="text-lg font-bold text-foreground flex items-center">
+                <svg className="w-5 h-5 mr-2 text-primary" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M3 9h14V7H3v2zm0 4h14v-2H3v2zm0 4h14v-2H3v2zm16 0h2v-2h-2v2zm0-10v2h2V7h-2zm0 6h2v-2h-2v2z"/>
                 </svg>
                 Contents
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-500 hover:text-gray-700 p-1 rounded-md hover:bg-gray-200 transition-colors"
+                className="text-muted-foreground hover:text-foreground p-1 rounded-md hover:bg-muted transition-colors"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 13.41 12z"/>
@@ -180,14 +180,14 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
             </div>
 
             {/* Progress */}
-            <div className="p-4 border-b border-gray-200">
+            <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">Reading Progress</span>
-                <span className="text-sm font-medium text-blue-600">{Math.round(scrollProgress)}%</span>
+                <span className="text-sm text-muted-foreground">Reading Progress</span>
+                <span className="text-sm font-medium text-primary">{Math.round(scrollProgress)}%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-primary via-primary/70 to-primary/50 transition-all duration-300"
                   style={{ width: `${scrollProgress}%` }}
                 />
               </div>
@@ -206,14 +206,14 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
                       className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
                         indentClass
                       } ${
-                        activeHeading === heading.id 
-                          ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-500' 
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-sm'
+                        activeHeading === heading.id
+                          ? 'bg-primary/10 text-primary border-l-4 border-primary'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-muted hover:shadow-sm'
                       }`}
                     >
                       <div className="flex items-center">
                         <span className={`text-xs mr-2 w-4 font-medium ${
-                          activeHeading === heading.id ? 'text-blue-500' : 'text-gray-400'
+                          activeHeading === heading.id ? 'text-primary' : 'text-muted-foreground'
                         }`}>{index + 1}.</span>
                         <span className="font-medium">{heading.text}</span>
                       </div>
@@ -224,13 +224,13 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
             </div>
 
             {/* Quick actions */}
-            <div className="p-4 border-t border-gray-200 space-y-2">
+            <div className="p-4 border-t border-border space-y-2">
               <button
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setIsOpen(false);
                 }}
-                className="w-full text-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                className="w-full text-center px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
                 ↑ Back to top
               </button>
@@ -239,7 +239,7 @@ export default function MobileTableOfContents({ content }: MobileTableOfContents
                   window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
                   setIsOpen(false);
                 }}
-                className="w-full text-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                className="w-full text-center px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
                 ↓ Jump to bottom
               </button>

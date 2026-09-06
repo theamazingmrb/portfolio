@@ -93,23 +93,23 @@ export default function TableOfContents({ content, className = "" }: TableOfCont
   return (
     <div className={`hidden lg:block z-50 ${className}`}>
       <div className="fixed left-4 top-1/2 -translate-y-1/2 w-64 max-h-[70vh] overflow-y-auto">
-        <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-bold text-gray-900 mb-3 flex items-center sticky top-0 bg-white/95 backdrop-blur-sm py-2 -mx-4 px-4 border-b border-gray-100">
-            <svg className="w-4 h-4 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+        <div className="bg-card/95 backdrop-blur-sm rounded-lg shadow-lg border border-border p-4">
+          <h3 className="text-sm font-bold text-foreground mb-3 flex items-center sticky top-0 bg-card/95 backdrop-blur-sm py-2 -mx-4 px-4 border-b border-border">
+            <svg className="w-4 h-4 mr-2 text-primary" fill="currentColor" viewBox="0 0 24 24">
               <path d="M3 9h14V7H3v2zm0 4h14v-2H3v2zm0 4h14v-2H3v2zm16 0h2v-2h-2v2zm0-10v2h2V7h-2zm0 6h2v-2h-2v2z"/>
             </svg>
             Contents
           </h3>
-          
+
           {/* Progress indicator */}
           <div className="mb-3">
-            <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
+            <div className="h-1 bg-muted rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-primary via-primary/70 to-primary/50 transition-all duration-300"
                 style={{ width: `${scrollProgress}%` }}
               />
             </div>
-            <div className="text-xs text-gray-500 mt-1">
+            <div className="text-xs text-muted-foreground mt-1">
               {Math.round(scrollProgress)}% complete
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function TableOfContents({ content, className = "" }: TableOfCont
             {headings.map((heading) => {
               const isActive = heading.id === activeHeading;
               const indentClass = heading.level === 3 ? 'ml-3' : heading.level === 4 ? 'ml-6' : '';
-              
+
               return (
                 <button
                   key={heading.id}
@@ -128,8 +128,8 @@ export default function TableOfContents({ content, className = "" }: TableOfCont
                     indentClass
                   } ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700 font-medium border-l-2 border-blue-500'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'bg-primary/10 text-primary font-medium border-l-2 border-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}
                 >
                   {heading.text.length > 25 ? heading.text.substring(0, 25) + '...' : heading.text}
@@ -139,16 +139,16 @@ export default function TableOfContents({ content, className = "" }: TableOfCont
           </nav>
 
           {/* Quick actions */}
-          <div className="mt-4 pt-3 border-t border-gray-200 space-y-1">
+          <div className="mt-4 pt-3 border-t border-border space-y-1">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="w-full text-center px-2 py-1 text-xs text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-colors"
+              className="w-full text-center px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
             >
               ↑ Top
             </button>
             <button
               onClick={() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' })}
-              className="w-full text-center px-2 py-1 text-xs text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded transition-colors"
+              className="w-full text-center px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
             >
               ↓ Bottom
             </button>

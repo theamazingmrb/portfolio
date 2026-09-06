@@ -17,7 +17,7 @@ export default function TermsOfService() {
         </p>
 
         <p className="mb-6">
-          Welcome to Billie Heidelberg's portfolio website. These Terms of Service ("Terms") govern your use of billieheidelberg.com (the "Site") and any services provided by Billie P Heidelberg ("I", "me", or "my").
+          Welcome to Billie P. Heidelberg's portfolio website. These Terms of Service ("Terms") govern your use of billieheidelberg.com (the "Site") and any services provided by Billie P. Heidelberg ("I", "me", or "my").
         </p>
 
         <p className="mb-6">
@@ -50,7 +50,7 @@ export default function TermsOfService() {
         
         <h3 className="text-xl font-semibold mt-6 mb-3">My Content</h3>
         <p className="mb-4">
-          All content on this Site, including but not limited to text, graphics, logos, images, and software, is the property of Billie P Heidelberg and is protected by copyright, trademark, and other intellectual property laws.
+          All content on this Site, including but not limited to text, graphics, logos, images, and software, is the property of Billie P. Heidelberg and is protected by copyright, trademark, and other intellectual property laws.
         </p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">Your Content</h3>
@@ -62,7 +62,7 @@ export default function TermsOfService() {
         
         <h3 className="text-xl font-semibold mt-6 mb-3">Portfolio Representation</h3>
         <p className="mb-4">
-          The projects and work samples displayed on this Site are for demonstration purposes only. Actual project outcomes may vary based on specific client requirements and circumstances.
+          The projects and work samples on this Site reflect real work, outcomes, and client requirements as described. Details are shared to the extent permitted and verified.
         </p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">No Guarantee</h3>
@@ -77,7 +77,7 @@ export default function TermsOfService() {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Indemnification</h2>
         <p className="mb-4">
-          You agree to indemnify and hold harmless Billie P Heidelberg from any claims, damages, or expenses arising from your use of this Site or violation of these Terms.
+          You agree to indemnify and hold harmless Billie P. Heidelberg from any claims, damages, or expenses arising from your use of this Site or violation of these Terms.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Third-Party Links</h2>

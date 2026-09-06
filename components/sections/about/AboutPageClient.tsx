@@ -66,7 +66,7 @@ export default function AboutPageClient() {
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 px-2">Full Stack Engineer • Mobile Engineer</h2>
 
                 <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">
-                  I am a <strong>full stack engineer</strong> and <strong>mobile engineer</strong> with <strong>8+ years of experience</strong> building production web and mobile platforms across <strong>React</strong>, <strong>Next.js</strong>, <strong>TypeScript</strong>, <strong>Node.js</strong>, and <strong>PostgreSQL</strong>. I have shipped iOS/Android contract work, founded a trading journal SaaS, and spent seven years at InvestCloud supporting enterprise API integrations at scale. I care about performance, reliability, and thoughtful user experience.
+                  I am a <strong>full stack engineer</strong> and <strong>mobile engineer</strong> with <strong>8+ years of experience</strong> building production web and mobile platforms across <strong>React</strong>, <strong>Next.js</strong>, <strong>TypeScript</strong>, <strong>Node.js</strong>, and <strong>PostgreSQL</strong>. I have shipped iOS/Android contract work, founded a trading journal SaaS, and spent seven years at InvestCloud supporting 100+ developers on enterprise API integrations at scale. I care about performance, reliability, and thoughtful user experience.
                 </p>
 
                 <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">

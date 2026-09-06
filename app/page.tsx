@@ -108,7 +108,7 @@ export default function Home() {
           <span className="eyebrow section-kicker">03 / A little about me</span>
           <h2 id="about-title">Builder’s mindset.<br /><span className="serif-word">Teacher’s heart.</span></h2>
           <p>I care about what happens on the other side of the screen. Whether I’m building a product, untangling a system, or helping a developer find their footing, the goal is the same: make something genuinely useful.</p>
-          <div className="about-stats"><div><strong>8+</strong><span>years of building</span></div><div><strong>100+</strong><span>developers taught</span></div><div><strong>Full stack.</strong><span>from idea to production</span></div></div>
+          <div className="about-stats"><div><strong>8+</strong><span>years of building</span></div><div><strong>150+</strong><span>students taught</span></div><div><strong>Full stack.</strong><span>from idea to production</span></div></div>
           <Link href="/about" className="text-link">A bit more about me <ArrowUpRight size={18} aria-hidden="true" /></Link>
         </div>
       </section>

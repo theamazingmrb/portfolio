@@ -14,7 +14,7 @@ function ProfessionalExperience() {
   const experiences = [
     {
       company: "Daily Wick",
-      role: "Founder & Lead Developer",
+      role: "Founder & Full Stack Engineer",
       period: "April 2025 - Present",
       description:
         "AI-assisted trading journal that helps traders log, analyze, and improve decision making with actionable insights.",
@@ -30,23 +30,23 @@ function ProfessionalExperience() {
     },
     {
       company: "TOLO",
-      role: "CTO and Co-Founder",
+      role: "Co-Founder & CTO",
       period: "October 2022 - January 2025",
       description:
         "Content discovery platform that promoted underground artists with engagement-focused ranking.",
       achievements: [
-        "Led full stack development with React, Node, and Postgres.",
-        "Prototyped engagement-based ranking to reduce popularity bias.",
-        "Owned sprints, backlog, and delivery in a lean environment.",
+        "Led end-to-end development of a React Native (Expo) mobile app with a Supabase backend — real-time subscriptions, role-based access, and media upload infrastructure.",
+        "Built a viral content ranking algorithm and improved feed performance by 40% through SWR caching.",
+        "Directed sprint planning, code reviews, and iOS/Android deployments via Expo Application Services.",
         "Implemented authentication, creator onboarding, and feed performance improvements."
       ],
-      technologies: ["React", "Node.js", "PostgreSQL", "AWS", "Redis"],
+      technologies: ["React Native", "Expo", "Supabase", "SWR", "TypeScript"],
       logo: "/logos/tolo.jpeg",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {
       company: "Simmr",
-      role: "Full Stack Engineer",
+      role: "Full Stack Engineer (Contract)",
       period: "July 2023 - December 2025",
       description:
         "Specialized social platform focused on safety, privacy, and inclusive discovery for an ENM and polyamorous community.",
@@ -62,7 +62,7 @@ function ProfessionalExperience() {
     },
     {
       company: "InvestCloud",
-      role: "Technical Trainer & Integration Developer",
+      role: "Technical Trainer & Software Engineer",
       period: "July 2018 - June 2025",
       description:
         "Designed onboarding and training for API and integration developers at a fintech platform serving large institutions.",
@@ -83,19 +83,18 @@ function ProfessionalExperience() {
       description:
         "Short-term contract focused on modernizing Airbnb's host ambassador platform with measurable engagement and support improvements.",
       achievements: [
-        "Refactored core UI modules to improve navigation flow, visual consistency, and workflow clarity",
-        "Implemented responsive components and simplified information hierarchy for ambassador dashboard",
-        "Delivered optimized task flows that reduced support escalations by 30%",
-        "Collaborated with product and design teams to ensure seamless integration with Airbnb's design system"
+        "Built and modernized frontend UI components for Airbnb’s host management platform, improving the host onboarding and listing management experience.",
+        "Refactored core UI modules to improve navigation flow, visual consistency, and workflow clarity.",
+        "Implemented responsive components and simplified information hierarchy for the ambassador dashboard.",
+        "Collaborated with product and design teams to ensure seamless integration with Airbnb's design system."
       ],
       technologies: ["JavaScript", "React", "Ruby on Rails", "SCSS", "PostgreSQL"],
       logo: "/logos/abnb.png",
-      logoBg: "bg-white p-2 rounded-lg",
-      impact: "Increased ambassador productivity and reduced operational overhead for the partnerships team"
+      logoBg: "bg-white p-2 rounded-lg"
     },
     {
       company: "BBDO Los Angeles",
-      role: "Jr Front End Developer",
+      role: "Jr. Front End Developer",
       period: "October 2017 - July 2018",
       description:
         "Built interactive campaign pages and motion-driven ad experiences with tight performance budgets.",

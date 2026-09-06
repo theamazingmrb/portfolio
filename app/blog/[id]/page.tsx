@@ -194,7 +194,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                   </div>
                   <div className="text-left">
                     <div className="text-sm sm:text-base font-semibold text-foreground">{postData.author || "Billie Heidelberg Jr."}</div>
-                    <div className="text-xs sm:text-sm text-muted-foreground">Full Stack Developer</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">Full Stack Engineer</div>
                   </div>
                 </div>
 

@@ -44,7 +44,7 @@ export const fullTimeExperience: Experience[] = [
     company: "InvestCloud Inc.",
     period: "July 2018 – June 2025",
     description:
-      "Enterprise fintech platform serving 50+ financial institutions · Promoted through four roles over seven years",
+      "Enterprise fintech platform serving 50+ financial institutions · seven years supporting enterprise API integrations at scale",
     achievements: [
       "Debugged and resolved API integration issues for 100+ developers globally across REST services and data pipelines, cutting average resolution time by 40% through structured documentation and repeatable diagnostic workflows.",
       "Investigated production data inconsistencies and system failures across distributed services, identifying root causes and implementing fixes.",

@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://billieheidelberg.com'),
   title: "Billie Heidelberg Jr. | Full Stack Engineer | 8+ Years Experience",
-  description: "Full stack engineer with 8+ years building production web and mobile platforms across React, Next.js, Node.js, and PostgreSQL. Founded a trading journal SaaS, ships iOS/Android contract work, and spent seven years at InvestCloud supporting enterprise API integrations at scale.",
+  description: "Full stack engineer with 8+ years building production web and mobile platforms across React, Next.js, Node.js, and PostgreSQL. Founded a trading journal SaaS, ships iOS/Android contract work, and spent seven years at InvestCloud supporting 100+ developers on enterprise API integrations at scale.",
   keywords: "Billie Heidelberg, full stack engineer, software engineer, React, TypeScript, Node.js, Next.js, PostgreSQL, web development, mobile engineer, React Native, educator, General Assembly instructor, fintech, InvestCloud, Los Angeles",
   openGraph: {
     title: "Billie Heidelberg Jr. | Full Stack Engineer",

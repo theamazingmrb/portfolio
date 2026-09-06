@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Subtle circuit board pattern -->
+  <g stroke="#1e293b" stroke-width="1" fill="none">
+    <path d="M 0 110 L 210 110 L 260 160 L 430 160"/>
+    <path d="M 0 250 L 130 250 L 180 200 L 370 200 L 420 250 L 610 250"/>
+    <path d="M 1200 410 L 990 410 L 940 360 L 770 360"/>
+    <path d="M 1200 150 L 1120 150 L 1070 100 L 870 100"/>
+    <circle cx="210" cy="110" r="3" fill="#1e293b"/>
+    <circle cx="430" cy="160" r="3" fill="#1e293b"/>
+    <circle cx="370" cy="200" r="3" fill="#1e293b"/>
+    <circle cx="610" cy="250" r="3" fill="#1e293b"/>
+    <circle cx="940" cy="360" r="3" fill="#1e293b"/>
+    <circle cx="770" cy="360" r="3" fill="#1e293b"/>
+    <circle cx="1070" cy="100" r="3" fill="#1e293b"/>
+  </g>
+
+  <!-- Floating browser nodes -->
+  <g fill="#e74c3c" opacity="0.12">
+    <circle cx="160" cy="190" r="46"/>
+    <circle cx="1040" cy="440" r="62"/>
+    <circle cx="930" cy="130" r="34"/>
+    <circle cx="330" cy="490" r="48"/>
+  </g>
+
+  <!-- Central Playwright panel -->
+  <g transform="translate(600, 315)">
+    <!-- Outer orbit ring (theater curtain style) -->
+    <circle cx="0" cy="0" r="200" fill="none" stroke="#e74c3c" stroke-width="1.5" opacity="0.25"/>
+    <circle cx="0" cy="0" r="178" fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="4,6" opacity="0.35"/>
+
+    <!-- Terminal/Browser window -->
+    <rect x="-175" y="-120" width="350" height="240" rx="10" fill="#0f172a" stroke="#e74c3c" stroke-width="2"/>
+    <!-- Title bar -->
+    <rect x="-175" y="-120" width="350" height="34" rx="10" fill="#1e293b"/>
+    <rect x="-175" y="-86" width="350" height="1" fill="#334155"/>
+    <!-- Window dots -->
+    <circle cx="-150" cy="-103" r="5" fill="#ef4444" opacity="0.8"/>
+    <circle cx="-133" cy="-103" r="5" fill="#f59e0b" opacity="0.8"/>
+    <circle cx="-116" cy="-103" r="5" fill="#22c55e" opacity="0.8"/>
+    <!-- Title text -->
+    <text x="-5" y="-98" fill="#64748b" font-family="monospace" font-size="12">npx playwright test</text>
+
+    <!-- Test output lines -->
+    <g font-family="monospace" font-size="13">
+      <!-- Running tests header -->
+      <text x="-155" y="-60" fill="#94a3b8" font-size="11">Running 12 tests using 3 workers</text>
+
+      <!-- Browser tests -->
+      <circle cx="-150" cy="-30" r="5" fill="#22c55e"/>
+      <text x="-138" y="-26" fill="#4ade80">✓ [chromium] › auth.spec.ts:3:1</text>
+
+      <circle cx="-150" cy="-2" r="5" fill="#22c55e"/>
+      <text x="-138" y="2" fill="#4ade80">✓ [firefox] › auth.spec.ts:3:1</text>
+
+      <circle cx="-150" cy="26" r="5" fill="#22c55e"/>
+      <text x="-138" y="30" fill="#4ade80">✓ [webkit] › auth.spec.ts:3:1</text>
+
+      <circle cx="-150" cy="54" r="5" fill="#22c55e"/>
+      <text x="-138" y="58" fill="#4ade80">✓ [mobile] › checkout.spec.ts:12:1</text>
+    </g>
+
+    <!-- Summary bar with Playwright green -->
+    <rect x="-155" y="80" width="310" height="24" rx="4" fill="#1e293b"/>
+    <rect x="-155" y="80" width="232" height="24" rx="4" fill="#22c55e" opacity="0.2"/>
+    <text x="-145" y="97" fill="#4ade80" font-family="monospace" font-size="13" font-weight="bold">12 passed (5.2s)</text>
+  </g>
+
+  <!-- Browser icons as orbiting elements -->
+  <g transform="translate(600, 315)">
+    <!-- Chromium -->
+    <g transform="translate(140, -140)">
+      <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#4285f4" stroke-width="2"/>
+      <!-- Chrome icon simplified -->
+      <circle cx="0" cy="0" r="8" fill="#4285f4"/>
+      <path d="M -8 0 A 8 8 0 0 1 -4 -6.93" stroke="#ea4335" stroke-width="5" fill="none"/>
+      <path d="M 4 6.93 A 8 8 0 0 1 8 0" stroke="#fbbc04" stroke-width="5" fill="none"/>
+      <path d="M -4 -6.93 A 8 8 0 0 1 4 -6.93" stroke="#34a853" stroke-width="5" fill="none"/>
+      <line x1="-20" y1="-20" x2="-40" y2="-40" stroke="#4285f4" stroke-width="1.5" opacity="0.4"/>
+    </g>
+
+    <!-- Firefox -->
+    <g transform="translate(170, 70)">
+      <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#ff7139" stroke-width="2"/>
+      <!-- Firefox icon simplified -->
+      <circle cx="0" cy="0" r="10" fill="#ff7139"/>
+      <path d="M -5 -8 Q 0 -12 5 -8" stroke="#ffcb2e" stroke-width="3" fill="none"/>
+      <line x1="20" y1="20" x2="45" y2="45" stroke="#ff7139" stroke-width="1.5" opacity="0.4"/>
+    </g>
+
+    <!-- WebKit/Safari -->
+    <g transform="translate(-140, 100)">
+      <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#006cff" stroke-width="2"/>
+      <!-- Safari compass -->
+      <circle cx="0" cy="0" r="10" fill="none" stroke="#006cff" stroke-width="2"/>
+      <path d="M 0 -8 L 0 8 M -8 0 L 8 0" stroke="#006cff" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="2" fill="#006cff"/>
+      <line x1="-20" y1="20" x2="-45" y2="45" stroke="#006cff" stroke-width="1.5" opacity="0.4"/>
+    </g>
+
+    <!-- Mobile device -->
+    <g transform="translate(-160, -120)">
+      <rect x="-12" y="-18" width="24" height="36" rx="3" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+      <rect x="-10" y="-15" width="20" height="27" rx="1" fill="#22c55e" opacity="0.2"/>
+      <circle cx="0" cy="15" r="2" fill="#22c55e"/>
+      <line x1="0" y1="-30" x2="0" y2="-55" stroke="#22c55e" stroke-width="1.5" opacity="0.4"/>
+    </g>
+  </g>
+
+  <!-- Playwright logo/mask theater icon in corner -->
+  <g transform="translate(100, 80)">
+    <!-- Comedy mask -->
+    <ellipse cx="0" cy="0" rx="24" ry="28" fill="#1e293b" stroke="#e74c3c" stroke-width="2"/>
+    <circle cx="-8" cy="-6" r="3" fill="#e74c3c"/>
+    <circle cx="8" cy="-6" r="3" fill="#e74c3c"/>
+    <path d="M -10 6 Q 0 12 10 6" stroke="#e74c3c" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Floating code brackets with Playwright red theme -->
+  <g stroke="#e74c3c" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5">
+    <path d="M 1050 140 L 1035 155 L 1035 175 L 1050 190"/>
+    <path d="M 1086 140 L 1101 155 L 1101 175 L 1086 190"/>
+  </g>
+
+  <!-- Decorative test nodes -->
+  <g fill="#e74c3c" opacity="0.5">
+    <circle cx="600" cy="115" r="3"/>
+    <circle cx="773" cy="175" r="3"/>
+    <circle cx="773" cy="455" r="3"/>
+    <circle cx="600" cy="515" r="3"/>
+    <circle cx="427" cy="455" r="3"/>
+    <circle cx="427" cy="175" r="3"/>
+  </g>
+
+  <!-- Corner accents -->
+  <g stroke="#e74c3c" stroke-width="1.5" opacity="0.2" fill="none">
+    <path d="M 20 20 L 20 60 L 60 60"/>
+    <path d="M 1180 610 L 1180 570 L 1140 570"/>
+    <path d="M 1180 20 L 1140 20 L 1140 60"/>
+    <path d="M 20 610 L 20 570 L 60 570"/>
+  </g>
+
+  <!-- E2E connection lines -->
+  <g stroke="#e74c3c" stroke-width="1" opacity="0.15" fill="none" stroke-dasharray="4,4">
+    <path d="M 200 530 Q 400 450 600 515"/>
+    <path d="M 1000 100 Q 800 180 600 115"/>
+  </g>
+</svg>

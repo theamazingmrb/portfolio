@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
         </p>
 
         <p className="mb-6">
-          This Privacy Policy describes how Billie P Heidelberg ("I", "me", or "my") collects, uses, and protects your information when you visit my portfolio website at billieheidelberg.com (the "Site").
+          This Privacy Policy describes how Billie P. Heidelberg ("I", "me", or "my") collects, uses, and protects your information when you visit my portfolio website at billieheidelberg.com (the "Site").
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Information I Collect</h2>

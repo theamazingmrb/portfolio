@@ -197,7 +197,7 @@ export default function Blog() {
                 <CardTitle className="text-xl">Modern Tech Insights</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Deep dives into TypeScript, React, Node.js, AI integration, and cutting-edge development practices with real-world examples</p>
+                <p className="text-muted-foreground">Deep dives into TypeScript, React, Node.js, AI integration, and modern development practices with real-world examples</p>
               </CardContent>
             </Card>
             

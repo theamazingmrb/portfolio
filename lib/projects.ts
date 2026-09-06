@@ -62,12 +62,11 @@ export const projects: Project[] = [
       "/projects/daily-wick-risk-calculator.png"
     ],
     metrics: [
-      "Early Access: 10-15 Active Traders",
-      "100% Uptime Since Launch",
+      "Beta trading journal for active and prop traders",
       "10+ Key Features Implemented",
       "Positive Initial User Feedback"
     ],
-    businessImpact: "Automates journaling and surfaces AI insights that boost consistency and profitability for active traders.",
+    businessImpact: "Automates journaling and surfaces AI insights to help traders improve consistency and make more informed decisions.",
 
     // Project page specific fields
     contributions: [
@@ -77,7 +76,7 @@ export const projects: Project[] = [
       "Implemented real-time data synchronization with WebSockets"
     ],
     challenges: "Creating a responsive and intuitive interface for complex financial data visualization while ensuring real-time updates and data consistency.",
-    outcomes: "The application helps traders identify patterns in their trading behavior, leading to more informed decisions and improved trading performance."
+    outcomes: "The application helps traders identify patterns in their trading behavior, leading to more informed decisions and stronger trading discipline."
   },
   {
     id: "baby-tracker",
@@ -130,7 +129,7 @@ export const projects: Project[] = [
     description: "A privacy-first social discovery platform with user availability planning, couples features, and a high-performance, resilient architecture.",
     image: "/projects/simmr-about.png",
     projectType: "Client",
-    details: "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
+    details: "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that handled growth, earned user trust, and facilitated meaningful connections through features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
     techStack: [
       "React",
@@ -162,13 +161,12 @@ export const projects: Project[] = [
       "/projects/simmr-about.png"
     ],
     metrics: [
-      "Thousands of Verified Users",
-      "300+ Monthly Events",
-      "95% Trust Rating",
-      "40% Increase in User Engagement with Plans Feature",
-      "30% Growth in Couple Accounts"
+      "2,000+ active users",
+      "Privacy-first discovery and availability features",
+      "Real-time messaging and event-driven notifications",
+      "AWS and serverless deployment"
     ],
-    businessImpact: "Set a new bar for privacy and safety in niche social platforms, improving trust, reliability, and engagement.",
+    businessImpact: "Focused on privacy, safety, and reliability in a niche social platform, supporting meaningful user connections.",
 
     // Project page specific fields
     contributions: [
@@ -177,7 +175,7 @@ export const projects: Project[] = [
       "Developed features for community building and event management"
     ],
     challenges: "Creating a safe and inclusive platform while implementing robust privacy and security features.",
-    outcomes: "Established a thriving community with active user engagement and positive feedback on the platform's features and security."
+    outcomes: "Established an active community with positive feedback on the platform's features and security."
   },
   {
     id: "tolo",
@@ -217,9 +215,9 @@ export const projects: Project[] = [
   {
     id: "investcloud",
     title: "InvestCloud",
-    description: "Enterprise fintech engineering for 50+ institutions processing $2B+ in assets daily with secure dashboards and ETL.",
+    description: "Enterprise fintech engineering for 50+ institutions, building secure dashboards, ETL pipelines, and API integrations.",
     image: "/logos/IC-Logo.svg",
-    details: "At InvestCloud, I built financial dashboards, ETL pipelines, and APIs for clients like Raymond James and Neuberger Berman. Work spanned schema design, ingestion, and UI integration.\n\nTech included Groovy services on GlassFish, Oracle/PostgreSQL/MySQL for data, and modern JS for front-end modules. I also led training and onboarding, creating documentation and reusable templates to accelerate delivery.\n\nReliability, security, and performance were the priority across all client implementations.",
+    details: "At InvestCloud, I built financial dashboards, ETL pipelines, and APIs for enterprise fintech clients. Work spanned schema design, ingestion, and UI integration.\n\nTech included Groovy services on GlassFish, Oracle/PostgreSQL/MySQL for data, and modern JS for front-end modules. I also led training and onboarding, creating documentation and reusable templates to accelerate delivery.\n\nReliability, security, and performance were the priority across all client implementations.",
     techStack: [
       "Groovy",
       "GlassFish",
@@ -232,9 +230,9 @@ export const projects: Project[] = [
     ],
     metrics: [
       "50+ Financial Institutions",
-      "$2B+ Daily Assets Processed",
-      "99.9% Uptime",
-      "40% Faster Dev Cycles"
+      "100+ Developers Supported",
+      "40% Faster Issue Resolution",
+      "40% Faster Integration Setup"
     ],
     businessImpact: "Delivered secure, scalable fintech tools that streamlined operations and improved client satisfaction.",
 

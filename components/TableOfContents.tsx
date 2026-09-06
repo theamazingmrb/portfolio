@@ -91,7 +91,7 @@ export default function TableOfContents({ content, className = "" }: TableOfCont
   }
 
   return (
-    <div className={`hidden lg:block z-50 ${className}`}>
+    <div className={`hidden xl:block z-50 ${className}`}>
       <div className="fixed left-4 top-1/2 -translate-y-1/2 w-64 max-h-[70vh] overflow-y-auto">
         <div className="bg-card/95 backdrop-blur-sm rounded-lg shadow-lg border border-border p-4">
           <h3 className="text-sm font-bold text-foreground mb-3 flex items-center sticky top-0 bg-card/95 backdrop-blur-sm py-2 -mx-4 px-4 border-b border-border">

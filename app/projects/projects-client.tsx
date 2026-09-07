@@ -13,6 +13,22 @@ import { Project } from "@/lib/projects";
 function ProfessionalExperience() {
   const experiences = [
     {
+      company: "Wink, Inc.",
+      role: "Full Stack Developer (Contract)",
+      period: "July 2026 - Present",
+      description:
+        "Modernization and redevelopment of WinkIntel.com — building and improving production features across the application stack.",
+      achievements: [
+        "Contribute to the modernization and redevelopment of WinkIntel.com, building and improving production features across the application stack.",
+        "Develop and maintain full-stack functionality using React, Next.js, Node.js, PostgreSQL, and cloud-based services, with a focus on maintainable and scalable implementation.",
+        "Diagnose and resolve issues across existing application code, APIs, and data flows while supporting the transition to a modernized platform architecture.",
+        "Collaborate directly with technical leadership to translate business and product requirements into production-ready engineering solutions."
+      ],
+      technologies: ["React", "Next.js", "Node.js", "PostgreSQL", "TypeScript"],
+      logo: "/logos/wink.png",
+      logoBg: "bg-white p-2 rounded-lg"
+    },
+    {
       company: "Daily Wick",
       role: "Founder & Full Stack Engineer",
       period: "April 2025 - Present",

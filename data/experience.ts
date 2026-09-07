@@ -131,9 +131,25 @@ export const ventures: Experience[] = [
 
 export const freelanceProjects: Experience[] = [
   {
+    title: "Full Stack Developer (Contract)",
+    company: "Wink, Inc.",
+    period: "July 2026 – Present",
+    description: "Modernization and redevelopment of WinkIntel.com · production full-stack features",
+    achievements: [
+      "Contribute to the modernization and redevelopment of WinkIntel.com, building and improving production features across the application stack.",
+      "Develop and maintain full-stack functionality using React, Next.js, Node.js, PostgreSQL, and cloud-based services, with a focus on maintainable and scalable implementation.",
+      "Diagnose and resolve issues across existing application code, APIs, and data flows while supporting the transition to a modernized platform architecture.",
+      "Collaborate directly with technical leadership to translate business and product requirements into production-ready engineering solutions.",
+    ],
+    technologies: ["React", "Next.js", "Node.js", "PostgreSQL", "TypeScript"],
+    companyUrl: "https://www.winkintel.com",
+    logo: "/logos/wink.png",
+    contract: true,
+  },
+  {
     title: "Lead Full Stack Engineer (Contract)",
     company: "That Aisle",
-    period: "October 2024 – Present",
+    period: "September 2025 – Present",
     description: "Hair care product discovery app · iOS & Android · App Store",
     achievements: [
       "Rebuilt and upgraded production React Native app (iOS/Android) to React Native 0.81 and React 19 with TypeScript, Redux Toolkit, and Firebase backend.",

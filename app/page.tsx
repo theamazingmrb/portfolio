@@ -39,6 +39,12 @@ export default function Home() {
         <a href="https://bbdo.com" target="_blank" rel="noopener noreferrer" aria-label="BBDO" className="company-wordmark">
           <Image src="/logos/bbdo-wordmark.svg" alt="BBDO" width={160} height={50} className="company-logo-img object-contain" />
         </a>
+        <a href="https://www.thataisle.com/" target="_blank" rel="noopener noreferrer" aria-label="That Aisle" className="company-wordmark">
+          <Image src="/projects/that_aisle/thataisle-flat.png" alt="That Aisle" width={120} height={50} className="company-logo-img object-contain" />
+        </a>
+        <a href="https://www.winkintel.com" target="_blank" rel="noopener noreferrer" aria-label="Wink" className="company-wordmark">
+          <Image src="/logos/wink.png" alt="Wink" width={50} height={50} className="company-logo-img object-contain" />
+        </a>
       </div>
 
       {/* Projects Carousel */}

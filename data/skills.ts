@@ -3,14 +3,26 @@ export interface SkillCategory {
   items: string[];
 }
 
-// Synced to resume.md TECHNICAL SKILLS (canonical source).
+// Synced to resume V4 TECHNICAL SKILLS (canonical source).
 export const skillCategories: SkillCategory[] = [
+  {
+    category: "AI Dev Tools",
+    items: [
+      "Claude Code — AI-assisted development workflow",
+      "Windsurf IDE — AI-native editor",
+      "ChatGPT / GitHub Copilot — daily pairing",
+      "OpenAI API — Daily Wick trade analysis engine",
+      "RAG / Vector Search — Daily Wick AI coaching pipeline (pgvector)",
+      "Prompt Engineering — Daily Wick AI insights",
+    ],
+  },
   {
     category: "Frontend",
     items: [
       "React / Next.js — Daily Wick, Simmr, That Aisle",
-      "TypeScript — all production projects since 2020",
       "React Native (Expo) — That Aisle (App Store live), TOLO",
+      "SvelteKit / Svelte — Wink, Inc. enterprise platform",
+      "TypeScript — all production projects since 2020",
       "Tailwind CSS — this portfolio, Love & Service 1st",
       "Redux Toolkit — That Aisle mobile app",
     ],
@@ -21,10 +33,10 @@ export const skillCategories: SkillCategory[] = [
       "Node.js / Express — Simmr, TOLO API layer",
       "Supabase — Daily Wick auth, Postgres, row-level security",
       "PostgreSQL — InvestCloud ($2B/day), Simmr, Baby Tracker",
-      "Firebase — That Aisle real-time features",
+      "Redis — caching layer across projects",
+      "MongoDB — GA curriculum projects",
       "GraphQL (Apollo, Hasura) — Simmr discovery platform",
       "Django — Baby Tracker API, AMIR BLAQ admin",
-      "MongoDB — GA curriculum projects",
       "ETL Pipelines — InvestCloud financial data (50+ institutions)",
       "Data Modeling — relational schema design",
     ],
@@ -32,7 +44,7 @@ export const skillCategories: SkillCategory[] = [
   {
     category: "Cloud & DevOps",
     items: [
-      "AWS (Lambda@Edge, S3, CloudFront) — Simmr image pipeline",
+      "AWS (Lambda@Edge, S3, CloudFront, SQS) — Simmr image pipeline",
       "Docker — Baby Tracker self-hosted deploys",
       "CI/CD — production release pipelines",
       "Vercel — Daily Wick, this portfolio",
@@ -40,26 +52,24 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    category: "AI & Integrations",
+    category: "APIs & Integrations",
     items: [
-      "OpenAI API — Daily Wick trade analysis engine",
-      "RAG / Vector Search — Daily Wick AI coaching pipeline (pgvector)",
-      "LLM Integration — Daily Wick AI coach",
-      "Prompt Engineering — Daily Wick AI insights",
+      "REST APIs — across all production projects",
+      "GraphQL — Simmr discovery platform",
+      "Postman — API testing and documentation",
       "Stripe — Daily Wick paid tiers, Simmr billing",
       "Twilio — Simmr MMS & verification",
       "Polygon.io — Daily Wick market data",
     ],
   },
   {
-    category: "APIs & Tooling",
+    category: "Other",
     items: [
-      "REST APIs — across all production projects",
-      "GraphQL — Simmr discovery platform",
-      "Postman — API testing and documentation",
-      "SQL (PostgreSQL, MySQL) — InvestCloud, Simmr, Baby Tracker",
+      "Python — ETL pipelines, GA curriculum",
+      "Groovy — InvestCloud enterprise services",
       "Unit Testing — production test suites",
-      "Technical Training — InvestCloud, General Assembly",
+      "Technical Documentation — runbooks, onboarding",
+      "Cross-functional Collaboration — engineering, QA, product",
     ],
   },
 ];

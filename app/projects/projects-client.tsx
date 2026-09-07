@@ -46,12 +46,14 @@ function ProfessionalExperience() {
     },
     {
       company: "TOLO",
-      role: "Co-Founder & CTO",
+      role: "CTO & Co-Founder (Part-time, nights)",
       period: "October 2022 - January 2025",
       description:
-        "Content discovery platform that promoted underground artists with engagement-focused ranking.",
+        "Mobile content discovery platform for independent artists.",
       achievements: [
-        "Led technical execution from zero to App Store launch — React Native (Expo), Supabase, and a viral-ranking algorithm that improved feed performance by 40% via SWR caching.",
+        "Led end-to-end development of a React Native (Expo) app with a Supabase backend, including real-time subscriptions, role-based access, and media upload infrastructure.",
+        "Designed a viral content ranking algorithm and improved feed performance by 40% through SWR caching.",
+        "Directed sprint planning, code reviews, and iOS/Android release management via Expo Application Services."
       ],
       technologies: ["React Native", "Expo", "Supabase", "SWR", "TypeScript"],
       logo: "/logos/tolo.jpeg",
@@ -59,27 +61,32 @@ function ProfessionalExperience() {
     },
     {
       company: "Simmr",
-      role: "Full Stack Engineer (Contract)",
+      role: "Full Stack Engineer (Freelance)",
       period: "July 2023 - December 2025",
       description:
-        "Specialized social platform focused on safety, privacy, and inclusive discovery for an ENM and polyamorous community.",
+        "Social discovery platform · 2,000+ active users.",
       achievements: [
-        "Owned API design, schema migration, and infrastructure for a platform serving 2,000+ active users (Node.js, Apollo GraphQL, Hasura, PostgreSQL, AWS).",
+        "Engineered scalable APIs and event-driven architecture using Apollo GraphQL, Hasura, and Node.js, including real-time notifications and async job workers.",
+        "Built a global image caching pipeline using Sharp and S3, reducing bandwidth costs and improving load times by 40%.",
+        "Integrated Twilio, Stripe, Mixpanel, and AWS SES for communications, payments, and analytics.",
+        "Managed deployment and provisioning with Serverless Framework and Docker, automating migrations and reducing environment inconsistencies."
       ],
-      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS (Lambda, CloudFront, S3)"],
+      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS (Lambda, CloudFront, S3)", "Redis", "SQS"],
       logo: "/logos/simmr-heart.png",
       logoBg: "bg-white p-2 rounded-lg"
     },
     {
       company: "InvestCloud",
-      role: "Technical Trainer & Software Engineer",
+      role: "Software Engineer & Technical Trainer",
       period: "July 2018 - June 2025",
       description:
-        "Enterprise fintech platform serving 50+ financial institutions · promoted through four roles over seven years.",
+        "Leading provider of digital financial services applications · Promoted through four roles over seven years.",
       achievements: [
-        "Owned API integrations across 50+ financial institutions — resolving issues for 100+ developers globally and cutting resolution time by 40% through runbooks and repeatable workflows.",
-        "Led technical training and onboarding on REST/SOAP integration patterns and platform architecture, shortening new-developer ramp-up across global engineering teams.",
-        "Built internal tooling and ETL pipelines with PostgreSQL, MySQL, Python, and Groovy, cutting integration setup time by 40%."
+        "Built and maintained ETL pipelines and internal automation tools using PostgreSQL, MySQL, Python, and Groovy, improving data processing efficiency by 25% and cutting integration setup time by 40%.",
+        "Designed and implemented SOAP/RESTful APIs and relational database models supporting enterprise-scale financial applications for 50+ institutions.",
+        "Debugged and resolved integration issues for 100+ developers globally, reducing resolution time through documentation and repeatable runbooks.",
+        "Partnered with Engineering, QA, and Product teams to diagnose root causes of production data issues and verify fixes before rollout, cutting production incidents by 30%.",
+        "Led technical training for the broader engineering org on debugging, integration patterns, and best practices, improving team efficiency by 30%."
       ],
       technologies: ["Java", "Groovy", "GlassFish", "SQL", "ETL", "REST APIs"],
       logo: "/logos/IC-Logo.svg",

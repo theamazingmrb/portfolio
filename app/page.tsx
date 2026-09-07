@@ -27,23 +27,23 @@ export default function Home() {
 
       <div className="experience-strip studio-container">
         <span className="eyebrow">A few places I’ve<br />made an impact</span>
-        <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" aria-label="Airbnb" className="company-wordmark">
-          <Image src="/logos/abnb.png" alt="Airbnb" width={72} height={50} className="company-logo-img object-contain" />
-        </a>
         <a href="https://investcloud.com" target="_blank" rel="noopener noreferrer" aria-label="InvestCloud" className="company-wordmark">
           <Image src="/logos/IC-Logo.svg" alt="InvestCloud" width={136} height={50} className="company-logo-img object-contain" />
+        </a>
+        <a href="https://www.winkintel.com" target="_blank" rel="noopener noreferrer" aria-label="Wink" className="company-wordmark">
+          <Image src="/logos/wink.png" alt="Wink" width={50} height={50} className="company-logo-img object-contain" />
         </a>
         <a href="https://generalassemb.ly" target="_blank" rel="noopener noreferrer" aria-label="General Assembly" className="company-wordmark">
           <Image src="/logos/GA.webp" alt="General Assembly" width={150} height={50} className="company-logo-img object-contain" />
         </a>
-        <a href="https://bbdo.com" target="_blank" rel="noopener noreferrer" aria-label="BBDO" className="company-wordmark">
-          <Image src="/logos/bbdo-wordmark.svg" alt="BBDO" width={160} height={50} className="company-logo-img object-contain" />
-        </a>
         <a href="https://www.thataisle.com/" target="_blank" rel="noopener noreferrer" aria-label="That Aisle" className="company-wordmark">
           <Image src="/projects/that_aisle/thataisle-flat.png" alt="That Aisle" width={120} height={50} className="company-logo-img object-contain" />
         </a>
-        <a href="https://www.winkintel.com" target="_blank" rel="noopener noreferrer" aria-label="Wink" className="company-wordmark">
-          <Image src="/logos/wink.png" alt="Wink" width={50} height={50} className="company-logo-img object-contain" />
+        <a href="https://bbdo.com" target="_blank" rel="noopener noreferrer" aria-label="BBDO" className="company-wordmark">
+          <Image src="/logos/bbdo-wordmark.svg" alt="BBDO" width={160} height={50} className="company-logo-img object-contain" />
+        </a>
+        <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" aria-label="Airbnb" className="company-wordmark">
+          <Image src="/logos/abnb.png" alt="Airbnb" width={72} height={50} className="company-logo-img object-contain" />
         </a>
       </div>
 

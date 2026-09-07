@@ -15,7 +15,7 @@ export default function Footer() {
           {/* Quick Links */}
           <nav aria-label="Footer"><Link href="/projects">Work</Link><Link href="/blog">Writing</Link><Link href="/about">About</Link></nav>
           {/* Contact */}
-          <div><a href="https://github.com/theamazingmrb" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a><a href="https://www.linkedin.com/in/bheidelberg/" target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a><a href="/documents/Billie_Heidelberg_Resume_Senior_Full_Stack_Engineer.pdf" target="_blank" rel="noopener noreferrer">Résumé <ArrowUpRight size={14} aria-hidden="true" /></a></div>
+          <div><a href="https://github.com/theamazingmrb" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a><a href="https://www.linkedin.com/in/bheidelberg/" target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a><a href="/documents/Billie_Heidelberg_Resume.pdf" target="_blank" rel="noopener noreferrer">Résumé <ArrowUpRight size={14} aria-hidden="true" /></a></div>
         </div>
         <div className="footer-bottom"><span>© {new Date().getFullYear()} Billie P. Heidelberg</span><span>Built with intention. Always a work in progress.</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></div></div>
       </div>

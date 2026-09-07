@@ -66,15 +66,15 @@ export default function AboutPageClient() {
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 px-2">Full Stack Engineer • Mobile Engineer</h2>
 
                 <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">
-                  I am a <strong>full stack engineer</strong> and <strong>mobile engineer</strong> with <strong>8+ years of experience</strong> building production web and mobile platforms across <strong>React</strong>, <strong>Next.js</strong>, <strong>TypeScript</strong>, <strong>Node.js</strong>, and <strong>PostgreSQL</strong>. I have shipped iOS/Android contract work, founded a trading journal SaaS, and spent seven years at InvestCloud supporting 100+ developers on enterprise API integrations at scale. I care about performance, reliability, and thoughtful user experience.
+                  I am a <strong>full stack engineer</strong> and <strong>mobile engineer</strong> with <strong>8+ years</strong> building production web and mobile platforms. I have shipped iOS and Android contract work, founded a trading journal SaaS, and spent seven years at InvestCloud supporting 100+ developers on enterprise API integrations at scale. Across React, Next.js, TypeScript, Node.js, and PostgreSQL, I care about performance, reliability, and thoughtful user experience.
                 </p>
 
                 <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">
-                  Alongside engineering, I have <strong>taught 150+ students</strong> through General Assembly&apos;s <strong>Web Development Immersive</strong>. Teaching strengthened my ability to communicate complex ideas clearly, support growing engineers, and collaborate closely with product and design teams. I bring a craftsman&apos;s mindset to building software and care about creating tools that are both technically strong and genuinely helpful to users.
+                  Alongside engineering, I have <strong>taught 150+ students</strong> through General Assembly&apos;s Web Development Immersive. Teaching rewired how I communicate — I explain complex ideas simply, support growing engineers, and collaborate naturally with product and design. I bring a craftsman&apos;s mindset to software: build things that are technically strong and genuinely helpful to the people who use them.
                 </p>
 
                 <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-6 sm:mb-8 px-2">
-                  Today, I am focused on full-time senior engineering opportunities where I can contribute as a hands-on engineer, help shape technical direction, and build impactful products at scale. If you are looking for someone who blends strong fundamentals, teaching experience, and a passion for shipping meaningful software, let&apos;s connect.
+                  Today I am focused on full-time senior engineering work — a hands-on engineer who helps shape technical direction and ships impactful products at scale. If you want strong fundamentals, teaching experience, and a passion for building meaningful software, let&apos;s talk.
                 </p>
 
                 <div className="flex flex-wrap gap-2 sm:gap-3 px-2">
@@ -88,7 +88,7 @@ export default function AboutPageClient() {
                     <a href="https://linkedin.com/in/bheidelberg" target="_blank" rel="noopener noreferrer" aria-label="View my LinkedIn profile">LinkedIn</a>
                   </Button>
                   <Button variant="outline" asChild>
-                    <a href="/documents/Billie_Heidelberg_Resume_Senior_Full_Stack_Engineer.pdf" target="_blank" rel="noopener noreferrer" aria-label="Download Resume">Download Resume</a>
+                    <a href="/documents/Billie_Heidelberg_Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Download Resume">Download Resume</a>
                   </Button>
                 </div>
               </div>

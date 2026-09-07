@@ -3,59 +3,63 @@ export interface SkillCategory {
   items: string[];
 }
 
+// Synced to resume.md TECHNICAL SKILLS (canonical source).
 export const skillCategories: SkillCategory[] = [
   {
     category: "Frontend",
     items: [
       "React / Next.js — Daily Wick, Simmr, That Aisle",
       "TypeScript — all production projects since 2020",
+      "React Native (Expo) — That Aisle (App Store live), TOLO",
       "Tailwind CSS — this portfolio, Love & Service 1st",
-      "React Native — That Aisle (App Store live), TOLO",
+      "Redux Toolkit — That Aisle mobile app",
     ],
   },
   {
-    category: "Backend & APIs",
+    category: "Backend & Data",
     items: [
       "Node.js / Express — Simmr, TOLO API layer",
-      "Python / Django — Baby Tracker API, AMIR BLAQ admin",
+      "Supabase — Daily Wick auth, Postgres, row-level security",
       "PostgreSQL — InvestCloud ($2B/day), Simmr, Baby Tracker",
-      "GraphQL / Apollo — Simmr discovery platform",
+      "Firebase — That Aisle real-time features",
+      "GraphQL (Apollo, Hasura) — Simmr discovery platform",
+      "Django — Baby Tracker API, AMIR BLAQ admin",
+      "MongoDB — GA curriculum projects",
+      "ETL Pipelines — InvestCloud financial data (50+ institutions)",
+      "Data Modeling — relational schema design",
     ],
   },
   {
-    category: "Cloud & Infrastructure",
+    category: "Cloud & DevOps",
     items: [
       "AWS (Lambda@Edge, S3, CloudFront) — Simmr image pipeline",
+      "Docker — Baby Tracker self-hosted deploys",
+      "CI/CD — production release pipelines",
       "Vercel — Daily Wick, this portfolio",
-      "Docker / Nginx — Baby Tracker self-hosted deploys",
-      "Firebase — That Aisle real-time features",
+      "Serverless Framework — Simmr infrastructure",
     ],
   },
   {
     category: "AI & Integrations",
     items: [
       "OpenAI API — Daily Wick trade analysis engine",
-      "Stripe — Simmr subscription billing",
+      "RAG / Vector Search — Daily Wick AI coaching pipeline (pgvector)",
+      "LLM Integration — Daily Wick AI coach",
+      "Prompt Engineering — Daily Wick AI insights",
+      "Stripe — Daily Wick paid tiers, Simmr billing",
       "Twilio — Simmr MMS & verification",
-      "Segment — TOLO analytics tracking",
+      "Polygon.io — Daily Wick market data",
     ],
   },
   {
-    category: "Data & Performance",
+    category: "APIs & Tooling",
     items: [
-      "pgvector / RAG — Daily Wick AI coaching pipeline",
-      "Supabase — Daily Wick auth, Postgres, row-level security",
-      "SWR / Zustand — TOLO feed performance (+40%)",
-      "ETL Pipelines — InvestCloud financial data (50+ institutions)",
-    ],
-  },
-  {
-    category: "Legacy & Breadth",
-    items: [
-      "Ruby on Rails — Airbnb ambassador platform",
-      "Groovy / GlassFish — InvestCloud enterprise services",
-      "MongoDB — Drink Drank LA, GA curriculum projects",
-      "GSAP / HTML5 — BBDO interactive ad campaigns",
+      "REST APIs — across all production projects",
+      "GraphQL — Simmr discovery platform",
+      "Postman — API testing and documentation",
+      "SQL (PostgreSQL, MySQL) — InvestCloud, Simmr, Baby Tracker",
+      "Unit Testing — production test suites",
+      "Technical Training — InvestCloud, General Assembly",
     ],
   },
 ];

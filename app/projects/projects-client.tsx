@@ -51,10 +51,7 @@ function ProfessionalExperience() {
       description:
         "Content discovery platform that promoted underground artists with engagement-focused ranking.",
       achievements: [
-        "Led end-to-end development of a React Native (Expo) mobile app with a Supabase backend — real-time subscriptions, role-based access, and media upload infrastructure.",
-        "Built a viral content ranking algorithm and improved feed performance by 40% through SWR caching.",
-        "Directed sprint planning, code reviews, and iOS/Android deployments via Expo Application Services.",
-        "Implemented authentication, creator onboarding, and feed performance improvements."
+        "Led technical execution from zero to App Store launch — React Native (Expo), Supabase, and a viral-ranking algorithm that improved feed performance by 40% via SWR caching.",
       ],
       technologies: ["React Native", "Expo", "Supabase", "SWR", "TypeScript"],
       logo: "/logos/tolo.jpeg",
@@ -67,12 +64,9 @@ function ProfessionalExperience() {
       description:
         "Specialized social platform focused on safety, privacy, and inclusive discovery for an ENM and polyamorous community.",
       achievements: [
-        "Implemented client-side distance filtering and a virtualized discovery grid for performant browsing.",
-        "Built Lambda@Edge SEO previews and integrated with CloudFront via CloudFormation.",
-        "Delivered global image caching and optimization, improving perceived load and reducing bandwidth.",
-        "Hardened the app with error boundaries, defensive checks, retries, and graceful fallbacks."
+        "Owned API design, schema migration, and infrastructure for a platform serving 2,000+ active users (Node.js, Apollo GraphQL, Hasura, PostgreSQL, AWS).",
       ],
-      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS (Lambda, CloudFront, S3)", "Redis", "SQS"],
+      technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS (Lambda, CloudFront, S3)"],
       logo: "/logos/simmr-heart.png",
       logoBg: "bg-white p-2 rounded-lg"
     },
@@ -81,12 +75,11 @@ function ProfessionalExperience() {
       role: "Technical Trainer & Software Engineer",
       period: "July 2018 - June 2025",
       description:
-        "Designed onboarding and training for API and integration developers at a fintech platform serving large institutions.",
+        "Enterprise fintech platform serving 50+ financial institutions · promoted through four roles over seven years.",
       achievements: [
-        "Built ETL pipelines for transactions, holdings, and account data.",
-        "Developed RESTful services and contributed to relational schema design.",
-        "Created developer onboarding programs covering ETL, data mapping, and integration workflows.",
-        "Led workshops on API design, data quality, and troubleshooting processes."
+        "Owned API integrations across 50+ financial institutions — resolving issues for 100+ developers globally and cutting resolution time by 40% through runbooks and repeatable workflows.",
+        "Led technical training and onboarding on REST/SOAP integration patterns and platform architecture, shortening new-developer ramp-up across global engineering teams.",
+        "Built internal tooling and ETL pipelines with PostgreSQL, MySQL, Python, and Groovy, cutting integration setup time by 40%."
       ],
       technologies: ["Java", "Groovy", "GlassFish", "SQL", "ETL", "REST APIs"],
       logo: "/logos/IC-Logo.svg",

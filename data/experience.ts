@@ -27,12 +27,10 @@ export const fullTimeExperience: Experience[] = [
     title: "Software Engineering Instructor & Curriculum Developer",
     company: "General Assembly",
     period: "October 2020 – Present",
-    description: "Full-time & part-time Web Development Immersive · 9+ cohorts",
+    description: "Part-time · 9+ cohorts · 150+ students",
     achievements: [
-      "Taught 1 full-time and 8+ part-time Web Development Immersive cohorts, instructing 150+ students in full-stack engineering across React, Node.js, Express, MongoDB, Python, and Django.",
-      "Contributed to curriculum development for full-stack engineering programs, covering modern frameworks, software design patterns, and industry best practices.",
-      "Led interview prep workshops and pop-up lectures on technical interviewing, whiteboarding, and job search strategy for students entering the engineering job market.",
-      "Mentored students through capstone projects, code reviews, and career transitions into software engineering roles.",
+      "Owned full-stack curriculum delivery for 150+ students across 9+ cohorts (React, Node.js, Express, MongoDB, Python, Django).",
+      "Led interview-prep workshops that consistently landed students in their first engineering roles.",
     ],
     technologies: ["React", "Node.js", "Express", "MongoDB", "Python", "Django"],
     companyUrl: "https://generalassemb.ly",
@@ -46,12 +44,9 @@ export const fullTimeExperience: Experience[] = [
     description:
       "Enterprise fintech platform serving 50+ financial institutions · seven years supporting enterprise API integrations at scale",
     achievements: [
-      "Debugged and resolved API integration issues for 100+ developers globally across REST services and data pipelines, cutting average resolution time by 40% through structured documentation and repeatable diagnostic workflows.",
-      "Investigated production data inconsistencies and system failures across distributed services, identifying root causes and implementing fixes.",
-      "Built internal tooling and ETL pipelines using PostgreSQL, MySQL, Python, and Groovy to automate operational workflows and reduce integration setup time by 40%.",
-      "Partnered with engineering and product teams to diagnose platform issues, escalate defects, and validate fixes prior to release.",
-      "Led technical training sessions for developers on API integration patterns, debugging strategies, and platform architecture.",
-      "Authored internal documentation and operational runbooks used by engineering teams globally.",
+      "Owned API integrations across 50+ financial institutions — resolving issues for 100+ developers globally and cutting resolution time by 40% through runbooks and repeatable workflows.",
+      "Led technical training and onboarding on REST/SOAP integration patterns and platform architecture, shortening new-developer ramp-up across global engineering teams.",
+      "Built internal tooling and ETL pipelines with PostgreSQL, MySQL, Python, and Groovy, cutting integration setup time by 40%.",
     ],
     technologies: [
       "React",
@@ -91,9 +86,7 @@ export const ventures: Experience[] = [
     period: "October 2022 – January 2025",
     description: "Mobile content discovery platform for independent artists.",
     achievements: [
-      "Led end-to-end development of React Native (Expo) mobile app with Supabase backend — real-time subscriptions, role-based access, and media upload infrastructure.",
-      "Built viral content ranking algorithm and improved feed performance by 40% through SWR caching.",
-      "Directed sprint planning, code reviews, and iOS/Android deployments via Expo Application Services.",
+      "Led technical execution from zero to App Store launch — React Native (Expo), Supabase, and a viral-ranking algorithm that improved feed performance by 40% via SWR caching.",
     ],
     technologies: ["React Native", "Expo", "Supabase", "TypeScript", "Zustand", "SWR", "Segment"],
     companyUrl: "https://tolo.app",
@@ -106,11 +99,7 @@ export const ventures: Experience[] = [
     period: "July 2023 – December 2025",
     description: "Social discovery platform · 2,000+ active users",
     achievements: [
-      "Designed and built APIs using Node.js, Apollo GraphQL, and Hasura supporting real-time platform features.",
-      "Implemented notification systems and asynchronous job workers for event-driven messaging and platform alerts.",
-      "Managed PostgreSQL schema migrations and built internal analytics workflows for operational visibility.",
-      "Integrated third-party services including Twilio, Stripe, Mixpanel, and AWS SES for messaging, payments, and analytics.",
-      "Deployed infrastructure using Docker and Serverless Framework to improve release consistency and environment reliability.",
+      "Owned API design, schema migration, and infrastructure for a platform serving 2,000+ active users (Node.js, Apollo GraphQL, Hasura, PostgreSQL, AWS).",
     ],
     technologies: [
       "React",
@@ -149,15 +138,12 @@ export const freelanceProjects: Experience[] = [
   {
     title: "Lead Full Stack Engineer (Contract)",
     company: "That Aisle",
-    period: "September 2025 – Present",
+    period: "October 2024 – Present",
     description: "Hair care product discovery app · iOS & Android · App Store",
     achievements: [
-      "Rebuilt and upgraded production React Native app (iOS/Android) to React Native 0.81 and React 19 with TypeScript, Redux Toolkit, and Firebase backend.",
-      "Migrated client’s product catalog from Excel to a structured Firestore schema, supporting 3,500+ products with full-text search, filtering, and virtual scrolling for performance.",
-      "Built React + Vite admin dashboard with 14 management pages covering content moderation, user management, push notifications, product catalog, and partnership tracking.",
-      "Implemented push notification system with Firebase Cloud Messaging, Firebase Functions, and FCM token management with real-time notification history.",
-      "Engineered community forum with nested comments, barcode/QR scanning, emoji reactions, and a content moderation system with soft-delete and audit trails.",
-      "Served as sole developer and technical advisor, guiding client on architecture decisions, data modeling, and platform strategy throughout two phases of development.",
+      "Lead engineer and sole technical advisor — own architecture, data modeling, and platform strategy as the developer of record.",
+      "Rebuilt and shipped the production React Native app to React Native 0.81 and React 19 (TypeScript, Redux Toolkit, Firebase) and migrated the product catalog to a Firestore schema supporting 3,500+ products with full-text search.",
+      "Designed and built a React + Vite admin dashboard (14 pages) covering content moderation, user management, push notifications, catalog, and partnership tracking.",
     ],
     technologies: [
       "React Native",

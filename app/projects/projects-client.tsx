@@ -17,14 +17,14 @@ function ProfessionalExperience() {
       role: "Full Stack Developer (Contract)",
       period: "July 2026 - Present",
       description:
-        "Modernization and redevelopment of WinkIntel.com — building and improving production features across the application stack.",
+        "Full-stack development for enterprise B2B intelligence platform",
       achievements: [
-        "Contribute to the modernization and redevelopment of WinkIntel.com, building and improving production features across the application stack.",
-        "Develop and maintain full-stack functionality using React, Next.js, Node.js, PostgreSQL, and cloud-based services, with a focus on maintainable and scalable implementation.",
-        "Diagnose and resolve issues across existing application code, APIs, and data flows while supporting the transition to a modernized platform architecture.",
-        "Collaborate directly with technical leadership to translate business and product requirements into production-ready engineering solutions."
+        "Architected and delivered full-stack features for a SaaS platform serving enterprise clients, including user authentication, role-based permissions, and data management interfaces.",
+        "Built responsive web applications using SvelteKit and TypeScript with a focus on type safety, maintainability, and scalable component architecture.",
+        "Designed and implemented secure server-side APIs and database access layers with MySQL, ensuring data integrity and proper authorization controls.",
+        "Participated in code reviews and contributed to engineering standards, improving code quality and team development practices."
       ],
-      technologies: ["React", "Next.js", "Node.js", "PostgreSQL", "TypeScript"],
+      technologies: ["SvelteKit", "Svelte", "TypeScript", "Node.js", "MySQL", "Git"],
       logo: "/logos/wink.png",
       logoBg: "bg-white p-2 rounded-lg"
     },

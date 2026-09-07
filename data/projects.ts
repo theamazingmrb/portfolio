@@ -89,10 +89,10 @@ export const projects: Project[] = [
     id: "simmr",
     title: "Simmr",
     description:
-      "A privacy-first social discovery platform with user availability planning, couples features, and a high-performance, resilient architecture designed for trust and engagement.",
+      "A privacy-first social discovery platform for the ENM (ethical non-monogamy) and polyamorous community — with user availability planning, couples features, and a resilient, performant architecture designed for trust and engagement.",
     image: "/projects/simmr-about.png",
     details:
-      "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
+      "Simmr is a specialized social discovery platform built around safety, privacy, and inclusive design for the ENM and polyamorous community. Built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS, the experience centers on trust and meaningful connection.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that scaled smoothly, earned user trust, and facilitated meaningful connections through innovative features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
     githubUrl: "https://github.com/theamazingmrb/simmr-platform",
     techStack: [
@@ -132,7 +132,7 @@ export const projects: Project[] = [
       "30% Growth in Couple Accounts",
     ],
     businessImpact:
-      "Set a new bar for privacy and safety in niche social platforms, improving trust, reliability, and engagement. The plans feature transformed how users connect, while specialized couple accounts opened a new market segment. The platform rebrand from Candid to Simmr established a distinctive identity in the social discovery space, supported by robust architecture that maintained performance even under high load."
+      "Set a new bar for privacy and safety in a community underserved by mainstream social platforms, improving trust, reliability, and engagement. The plans feature transformed how users connect, while specialized couple accounts opened a new market segment."
   },
   {
     id: "baby-tracker",

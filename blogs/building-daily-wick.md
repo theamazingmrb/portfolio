@@ -99,12 +99,12 @@ Daily Wick's breakthrough is its comprehensive approach to documenting the full 
   * Session characteristics
   * News impact analysis
 
-This holistic approach revealed patterns I'd never noticed despite years of trading:
+This holistic approach revealed patterns I'd never noticed despite years of trading — at least, patterns my own logs suggested. The sample was mine, not a population study, but the signal was consistent enough to change how I trade:
 
-* My win rate drops 32% when trading during periods of personal stress or inadequate sleep
-* Trades entered following my morning routine outperformed others by 47%
-* Certain ICT setups (Order Blocks with FVG confluence) perform exponentially better with my execution style
-* My consistency disintegrates after 3 hours of active trading
+* My logged win rate dropped noticeably when trading during periods of personal stress or inadequate sleep
+* Trades I entered following my morning routine outperformed the rest of my sample
+* Certain ICT setups (Order Blocks with FVG confluence) lined up unusually well with my execution style
+* My consistency fell off sharply after about three hours of active trading
 
 The difference between "I bought AAPL at 180" and "I entered AAPL at 180 after confirming an order block with high confluence but felt anxious about upcoming earnings" is everything.
 
@@ -153,9 +153,9 @@ Daily Wick transforms abstract trading data into actionable visual intelligence:
   * Behavior-improvement metrics
   * Custom goal tracking
 
-A recent insight changed my approach:
+An insight along these lines changed my approach (the numbers are illustrative of the pattern the coach surfaces, not exact figures):
 
-> "The 18 trades where you documented 'high confidence' showed a 78% win rate and 2.8 R\:R. The other 24 trades showed only 29% win rate and 0.7 R\:R."
+> "The trades where you documented high confidence showed a markedly better win rate and R-multiple than the ones where you were unsure — worth asking why confidence isn't a consistent edge for you."
 
 ---
 

@@ -43,8 +43,8 @@ export const skillCategories: SkillCategory[] = [
   {
     category: "Data & Performance",
     items: [
-      "Redis — Daily Wick caching layer",
-      "SQS — Daily Wick async task queues",
+      "pgvector / RAG — Daily Wick AI coaching pipeline",
+      "Supabase — Daily Wick auth, Postgres, row-level security",
       "SWR / Zustand — TOLO feed performance (+40%)",
       "ETL Pipelines — InvestCloud financial data (50+ institutions)",
     ],

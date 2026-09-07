@@ -33,18 +33,20 @@ export const projects: Project[] = [
     title: "Daily Wick",
     description: "AI trading journal for prop traders that logs trades, spots patterns, and coaches you with personalized insights.",
     image: "/projects/daily-wick.png",
-    details: "Daily Wick is a trading journal built for active and prop traders. It turns raw trade logs into personalized, data-backed coaching — logging trades, surfacing losing habits automatically, and letting traders ask an AI Coach to analyze their history and psychology.\n\nSecurity and performance were core from the start: Supabase authentication, Redis caching, and SQS-based task queues ensure fast, reliable analysis at scale. Traders track long/short positions, prop-firm combines, and run performance analytics using checklists and risk tools to enforce consistency.\n\nBy integrating GPT-based feedback, users save hours per week and improve trade discipline, making better decisions with clear, data-backed context.",
+    details: "Daily Wick is a trading journal built for active and prop traders. It turns raw trade logs into personalized, data-backed coaching — logging trades, surfacing losing habits automatically, and letting traders ask an AI Coach to analyze their history and psychology.\n\nThe AI Coach is built on a retrieval-augmented pipeline: OpenAI embeddings turn each closed trade into a searchable vector (Stored in Postgres via pgvector), and an AI model pulls similar past trades to give specific, pattern-aware feedback rather than generic advice. Supabase handles auth and row-level security; Stripe powers the paid tiers. Traders track long/short positions, prop-firm combines, and run performance analytics using checklists and risk tools to enforce consistency.\n\nBy integrating AI feedback grounded in a trader's own history, Daily Wick saves users hours of manual review each week and helps them spot the habits that hurt their edge.",
     url: "https://dailywick.app",
     techStack: [
       "Next.js",
       "TypeScript",
       "Supabase",
-      "AWS",
-      "Redis",
-      "SQS",
-      "Tailwind CSS",
+      "PostgreSQL",
       "OpenAI API",
-      "Chart.js"
+      "pgvector",
+      "Stripe",
+      "Recharts",
+      "lightweight-charts",
+      "TanStack Query",
+      "Tailwind CSS"
     ],
     features: [
       "AI-powered trade feedback for execution and risk",
@@ -62,20 +64,20 @@ export const projects: Project[] = [
       "/projects/daily-wick-risk-calculator.png"
     ],
     metrics: [
-      "Beta trading journal for active and prop traders",
-      "10+ Key Features Implemented",
-      "Positive Initial User Feedback"
+      "RAG-based AI Coach grounded in each trader's own history",
+      "CSV importer auto-maps trades from multiple broker platforms",
+      "Stripe-billed paid tiers with Supabase row-level security"
     ],
     businessImpact: "Automates journaling and surfaces AI insights to help traders improve consistency and make more informed decisions.",
 
     // Project page specific fields
     contributions: [
       "Designed and implemented the entire front-end architecture using React and TypeScript",
-      "Created a responsive dashboard with interactive charts for trade visualization",
-      "Integrated AI analysis features to identify trading patterns and suggest improvements",
-      "Implemented real-time data synchronization with WebSockets"
+      "Created a responsive dashboard with interactive charts for trade visualization using lightweight-charts and Recharts",
+      "Built a RAG-based AI Coach: OpenAI embeddings on closed trades stored via pgvector, so analysis is grounded in the trader's own history",
+      "Shipped a CSV trade importer with header-detection logic that auto-maps records from multiple broker platforms"
     ],
-    challenges: "Creating a responsive and intuitive interface for complex financial data visualization while ensuring real-time updates and data consistency.",
+    challenges: "Building an AI coach that gives useful, specific feedback rather than generic advice — which required grounding embeddings and chat in each trader's own logged history, and keeping charting responsive on dense financial data.",
     outcomes: "The application helps traders identify patterns in their trading behavior, leading to more informed decisions and stronger trading discipline."
   },
   {
@@ -126,10 +128,10 @@ export const projects: Project[] = [
   {
     id: "simmr",
     title: "Simmr",
-    description: "A privacy-first social discovery platform with user availability planning, couples features, and a high-performance, resilient architecture.",
+    description: "A privacy-first social discovery platform for the ENM (ethical non-monogamy) and polyamorous community — with availability planning, couples features, and a resilient, performant architecture.",
     image: "/projects/simmr-about.png",
     projectType: "Client",
-    details: "Simmr is a niche social platform built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS. The experience centers on privacy, trust, and meaningful connections.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that handled growth, earned user trust, and facilitated meaningful connections through features like the availability calendar and couples discovery.",
+    details: "Simmr is a specialized social discovery platform built around safety, privacy, and inclusive design for the ENM and polyamorous community. Built with React, TypeScript, Node.js, GraphQL, and PostgreSQL on AWS, the experience centers on trust and meaningful connection.\n\nKey engineering work included a comprehensive plans and availability system, client-side distance filtering for discovery, specialized couples account flows, and Lambda@Edge rendering for SEO and rich previews. The platform features a sophisticated image optimization system with context-aware sizing and global caching to ensure consistent performance across devices.\n\nDefensive programming techniques including error boundaries, retry logic, and memory management protect the UI from crashes even when handling thousands of profiles. The platform's messaging system supports rich media sharing with MMS capabilities and public/private bucket management for media assets.\n\nThe result was a performant, reliable product that handled growth, earned user trust, and facilitated meaningful connection through features like the availability calendar and couples discovery.",
     url: "https://simmr.co",
     techStack: [
       "React",
@@ -166,7 +168,7 @@ export const projects: Project[] = [
       "Real-time messaging and event-driven notifications",
       "AWS and serverless deployment"
     ],
-    businessImpact: "Focused on privacy, safety, and reliability in a niche social platform, supporting meaningful user connections.",
+    businessImpact: "Built for trust and safety in a community that has been underserved by mainstream social platforms — supporting meaningful, inclusive connections at 2,000+ active users.",
 
     // Project page specific fields
     contributions: [

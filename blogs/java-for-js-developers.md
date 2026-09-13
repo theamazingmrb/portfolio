@@ -4,8 +4,9 @@ date: "2026-09-12"
 excerpt: "A 2026 guide for JavaScript developers learning Java and Spring Boot. Covers modern Java language features, static typing, the Stream API, object-oriented patterns, and building production-ready REST APIs with Spring Boot 3.x."
 tags: ["Java", "JavaScript", "Spring Boot", "Backend", "Full Stack", "Type Safety", "JVM"]
 category: "Backend Development"
-featured: false
+featured: true
 author: "Billie Heidelberg Jr."
+coverImage: "/blogs/java-for-js-developers-cover.svg"
 ---
 
 # Java for JavaScript Developers: Fundamentals and Spring Boot
@@ -14,7 +15,7 @@ Java and JavaScript share a name, but they were built for different kinds of sof
 
 If you are a JavaScript developer learning Java and Spring Boot, the shift can feel like trading a dynamically typed, event-loop runtime for a compiled, object-oriented platform with strict conventions. The good news is that modern Java has absorbed many functional programming ideas, and Spring Boot removes much of the historical ceremony that once made Java feel heavy. This guide maps what you already know from JavaScript to Java, then walks through building a real backend with Spring Boot.
 
-Version and scope: the examples use Java 21 LTS and Spring Boot 3.3.x. Java 21 is the current long-term support release and includes records, pattern matching for switch, and virtual threads. Spring Boot 3.x builds on Spring Framework 6 and the Jakarta EE namespace, and it supports native image compilation with GraalVM.
+Version and scope: the examples use Java 21 LTS and Spring Boot 3.x. Java 21 introduced records as a mainstream tool, pattern matching for switch, and virtual threads; Java 25 is the newest long-term support release, and every example here runs unchanged on it. Spring Boot 3.x builds on Spring Framework 6 and the Jakarta EE namespace, and it supports native image compilation with GraalVM.
 
 ---
 
@@ -47,7 +48,7 @@ JavaScript optimizes for flexibility and fast iteration. Java optimizes for corr
 
 ## From JavaScript to Java: The Environment
 
-Before writing code, install a Java Development Kit. JDK 21 LTS is the safest choice for new Spring Boot work. You will also want an IDE. IntelliJ IDEA Community Edition is the standard, though Visual Studio Code with the Extension Pack for Java works well.
+Before writing code, install a Java Development Kit. JDK 21 or JDK 25 — both LTS releases — are safe choices for new Spring Boot work. You will also want an IDE. IntelliJ IDEA Community Edition is the standard, though Visual Studio Code with the Extension Pack for Java works well.
 
 A Java project is usually built with Maven or Gradle. The build file lists dependencies and plugins, and the build tool downloads them from Maven Central. This is similar to `package.json`, except the ecosystem is more conservative and the versions are often pinned by Spring Boot's dependency management.
 
@@ -410,6 +411,22 @@ public class UserNotFoundException extends RuntimeException {
 }
 ```
 
+In a Spring application, pair custom exceptions with a global exception handler so controllers stay clean. A `@RestControllerAdvice` class is the Spring equivalent of Express error-handling middleware:
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+  @ExceptionHandler(UserNotFoundException.class)
+  public ResponseEntity<ProblemDetail> handleNotFound(UserNotFoundException e) {
+    ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
+  }
+}
+```
+
+Any controller can now throw `UserNotFoundException` and the handler turns it into a proper 404 with an RFC 9457 problem-details body.
+
 ---
 
 ## Concurrency: From Promises to Threads and Virtual Threads
@@ -724,6 +741,8 @@ public class SecurityConfig {
 
 For a stateless, token-based API, you would replace `httpBasic` with a JWT filter. Spring Security 6 and later use `Customizer.withDefaults()` and lambda-style configuration for all security settings.
 
+One caveat on `csrf.disable()`: it is appropriate for a stateless API authenticated with tokens, where there is no session cookie for a cross-site request to ride on. If your application uses session-based authentication — as the `httpBasic` example above can — leave CSRF protection on. Do not copy that line into a session-backed app.
+
 ---
 
 ## Testing
@@ -740,6 +759,7 @@ class PostControllerTest {
 
   @Test
   void shouldReturnAllPosts() throws Exception {
+    // assumes two posts were seeded, e.g. via @Sql or a data.sql fixture
     mockMvc.perform(get("/api/posts"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$", hasSize(2)));
@@ -806,7 +826,7 @@ For Gradle:
 java -jar build/libs/blog-1.0.0.jar
 ```
 
-The build tool also generates a dependency lock. Spring Boot's `spring-boot-starter-parent` or `spring-boot-dependencies` BOM pins versions, which is similar to a lock file.
+Maven does not generate a lock file the way npm does, but Spring Boot's `spring-boot-starter-parent` or `spring-boot-dependencies` BOM pins the versions of hundreds of libraries, which serves a similar purpose: consistent, known-compatible dependency versions across builds.
 
 ---
 
@@ -829,7 +849,11 @@ COPY target/blog-1.0.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-For GraalVM native images, add the `spring-boot-starter-aot` and use the `native` Maven profile.
+For GraalVM native images, Spring Boot's AOT processing is built in — add the GraalVM Native Build Tools plugin (`org.graalvm.buildtools.native`) and build with the `native` Maven profile:
+
+```bash
+./mvnw -Pnative native:compile
+```
 
 ---
 
@@ -841,7 +865,7 @@ The following is a small but realistic URL shortener service. It shows custom sh
 
 ```java
 @Entity
-@Table(name = "short_links", indexes = @Index(columnList = "shortCode", unique = true))
+@Table(name = "short_links")
 public class ShortLink {
 
   @Id
@@ -863,12 +887,17 @@ public class ShortLink {
 }
 ```
 
+The `unique = true` on the column generates a unique constraint (and, on most databases, a backing index), so a separate `@Index` declaration is unnecessary here.
+
 ### Repository
 
 ```java
 public interface ShortLinkRepository extends JpaRepository<ShortLink, Long> {
   Optional<ShortLink> findByShortCode(String shortCode);
-  boolean existsByShortCode(String shortCode);
+
+  @Modifying
+  @Query("update ShortLink s set s.clickCount = s.clickCount + 1 where s.shortCode = :shortCode")
+  int incrementClickCount(String shortCode);
 }
 ```
 
@@ -898,12 +927,16 @@ public class ShortenRequest {
 ```java
 import java.security.SecureRandom;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class ShortLinkService {
 
   private static final String ALPHANUM =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   private static final int CODE_LENGTH = 7;
+  private static final int MAX_ATTEMPTS = 5;
 
   private final ShortLinkRepository shortLinkRepository;
   private final SecureRandom random = new SecureRandom();
@@ -913,38 +946,42 @@ public class ShortLinkService {
   }
 
   public ShortLink shortenUrl(String targetUrl) {
-    ShortLink link = new ShortLink();
-    link.setShortCode(generateUniqueShortCode());
-    link.setTargetUrl(targetUrl);
-    return shortLinkRepository.save(link);
+    for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      ShortLink link = new ShortLink();
+      link.setShortCode(generateShortCode());
+      link.setTargetUrl(targetUrl);
+      try {
+        return shortLinkRepository.save(link);
+      } catch (DataIntegrityViolationException e) {
+        // another request claimed the same code between generation and save;
+        // the unique constraint is the source of truth, so retry with a new code
+      }
+    }
+    throw new IllegalStateException("Could not generate a unique short code");
   }
 
   public Optional<ShortLink> findByShortCode(String shortCode) {
     return shortLinkRepository.findByShortCode(shortCode);
   }
 
+  @Transactional
   public Optional<ShortLink> recordClickAndReturn(String shortCode) {
-    return shortLinkRepository.findByShortCode(shortCode)
-      .map(link -> {
-        link.setClickCount(link.getClickCount() + 1);
-        return shortLinkRepository.save(link);
-      });
+    shortLinkRepository.incrementClickCount(shortCode);
+    return shortLinkRepository.findByShortCode(shortCode);
   }
 
-  private String generateUniqueShortCode() {
+  private String generateShortCode() {
     StringBuilder code = new StringBuilder(CODE_LENGTH);
     for (int i = 0; i < CODE_LENGTH; i++) {
       int index = random.nextInt(ALPHANUM.length());
       code.append(ALPHANUM.charAt(index));
     }
-    String candidate = code.toString();
-    if (shortLinkRepository.existsByShortCode(candidate)) {
-      return generateUniqueShortCode();
-    }
-    return candidate;
+    return code.toString();
   }
 }
 ```
+
+Two concurrency details are worth calling out, because they are exactly the kind of bug that a single-threaded JavaScript mental model hides. First, the click counter is incremented with an atomic `update` query instead of read-modify-write; loading the entity, bumping the count in Java, and saving it back would lose clicks when two requests interleave. Second, checking `existsByShortCode` before saving cannot guarantee uniqueness — two threads can both pass the check with the same code — so the service leans on the database's unique constraint and retries on `DataIntegrityViolationException`. In a multi-threaded runtime, the database is the arbiter of uniqueness, not application code.
 
 ### Controller
 
@@ -1010,7 +1047,7 @@ Choose Java when:
 ## Resources
 
 - [Official Java documentation](https://docs.oracle.com/en/java/)
-- [OpenJDK 21 features](https://openjdk.org/projects/jdk/21/)
+- [OpenJDK 21 features](https://openjdk.org/projects/jdk/21/) and [OpenJDK 25 features](https://openjdk.org/projects/jdk/25/)
 - [Spring Boot documentation](https://spring.io/projects/spring-boot)
 - [Spring Initializr](https://start.spring.io/)
 - [Baeldung Java and Spring tutorials](https://www.baeldung.com/)

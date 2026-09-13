@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f172a"/>
+
+  <!-- Subtle circuit board pattern -->
+  <g stroke="#1e293b" stroke-width="1" fill="none">
+    <path d="M 0 110 L 210 110 L 260 160 L 430 160"/>
+    <path d="M 0 250 L 130 250 L 180 200 L 370 200 L 420 250 L 610 250"/>
+    <path d="M 1200 410 L 990 410 L 940 360 L 770 360"/>
+    <path d="M 1200 150 L 1120 150 L 1070 100 L 870 100"/>
+    <path d="M 0 520 L 180 520 L 230 470 L 400 470"/>
+    <circle cx="210" cy="110" r="3" fill="#1e293b"/>
+    <circle cx="430" cy="160" r="3" fill="#1e293b"/>
+    <circle cx="370" cy="200" r="3" fill="#1e293b"/>
+    <circle cx="610" cy="250" r="3" fill="#1e293b"/>
+    <circle cx="940" cy="360" r="3" fill="#1e293b"/>
+    <circle cx="770" cy="360" r="3" fill="#1e293b"/>
+    <circle cx="1070" cy="100" r="3" fill="#1e293b"/>
+    <circle cx="400" cy="470" r="3" fill="#1e293b"/>
+  </g>
+
+  <!-- Floating accent nodes: JS yellow left, Spring green right -->
+  <g opacity="0.12">
+    <circle cx="150" cy="180" r="50" fill="#f7df1e"/>
+    <circle cx="290" cy="500" r="42" fill="#f7df1e"/>
+    <circle cx="1050" cy="430" r="62" fill="#6db33f"/>
+    <circle cx="950" cy="120" r="36" fill="#6db33f"/>
+  </g>
+
+  <!-- Left panel: JavaScript -->
+  <g transform="translate(300, 315)">
+    <rect x="-140" y="-110" width="280" height="220" rx="10" fill="#0f172a" stroke="#f7df1e" stroke-width="2" opacity="0.9"/>
+    <rect x="-140" y="-110" width="280" height="32" rx="10" fill="#1e293b"/>
+    <rect x="-140" y="-78" width="280" height="1" fill="#334155"/>
+    <circle cx="-117" cy="-94" r="5" fill="#ef4444" opacity="0.8"/>
+    <circle cx="-100" cy="-94" r="5" fill="#f59e0b" opacity="0.8"/>
+    <circle cx="-83" cy="-94" r="5" fill="#22c55e" opacity="0.8"/>
+    <text x="10" y="-90" fill="#64748b" font-family="monospace" font-size="12">server.js</text>
+
+    <g font-family="monospace" font-size="13">
+      <text x="-120" y="-48" fill="#c084fc">const</text>
+      <text x="-68" y="-48" fill="#e2e8f0">app = express()</text>
+      <text x="-120" y="-20" fill="#e2e8f0">app.</text>
+      <text x="-84" y="-20" fill="#60a5fa">get</text>
+      <text x="-58" y="-20" fill="#e2e8f0">(</text>
+      <text x="-50" y="-20" fill="#4ade80">"/posts"</text>
+      <text x="16" y="-20" fill="#e2e8f0">,</text>
+      <text x="-104" y="8" fill="#c084fc">async</text>
+      <text x="-52" y="8" fill="#e2e8f0">(req, res) => {</text>
+      <text x="-88" y="36" fill="#e2e8f0">res.json(posts)</text>
+      <text x="-104" y="64" fill="#e2e8f0">})</text>
+      <text x="-120" y="92" fill="#64748b">// dynamic types</text>
+    </g>
+  </g>
+
+  <!-- Arrow between panels -->
+  <g stroke="#94a3b8" stroke-width="3" fill="none" opacity="0.85">
+    <path d="M 470 315 L 550 315"/>
+    <path d="M 536 301 L 554 315 L 536 329"/>
+  </g>
+
+  <!-- Right panel: Java / Spring Boot -->
+  <g transform="translate(790, 315)">
+    <!-- Orbit rings -->
+    <circle cx="0" cy="0" r="205" fill="none" stroke="#6db33f" stroke-width="1.5" opacity="0.25"/>
+    <circle cx="0" cy="0" r="183" fill="none" stroke="#f89820" stroke-width="1" stroke-dasharray="4,6" opacity="0.35"/>
+
+    <rect x="-185" y="-130" width="370" height="260" rx="10" fill="#0f172a" stroke="#6db33f" stroke-width="2"/>
+    <rect x="-185" y="-130" width="370" height="34" rx="10" fill="#1e293b"/>
+    <rect x="-185" y="-96" width="370" height="1" fill="#334155"/>
+    <circle cx="-160" cy="-113" r="5" fill="#ef4444" opacity="0.8"/>
+    <circle cx="-143" cy="-113" r="5" fill="#f59e0b" opacity="0.8"/>
+    <circle cx="-126" cy="-113" r="5" fill="#22c55e" opacity="0.8"/>
+    <text x="10" y="-108" fill="#64748b" font-family="monospace" font-size="12">PostController.java</text>
+
+    <g font-family="monospace" font-size="13">
+      <text x="-165" y="-68" fill="#f89820">@RestController</text>
+      <text x="-165" y="-40" fill="#f89820">@RequestMapping</text>
+      <text x="-33" y="-40" fill="#e2e8f0">(</text>
+      <text x="-25" y="-40" fill="#4ade80">"/api/posts"</text>
+      <text x="73" y="-40" fill="#e2e8f0">)</text>
+      <text x="-165" y="-12" fill="#c084fc">public class</text>
+      <text x="-55" y="-12" fill="#e2e8f0">PostController {</text>
+      <text x="-145" y="16" fill="#f89820">@GetMapping</text>
+      <text x="-145" y="44" fill="#c084fc">public</text>
+      <text x="-89" y="44" fill="#e2e8f0">List&lt;Post&gt; findAll()</text>
+      <text x="-165" y="72" fill="#e2e8f0">}</text>
+      <text x="-165" y="104" fill="#64748b">// compile-time safety</text>
+    </g>
+
+    <!-- Coffee steam accent -->
+    <g stroke="#f89820" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round">
+      <path d="M 150 -170 C 145 -180, 155 -190, 150 -200"/>
+      <path d="M 165 -170 C 160 -180, 170 -190, 165 -200"/>
+    </g>
+  </g>
+
+  <!-- Bottom labels -->
+  <g font-family="monospace" text-anchor="middle">
+    <text x="300" y="565" fill="#f7df1e" font-size="20" opacity="0.85">JavaScript</text>
+    <text x="510" y="565" fill="#94a3b8" font-size="16" opacity="0.7">to</text>
+    <text x="790" y="565" fill="#6db33f" font-size="20" opacity="0.85">Java + Spring Boot</text>
+  </g>
+</svg>

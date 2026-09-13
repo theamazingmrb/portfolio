@@ -67,6 +67,8 @@ By the end of this section you will have Java installed, a program running, and 
 
 Install a Java Development Kit. JDK 21 or JDK 25 — both LTS releases — are safe choices for new Spring Boot work.
 
+If `nvm` is your whole mental model of a runtime, one clarifying line: Java ships as a *kit* with two halves — `javac`, the compiler that turns your `.java` files into bytecode, and the **JVM** (Java Virtual Machine), the runtime that executes that bytecode. Node.js is your JVM equivalent; the JDK just also bundles the compiler. You'll hear "Java 21" and "JVM 21" used interchangeably — they mean the same runtime.
+
 On macOS with Homebrew:
 
 ```bash
@@ -226,7 +228,7 @@ repositories {
 
 Then run `gradle build`. Gradle can also scaffold all of this for you with `gradle init`.
 
-One reassurance before moving on: when we get to Spring Boot, you will not hand-build any of this. The Spring Initializr generates the whole project — layout, build file, and a wrapper script (`./mvnw`) so you don't even need Maven installed globally. The point of this section is that when you open that generated project, nothing in it looks mysterious.
+One reassurance before moving on: when we get to Spring Boot, you will not hand-build any of this. The Spring Initializr generates the whole project — layout, build file, and a wrapper script (`./mvnw`) so you don't even need Maven installed globally. The point of this section is that when you open that generated project, nothing in it looks mysterious. From here the article uses Maven; Gradle is the equivalent tool and everything we do maps 1:1 onto `./gradlew build` / `./gradlew bootRun`.
 
 For the rest of Part 1, stay in `Playground.java`.
 
@@ -365,6 +367,8 @@ Java's equivalent for immutable data is a record — a real class with a generat
 record User(String name, String email) {}
 ```
 
+One rule about where it lives: only one class per file can be `public`, and it must match the filename — so the extra records and classes you add to `Playground.java` are *intentionally* not `public` (package-private). If you copy the `public class` habit from `Hello.java` down here, you'll get a "class is public, should be declared in a file named User.java" error. Package-private is fine within a single file.
+
 Then in `main`:
 
 ```java
@@ -379,7 +383,7 @@ Notice you got a readable `toString` for free — plain Java classes print as `P
 
 ### Pattern matching for switch
 
-Java 21's pattern matching for switch is similar to TypeScript discriminated unions with exhaustiveness checking. Add this method *inside* the `Playground` class, next to `main`:
+Java 21's pattern matching for switch is similar to TypeScript discriminated unions with exhaustiveness checking. Add this method *inside* the `Playground` class, next to `main`. Note the `static` keyword — `main` is `static`, and a `static` method can only call other `static` methods directly (a non-static method belongs to an *instance* of the class, and there is no instance of `Playground`). That's why every helper you add in this file is `static`. If you drop it, the compiler refuses:
 
 ```java
 static String describe(Object value) {
@@ -832,7 +836,8 @@ Java 21 introduced virtual threads: lightweight threads managed by the JVM, simi
 ```java
 try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
   for (int i = 1; i <= 5; i++) {
-    int id = i;
+    int id = i;   // lambdas capture effectively-final locals; `i` changes
+                  // every pass, so copy it to a stable local the lambda sees
     executor.submit(() -> {
       Thread.sleep(1000); // pretend this is a database call
       System.out.println("fetched user " + id);
@@ -1046,7 +1051,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 }
 ```
 
-That's the entire data layer. No implementation — Spring Data JPA reads the *method names*, derives the SQL, and generates the class at startup. `findByAuthorIgnoreCase` becomes `WHERE LOWER(author) = LOWER(?)`. It feels like magic the first time; it's really a naming DSL.
+That's the entire data layer. No implementation — Spring Data JPA reads the *method names*, derives the SQL, and generates the class at startup. `findByAuthorIgnoreCase` becomes `WHERE LOWER(author) = LOWER(?)`. It feels like magic the first time; it's really a naming DSL — and it scales to everything you'd write in SQL: `deleteByAuthor(name)`, `countByTitle(...)`, `findFirst5ByOrderByIdDesc()`, you name it. If a method name in the DSL isn't supported you'll get a runtime error at startup, not a silent wrong query.
 
 So we have something to look at, seed two posts. Create `src/main/java/com/example/blog/config/DataSeeder.java`:
 
@@ -1127,6 +1132,18 @@ public class PostService {
     return postRepository.save(post);
   }
 
+  // load the existing post, update its fields, save the same row back.
+  // Optional chain: present → a Post, empty → null for the caller to 404.
+  public Optional<Post> update(Long id, Post updates) {
+    return postRepository.findById(id)
+      .map(existing -> {
+        existing.setTitle(updates.getTitle());
+        existing.setContent(updates.getContent());
+        existing.setAuthor(updates.getAuthor());
+        return postRepository.save(existing);   // same id, mutated fields
+      });
+  }
+
   public void deleteById(Long id) {
     postRepository.deleteById(id);
   }
@@ -1181,6 +1198,18 @@ public class PostController {
     // ↑ res.status(201).json(saved)
   }
 
+  // PUT replaces the resource at this id: @PathVariable grabs the id,
+  // @RequestBody the new values. Both optional chains map to HTTP —
+  // present → 200 with the updated post, empty → 404.
+  @PutMapping("/{id}")
+  public ResponseEntity<Post> updatePost(
+    @PathVariable Long id, @RequestBody @Valid Post post
+  ) {
+    return postService.update(id, post)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound().build());
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deletePost(@PathVariable Long id) {
     postService.deleteById(id);           // Void = no response body
@@ -1189,9 +1218,9 @@ public class PostController {
 }
 ```
 
-Key annotations: `@RestController` marks a web controller; `@RequestMapping` sets the base path; `@GetMapping`/`@PostMapping`/`@DeleteMapping` map HTTP methods; `@PathVariable` binds URL segments; `@RequestBody` deserializes JSON into a `Post`; `@Valid` triggers the `@NotBlank` rules from the entity. `ResponseEntity` controls status and headers explicitly. And look at `getPostById` — that's the `Optional` chain from Part 1, mapped straight onto HTTP: present → 200, empty → 404.
+Key annotations: `@RestController` marks a web controller; `@RequestMapping` sets the base path; `@GetMapping`/`@PostMapping`/`@PutMapping`/`@DeleteMapping` map HTTP methods; `@PathVariable` binds URL segments; `@RequestBody` deserializes JSON into a `Post`; `@Valid` triggers the `@NotBlank` rules from the entity. `ResponseEntity` controls status and headers explicitly. And look at `getPostById` and `updatePost` — that's the `Optional` chain from Part 1, mapped straight onto HTTP: present → 200, empty → 404. (GET uses the one-liner, POST/PUT read the body; every method returns `ResponseEntity<WhatItReturns>` — the generic wraps the body type, and `Void` on delete is Spring's way of saying "no body.")
 
-Now exercise all of it:
+Now exercise all of it — the same CRUD you'd write in Express, in four files:
 
 ```bash
 curl http://localhost:8080/api/posts
@@ -1205,6 +1234,11 @@ curl -X POST http://localhost:8080/api/posts \
 curl http://localhost:8080/api/posts/3
 # {"id":3,"title":"Written from curl",...}
 
+curl -X PUT http://localhost:8080/api/posts/3 \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Edited","content":"Same id, new body","author":"BJ"}'
+# {"id":3,"title":"Edited",...}   ← same id, updated fields
+
 curl -i -X DELETE http://localhost:8080/api/posts/3
 # HTTP/1.1 204
 
@@ -1212,7 +1246,7 @@ curl -i http://localhost:8080/api/posts/3
 # HTTP/1.1 404
 ```
 
-A complete CRUD (create, read, update, delete) API: controller → service → repository → database, in four files.
+A complete CRUD (create, read, update, delete) API: controller → service → repository → database, in four files. Create and update both flow through the same `repository.save()` — the database keyed by id decides insert vs update.
 
 ## Step 6: Validation and a global error handler
 
@@ -1242,6 +1276,7 @@ And `src/main/java/com/example/blog/exception/GlobalExceptionHandler.java` — t
 ```java
 package com.example.blog.exception;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -1259,6 +1294,14 @@ public class GlobalExceptionHandler {
     return ProblemDetail
       .forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
   }
+
+  // deleteById throws this when the id doesn't exist (Spring Data behavior),
+  // so delete on a missing post must 404 too — not crash with a 500
+  @ExceptionHandler(EmptyResultDataAccessException.class)
+  public ProblemDetail handleMissingDelete(EmptyResultDataAccessException e) {
+    return ProblemDetail
+      .forStatusAndDetail(HttpStatus.NOT_FOUND, "Post not found");
+  }
 }
 ```
 
@@ -1272,24 +1315,33 @@ public Post getPostById(@PathVariable Long id) {
 }
 ```
 
+This is the second valid way to handle a missing resource, and real codebases mix both — worth knowing the difference. Returning `ResponseEntity` (the Step 5 form) gives you fine-grained control over the status and headers *in the controller*. Throwing (this form) hands every status decision to the global handler, keeping controllers lean. Neither is wrong; pick one style per endpoint and stay consistent — e.g. `POST`/`PUT` return `ResponseEntity` because they carry a body with a custom status (`201`), while `GET {id}` throws so the single handler owns all not-found responses. `updatePost`, which also returns `ResponseEntity` with a `404`-on-empty, is a fine place for either — you could throw there too and it'd behave identically.
+
 ```bash
 curl http://localhost:8080/api/posts/999
 # {"type":"about:blank","title":"Not Found","status":404,"detail":"Post not found: 999",...}
+```
+
+A missing id 404s consistently across GET *and* DELETE — the second handler above catches what `deleteById` throws when the row doesn't exist. Try it:
+
+```bash
+curl -i -X DELETE http://localhost:8080/api/posts/999
+# HTTP/1.1 404  ← not a 500 crash
 ```
 
 Any controller can now throw `PostNotFoundException` and the handler turns it into a proper 404 with an RFC 9457 problem-details body. Controllers stay clean; error formatting lives in one place.
 
 ## Step 7: Configuration and profiles
 
-Configuration lives in `application.properties` (or `application.yml`). Add to `src/main/resources/application.properties`:
+Configuration lives in `application.properties` (or `application.yml` — Spring reads both from `src/main/resources`, and when both exist they merge). Add to `src/main/resources/application.properties`:
 
 ```properties
 spring.jpa.show-sql=true
 ```
 
-Restart and hit an endpoint — the log now shows every SQL statement Hibernate runs. Useful while learning; noisy in production. Which raises the question: how do you vary config by environment?
+Save the file — DevTools restarts the app for you (no manual `Ctrl+C` needed) — then hit an endpoint and the log now shows every SQL statement Hibernate runs. Useful while learning; noisy in production. Which raises the question: how do you vary config by environment?
 
-Profiles. A file named `application-dev.yml` overrides the base config when the `dev` profile is active. A realistic production setup looks like:
+Profiles. A file named `application-dev.yml` overrides the base config when the `dev` profile is active. Create these two files alongside the `.properties` one — the `show-sql` line stays in properties, and the yml files add on top of it. A realistic production setup looks like:
 
 ```yaml
 # application.yml — base config
@@ -1318,11 +1370,20 @@ spring:
     show-sql: true
 ```
 
-Inject a property into code with `@Value`:
+Activate a profile with `./mvnw spring-boot:run -Dspring-boot.run.profiles=dev` (or `SPRING_PROFILES_ACTIVE=dev`). Without a profile active, only the base `application.yml` applies.
+
+Inject a property into code with `@Value`. The `:false` is the default when the key isn't defined anywhere:
 
 ```java
 @Value("${feature.new-dashboard:false}")
 private boolean newDashboard;
+```
+
+Define the key so it's controlled by a profile, not just a silent default (add to the appropriate `application*.yml`):
+
+```yaml
+feature:
+  new-dashboard: true
 ```
 
 Or use `@ConfigurationProperties` for type-safe configuration. This is roughly `.env` files plus `NODE_ENV` branching, but structured and type-checked.
@@ -1564,6 +1625,8 @@ public interface ShortLinkRepository extends JpaRepository<ShortLink, Long> {
   int incrementClickCount(String shortCode);
 }
 ```
+
+That `@Query` string is **JPQL**, not SQL — it names the entity `ShortLink` and its fields, not the table and columns. Spring translates it to real SQL for whatever database is on the classpath. `:shortCode` is a named parameter, filled from the method's `shortCode` argument (you can also use `?1` for positional).
 
 ### Request DTO
 

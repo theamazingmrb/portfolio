@@ -89,12 +89,17 @@ You will also want an IDE. IntelliJ IDEA Community Edition is the standard, thou
 Coming from `node app.js`, the good news is modern Java can do the same thing. Create a file called `Hello.java` anywhere:
 
 ```java
-public class Hello {                            // must match the file name: Hello.java
-  public static void main(String[] args) {      // the entry point Java looks for —
-    String name = "world";                      //   public: callable from outside
-    System.out.println("Hello, " + name);       //   static: no object needed to call it
-  }                                             //   void: returns nothing
-}                                               //   String[] args: CLI args, like process.argv
+public class Hello {   // class name must match the file name
+  // main is the entry point Java looks for:
+  //   public = callable from outside
+  //   static = no object needed to call it
+  //   void   = returns nothing
+  //   String[] args = CLI arguments, like process.argv
+  public static void main(String[] args) {
+    String name = "world";
+    System.out.println("Hello, " + name);
+  }
+}
 ```
 
 Run it directly:
@@ -111,22 +116,23 @@ No compile step, no project file. Since Java 11, the `java` launcher compiles an
 This one file is your companion for all of Part 1. Create `Playground.java`:
 
 ```java
-// Imports work differently than in JS. There's no npm install here — everything
-// below ships with the JDK (the standard library). Only java.lang basics like
-// String and System are auto-available; the rest must be imported by package.
-// The .* form is a wildcard: "everything in this package," like `import * as`.
+// Imports work differently than in JS: no npm install here.
+// Everything below ships with the JDK (the standard library).
+// Only java.lang basics like String and System come auto-imported;
+// the rest must be imported. The .* form is a wildcard,
+// like `import * as` — "everything in this package".
 
-import java.io.IOException;      // the exception file operations throw (exceptions section)
-import java.nio.file.Files;      // file read/write helpers — roughly Node's fs
-import java.nio.file.Path;       // an object representing a file path
-import java.util.*;              // the core toolbox: List, Map, Set, Optional...
-import java.util.concurrent.*;   // threads, executors, CompletableFuture (Java's Promise)
-import java.util.function.*;     // Function, Supplier... — the types lambdas satisfy
-import java.util.stream.*;       // Stream API + Collectors (Java's map/filter/reduce)
+import java.io.IOException;      // thrown by file operations
+import java.nio.file.Files;      // file read/write — Node's fs
+import java.nio.file.Path;       // an object for a file path
+import java.util.*;              // List, Map, Set, Optional...
+import java.util.concurrent.*;   // threads, CompletableFuture
+import java.util.function.*;     // the types lambdas satisfy
+import java.util.stream.*;       // Java's map/filter/reduce
 
 public class Playground {
-  // "throws Exception" tells the compiler: if anything in main throws a checked
-  // exception, let it crash — saves us try/catch ceremony while experimenting.
+  // "throws Exception": if anything in main throws a checked
+  // exception, just crash — saves try/catch while experimenting
   public static void main(String[] args) throws Exception {
     System.out.println("ready");   // console.log
   }
@@ -157,18 +163,19 @@ Create `pom.xml` in the project root (this is your `package.json`):
 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0">
-  <modelVersion>4.0.0</modelVersion>            <!-- POM format version — always 4.0.0 -->
-  <groupId>com.example</groupId>                <!-- who made it: like an npm scope (@example) -->
-  <artifactId>hello-java</artifactId>           <!-- the project name: "name" in package.json -->
-  <version>1.0.0</version>                      <!-- "version" in package.json -->
+  <modelVersion>4.0.0</modelVersion>    <!-- POM format, always 4.0.0 -->
+  <groupId>com.example</groupId>        <!-- like an npm scope -->
+  <artifactId>hello-java</artifactId>   <!-- "name" in package.json -->
+  <version>1.0.0</version>              <!-- "version" in package.json -->
 
-  <properties>                                  <!-- build settings -->
-    <maven.compiler.source>21</maven.compiler.source>   <!-- Java version to compile with... -->
-    <maven.compiler.target>21</maven.compiler.target>   <!-- ...and to target, like tsconfig's "target" -->
+  <properties>
+    <!-- Java version to compile with/for, like tsconfig "target" -->
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <!-- dependencies would go here in a <dependencies> block — none needed yet -->
+  <!-- a <dependencies> block would go here — none needed yet -->
 </project>
 ```
 
@@ -754,7 +761,7 @@ fetchUser(1).then(u => u.name).then(console.log);
 CompletableFuture.supplyAsync(() -> "Alice")   // pretend this fetches
   .thenApply(String::toUpperCase)              // .then(...)
   .thenAccept(System.out::println)             // .then(...)
-  .join();                                     // block until done (main would exit otherwise)
+  .join();                            // block until done, or main exits
 // ALICE
 ```
 
@@ -813,10 +820,12 @@ You recognize all of this from Part 1's setup — Initializr just typed it for y
 `BlogApplication.java` is the whole entry point:
 
 ```java
-@SpringBootApplication   // one annotation = enable auto-config + scan this package for components
+// one annotation = auto-configuration + scan this package for components
+@SpringBootApplication
 public class BlogApplication {
   public static void main(String[] args) {
-    SpringApplication.run(BlogApplication.class, args);   // boots the server — app.listen(), roughly
+    // boots the server — app.listen(), roughly
+    SpringApplication.run(BlogApplication.class, args);
   }
 }
 ```
@@ -850,12 +859,15 @@ import java.util.Map;   // standard library, like in Part 1
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController          // "this class handles HTTP and returns JSON" — Spring finds it by scanning
+// @RestController: "this class handles HTTP and returns JSON" —
+// Spring finds it automatically by scanning the package
+@RestController
 public class HelloController {
 
-  @GetMapping("/hello")  // app.get("/hello", ...) — the route lives on the method
+  @GetMapping("/hello")   // app.get("/hello", ...)
   public Map<String, String> hello() {
-    return Map.of("message", "Hello from Spring Boot");   // returned objects auto-serialize to JSON
+    return Map.of("message", "Hello from Spring Boot");
+    // returned objects auto-serialize to JSON
   }
 }
 ```
@@ -876,24 +888,25 @@ Now the real model. Create `src/main/java/com/example/blog/model/Post.java`:
 ```java
 package com.example.blog.model;
 
-import jakarta.persistence.*;                    // JPA: the annotations that map classes to tables
-import jakarta.validation.constraints.NotBlank;  // validation rules (from the validation starter)
-import java.time.LocalDateTime;                  // standard library date-time (no Moment.js needed)
-import org.hibernate.annotations.CreationTimestamp; // Hibernate is the library implementing JPA
+import jakarta.persistence.*;      // JPA: maps classes to tables
+import jakarta.validation.constraints.NotBlank;   // validation rules
+import java.time.LocalDateTime;    // built-in date-time, no Moment.js
+// Hibernate is the library that implements JPA under the hood
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity                    // "this class is a database table"
 @Table(name = "posts")     // ...named "posts" (defaults to the class name otherwise)
 public class Post {
 
   @Id                      // primary key...
-  @GeneratedValue(strategy = GenerationType.IDENTITY)  // ...auto-incremented by the database
+  @GeneratedValue(strategy = GenerationType.IDENTITY)   // ...auto-increment
   private Long id;
 
-  @NotBlank                       // validation: reject null/empty/whitespace (enforced by @Valid later)
-  @Column(nullable = false)       // database constraint: NOT NULL in the schema itself
+  @NotBlank                    // validation: reject blank (via @Valid later)
+  @Column(nullable = false)    // schema constraint: NOT NULL in the database
   private String title;
 
-  private String content;         // no annotations = nullable column named "content"
+  private String content;      // no annotations = plain nullable column
 
   @NotBlank
   @Column(nullable = false)
@@ -922,15 +935,16 @@ Create `src/main/java/com/example/blog/repository/PostRepository.java`:
 ```java
 package com.example.blog.repository;
 
-import com.example.blog.model.Post;   // importing our own class — path matches its package
+import com.example.blog.model.Post;   // our own class, by package
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-// JpaRepository<Post, Long> reads as: "a repository of Post entities whose id is a Long".
-// Extending it inherits save(), findById(), findAll(), deleteById(), count()... for free.
+// JpaRepository<Post, Long> = "a repository of Posts, id type Long".
+// Extending it inherits save(), findById(), findAll(), deleteById(),
+// count()... all for free.
 public interface PostRepository extends JpaRepository<Post, Long> {
-  List<Post> findAllByOrderByCreatedAtDesc();       // parsed from the name: ORDER BY created_at DESC
-  List<Post> findByAuthorIgnoreCase(String author); // WHERE LOWER(author) = LOWER(?)
+  List<Post> findAllByOrderByCreatedAtDesc();   // ORDER BY created_at DESC
+  List<Post> findByAuthorIgnoreCase(String a);  // WHERE LOWER(author) = ?
 }
 ```
 
@@ -947,14 +961,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration   // "this class defines beans" — objects Spring should create and manage
+@Configuration   // "this class defines beans" — objects Spring manages
 public class DataSeeder {
 
-  @Bean   // the method's return value becomes a managed object; Spring runs every
-          // CommandLineRunner it finds once, at startup
-  CommandLineRunner seed(PostRepository posts) {   // ask for the repo as a parameter → Spring injects it
-    return args -> {                               // CommandLineRunner is a one-method interface,
-                                                   // so a lambda satisfies it — Part 1's interfaces + lambdas
+  // @Bean: the return value becomes a managed object. Spring runs
+  // every CommandLineRunner it finds once, at startup. Asking for
+  // PostRepository as a parameter makes Spring inject it. And since
+  // CommandLineRunner is a one-method interface, a lambda satisfies
+  // it — Part 1's interfaces + lambdas working together.
+  @Bean
+  CommandLineRunner seed(PostRepository posts) {
+    return args -> {
       if (posts.count() == 0) {
         Post first = new Post();
         first.setTitle("Hello Java");
@@ -988,13 +1005,14 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
-@Service   // marks this as a business-logic component — Spring creates exactly one and manages it
+@Service   // a business-logic component — Spring creates and manages it
 public class PostService {
 
-  private final PostRepository postRepository;   // final = must be set in the constructor, never reassigned
+  // final = set once in the constructor, never reassigned
+  private final PostRepository postRepository;
 
-  // Constructor injection: you never call `new PostService(...)` yourself.
-  // Spring sees the constructor needs a PostRepository and passes one in.
+  // Constructor injection: you never call `new PostService(...)`.
+  // Spring sees the constructor needs a PostRepository → passes one in.
   public PostService(PostRepository postRepository) {
     this.postRepository = postRepository;
   }
@@ -1030,41 +1048,44 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;   // wildcard: all the web annotations at once
+import org.springframework.web.bind.annotation.*;   // all web annotations
 
 @RestController
-@RequestMapping("/api/posts")   // base path — every method's route is relative to this
+@RequestMapping("/api/posts")   // base path for every route below
 public class PostController {
 
   private final PostService postService;
 
-  public PostController(PostService postService) {   // constructor injection again
+  public PostController(PostService postService) {   // injection again
     this.postService = postService;
   }
 
   @GetMapping   // no path = the base path itself: GET /api/posts
   public List<Post> getAllPosts() {
-    return postService.findAll();   // the list serializes to a JSON array automatically
+    return postService.findAll();   // serializes to a JSON array
   }
 
-  @GetMapping("/{id}")   // GET /api/posts/42 — {id} like Express route params
-  public ResponseEntity<Post> getPostById(@PathVariable Long id) {   // @PathVariable = req.params.id,
-    return postService.findById(id)                                  // already parsed into a Long
-      .map(ResponseEntity::ok)                    // Optional has a value → 200 with the post
-      .orElse(ResponseEntity.notFound().build()); // Optional is empty → 404
+  // {id} is a route param, like Express /:id
+  // @PathVariable = req.params.id, already parsed into a Long
+  @GetMapping("/{id}")
+  public ResponseEntity<Post> getPostById(@PathVariable Long id) {
+    return postService.findById(id)
+      .map(ResponseEntity::ok)                      // has value → 200
+      .orElse(ResponseEntity.notFound().build());   // empty → 404
   }
 
+  // @RequestBody = req.body parsed from JSON into a Post
+  // @Valid = run the @NotBlank rules; failures → 400 automatically
   @PostMapping
   public ResponseEntity<Post> createPost(@RequestBody @Valid Post post) {
-    // @RequestBody = req.body parsed from JSON into a Post
-    // @Valid = run the @NotBlank rules; failures become a 400 before this method runs
     Post saved = postService.save(post);
-    return ResponseEntity.status(HttpStatus.CREATED).body(saved);   // res.status(201).json(saved)
+    return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    // ↑ res.status(201).json(saved)
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletePost(@PathVariable Long id) {   // Void = no response body
-    postService.deleteById(id);
+  public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+    postService.deleteById(id);           // Void = no response body
     return ResponseEntity.noContent().build();   // 204
   }
 }
@@ -1128,13 +1149,17 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice   // "advice" applies to ALL controllers — a global error boundary
+// "advice" applies to ALL controllers — a global error boundary
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(PostNotFoundException.class)   // catches this exception from any controller
+  // catches this exception no matter which controller threw it
+  @ExceptionHandler(PostNotFoundException.class)
   public ProblemDetail handleNotFound(PostNotFoundException e) {
-    // ProblemDetail is Spring's built-in RFC 9457 error body: {type, title, status, detail}
-    return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    // ProblemDetail = Spring's built-in RFC 9457 error body:
+    // {type, title, status, detail}
+    return ProblemDetail
+      .forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
   }
 }
 ```
@@ -1225,12 +1250,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest          // boot the whole application context for this test
-@AutoConfigureMockMvc    // ...and give us a fake HTTP client wired straight into it
+@SpringBootTest          // boot the whole application context
+@AutoConfigureMockMvc    // ...plus a fake HTTP client wired into it
 class PostControllerTest {
 
-  @Autowired             // field injection: "Spring, fill this in" (constructors are
-  private MockMvc mockMvc;   // preferred in app code; @Autowired fields are idiomatic in tests)
+  // @Autowired field injection: "Spring, fill this in". Constructors
+  // are preferred in app code, but @Autowired fields are normal in tests.
+  @Autowired
+  private MockMvc mockMvc;
 
   @Test
   void shouldReturnSeededPosts() throws Exception {
@@ -1295,13 +1322,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)   // enable Mockito, no Spring context = milliseconds fast
+// Mockito only, no Spring context = milliseconds fast
+@ExtendWith(MockitoExtension.class)
 class PostServiceTest {
 
-  @Mock                                // a fake PostRepository — jest.mock() territory
+  @Mock   // a fake PostRepository — jest.mock() territory
   private PostRepository postRepository;
 
-  @InjectMocks                         // a real PostService, constructed with the mock above
+  @InjectMocks   // a real PostService, built with the mock above
   private PostService postService;
 
   @Test
@@ -1360,13 +1388,13 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .csrf(csrf -> csrf.disable())                            // see the caveat below
-      .authorizeHttpRequests(auth -> auth                      // route rules, most specific first
-        .requestMatchers("/api/public/**").permitAll()         // ** = any depth, like glob patterns
+      .csrf(csrf -> csrf.disable())            // see the caveat below
+      .authorizeHttpRequests(auth -> auth      // rules: most specific first
+        .requestMatchers("/api/public/**").permitAll()   // ** = any depth
         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-        .anyRequest().authenticated()                          // everything else: must be logged in
+        .anyRequest().authenticated()          // everything else: log in
       )
-      .httpBasic(Customizer.withDefaults());                   // how to log in: HTTP Basic auth
+      .httpBasic(Customizer.withDefaults());   // log in via HTTP Basic
 
     return http.build();
   }
@@ -1425,10 +1453,15 @@ The `unique = true` on the column generates a unique constraint (and, on most da
 public interface ShortLinkRepository extends JpaRepository<ShortLink, Long> {
   Optional<ShortLink> findByShortCode(String shortCode);
 
+  // One atomic UPDATE in the database — no read-modify-write
+  // window for concurrent requests to race in.
   @Modifying   // this query changes data (default assumption is SELECT)
-  @Query("update ShortLink s set s.clickCount = s.clickCount + 1 where s.shortCode = :shortCode")
-  int incrementClickCount(String shortCode);   // one atomic UPDATE in the database —
-                                               // no read-modify-write window to race in
+  @Query("""
+    update ShortLink s
+    set s.clickCount = s.clickCount + 1
+    where s.shortCode = :shortCode
+    """)
+  int incrementClickCount(String shortCode);
 }
 ```
 
@@ -1456,15 +1489,17 @@ public class ShortenRequest {
 ### Service
 
 ```java
-import java.security.SecureRandom;   // cryptographically strong randomness (Math.random is guessable)
+// SecureRandom: strong randomness — Math.random() is guessable
+import java.security.SecureRandom;
 
-import org.springframework.dao.DataIntegrityViolationException;   // thrown when a DB constraint is violated
+// thrown when a database constraint (like UNIQUE) is violated
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ShortLinkService {
 
-  // static final on a class = a constant shared by all instances, like module-level const
+  // static final = one shared constant, like a module-level const
   private static final String ALPHANUM =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   private static final int CODE_LENGTH = 7;
@@ -1538,11 +1573,12 @@ public class ShortLinkController {
     return ResponseEntity.status(HttpStatus.CREATED).body(saved);
   }
 
-  @GetMapping("/{shortCode}")   // note: root level, not under /api — this IS the short URL
+  // root level, not under /api — this IS the short URL
+  @GetMapping("/{shortCode}")
   public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
     return shortLinkService.recordClickAndReturn(shortCode)
-      .map(link -> ResponseEntity.status(HttpStatus.FOUND)     // 302
-        .location(URI.create(link.getTargetUrl()))             // Location: header → browser follows it
+      .map(link -> ResponseEntity.status(HttpStatus.FOUND)   // 302
+        .location(URI.create(link.getTargetUrl()))   // Location: header
         .build())
       .orElse(ResponseEntity.notFound().build());
   }

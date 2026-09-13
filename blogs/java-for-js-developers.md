@@ -294,14 +294,21 @@ String json = """
 System.out.println(json);
 ```
 
-One thing text blocks do *not* do is interpolation — there is no `${}`. Use `String.formatted`:
+One thing text blocks do *not* do is interpolation — there is no `${}`. Instead, Java uses format specifiers: `%s` and `%d` are placeholders in the string, filled in order by the arguments you pass to `.formatted(...)`:
 
 ```java
 String name = "Alice";
+
+// %s = "string goes here", %d = "whole number goes here"
+// .formatted(...) fills them in order: %s ← name, %d ← 3
 String greeting = "Hello, %s! You have %d messages.".formatted(name, 3);
 System.out.println(greeting);
 // Hello, Alice! You have 3 messages.
 ```
+
+The letters matter: passing a non-number to `%d` is an error. A few you'll meet constantly: `%s` for strings (anything, really), `%d` for whole numbers, `%f` for decimals (`%.2f` rounds to 2 places — handy for prices), and `%n` for a newline.
+
+**Try it:** print `"Total: $%.2f%n".formatted(19.999)` and check the rounding. Then swap the arguments to `.formatted(3, name)` and read the runtime error — order matters, and this is exactly the kind of mistake `${name}` never let you make. (If you're thinking "that's a downside" — pre-2015 JavaScript's `"Hello, " + name` had the same problem, and C-style format strings predate both. Every language pays for string building somewhere.)
 
 ### Type inference with var
 

@@ -46,7 +46,7 @@ The following table highlights the differences you will feel every day.
 | Aspect | JavaScript | Java |
 |---|---|---|
 | Type system | Dynamic (optional TypeScript) | Static and strong |
-| Compilation | Interpreted or JIT in the runtime | Compiled to JVM bytecode |
+| Compilation | Interpreted, or JIT (just-in-time) compiled while running | Compiled ahead to JVM bytecode |
 | Runtime | Browser, Node.js, Deno, Bun | Java Virtual Machine |
 | Concurrency | Event loop, async/await, single-threaded | Threads, virtual threads, thread pools |
 | Package manager | npm, yarn, pnpm | Maven, Gradle |
@@ -306,9 +306,36 @@ System.out.println(greeting);
 // Hello, Alice! You have 3 messages.
 ```
 
-The letters matter: passing a non-number to `%d` is an error. A few you'll meet constantly: `%s` for strings (anything, really), `%d` for whole numbers, `%f` for decimals (`%.2f` rounds to 2 places — handy for prices), and `%n` for a newline.
+The letters matter — they're type-checked, and passing a non-number to `%d` is an error. The ones you'll meet constantly:
+
+| Specifier | Data Type | Example Input | Formatted Output |
+|---|---|---|---|
+| `%s` | String / any Object | `"Alice"` | `Alice` |
+| `%d` | Integer (`int`, `long`, `byte`, `short`) | `42` | `42` |
+| `%f` | Floating-point (`double`, `float`) | `19.99` | `19.990000` |
+| `%.2f` | Floating-point, rounded to 2 decimals | `19.991` | `19.99` |
+| `%b` | Boolean | `true` | `true` |
+| `%n` | Platform-independent newline | (no argument needed) | (line break) |
+
+Watch that `%f` row: with no precision given, Java pads to six decimal places — almost never what you want for display, which is why `%.2f` shows up everywhere money does.
 
 **Try it:** print `"Total: $%.2f%n".formatted(19.999)` and check the rounding. Then swap the arguments to `.formatted(3, name)` and read the runtime error — order matters, and this is exactly the kind of mistake `${name}` never let you make. (If you're thinking "that's a downside" — pre-2015 JavaScript's `"Hello, " + name` had the same problem, and C-style format strings predate both. Every language pays for string building somewhere.)
+
+### Comparing values: == is not what you think
+
+This is the most common Java beginner trap, so let's hit it early. In JavaScript, `===` on two strings compares their contents. In Java, `==` on objects compares *references* — "are these the exact same object in memory?" Run this:
+
+```java
+String a = "hello";
+String b = new String("hello");   // force a second, separate object
+
+System.out.println(a == b);        // false — different objects!
+System.out.println(a.equals(b));   // true  — same contents
+```
+
+The rule: `==` for primitives (`int`, `double`, `boolean`, `char`), `.equals()` for objects — which means *always* `.equals()` for strings. The cruel part is that `==` on strings sometimes appears to work (Java reuses identical string literals), so the bug hides until it doesn't.
+
+This is also why it matters that records (two sections down) generate `equals` for you: two records with the same field values are `.equals()`, the way you'd hope. Hand-written classes don't get that for free.
 
 ### Type inference with var
 
@@ -348,7 +375,7 @@ System.out.println(user);
 // User[name=Alice, email=alice@example.com]
 ```
 
-Notice you got a readable `toString` for free — plain Java classes print as `Playground$User@1b6d3586`-style garbage until you write one. Use records for DTOs and value objects.
+Notice you got a readable `toString` for free — plain Java classes print as `Playground$User@1b6d3586`-style garbage until you write one. Use records for DTOs and value objects. (DTO = data transfer object: a class whose only job is carrying data between layers or across the wire — the shape of a JSON request or response, basically. A value object is similar but internal: a `Point`, a `Money`, a `DateRange`. Neither has behavior; both are just typed data — which is exactly what records are for.)
 
 ### Pattern matching for switch
 
@@ -375,6 +402,69 @@ System.out.println(describe(3.14));   // unknown
 ```
 
 **Try it:** add a `case Double d ->` branch and rerun. Then remove the `default` branch and read the compiler error — the compiler tracks whether your switch covers every case.
+
+---
+
+## Collections and Generics
+
+In JavaScript, arrays and objects do everything. Java splits the job across `List` (array), `Map` (object/Map), and `Set`, and every collection declares what it holds.
+
+### Generics: the angle brackets
+
+`List<String>` reads as "a List of Strings" — the `<String>` is a generic type parameter, exactly like TypeScript's `Array<string>`. The compiler enforces it: you can't put a number in a `List<String>`, and everything you take out is already a `String`, no casting.
+
+```java
+List<String> fruits = new ArrayList<>();   // mutable, like []
+fruits.add("apple");                       // push
+fruits.add("banana");
+// fruits.add(42);                         // compile error — try it
+
+System.out.println(fruits.get(0));         // fruits[0] → apple
+System.out.println(fruits.size());         // .length  → 2
+
+Map<String, Integer> ages = new HashMap<>();      // {} / new Map()
+ages.put("Alice", 30);                            // ages["Alice"] = 30
+System.out.println(ages.get("Alice"));            // 30
+System.out.println(ages.getOrDefault("Bob", 0));  // no undefined —
+                                                  // you pick the fallback
+```
+
+One wrinkle: generics only work with object types, so it's `List<Integer>`, never `List<int>`. `Integer` is the object wrapper around the primitive `int`, and Java converts between them automatically ("autoboxing") — you'll mostly not notice, but it explains some type names you're about to see in the streams section.
+
+### The immutability catch
+
+`List.of(...)`, which the examples use constantly, creates an *immutable* list — think `Object.freeze`. This compiles fine and explodes at runtime:
+
+```java
+List<String> frozen = List.of("a", "b");
+frozen.add("c");   // UnsupportedOperationException — run it and see
+```
+
+Need a mutable copy? Wrap it:
+
+```java
+List<String> thawed = new ArrayList<>(List.of("a", "b"));
+thawed.add("c");   // fine
+System.out.println(thawed);   // [a, b, c]
+```
+
+Rule of thumb: `List.of` for fixed data, `new ArrayList<>()` when you'll add and remove.
+
+### Looping
+
+Java's for-each is JavaScript's `for...of`:
+
+```java
+List<String> fruits = List.of("apple", "banana", "cherry");
+
+for (String fruit : fruits) {   // for (const fruit of fruits)
+  System.out.println(fruit);
+}
+
+fruits.forEach(f -> System.out.println(f));   // .forEach works too
+```
+
+The C-style `for (int i = 0; i < 10; i++)` also exists and looks exactly like its JS twin.
 
 ---
 
@@ -587,8 +677,8 @@ System.out.println(sum);
 // 21
 
 double average = numbers.stream()
-  .mapToInt(Integer::intValue)
-  .average()
+  .mapToInt(Integer::intValue)   // unbox Integer objects → raw ints,
+  .average()                     // unlocking math ops like average()
   .orElse(0.0);
 System.out.println(average);
 // 3.5
@@ -801,7 +891,7 @@ unzip blog.zip -d blog && cd blog
 The dependencies:
 
 - **Spring Web** — REST controllers and the embedded Tomcat server
-- **Spring Data JPA** — database access
+- **Spring Data JPA** — database access (JPA = Jakarta Persistence API, the standard for mapping Java objects to database tables; think of it as Java's built-in answer to an ORM like Prisma)
 - **H2 Database** — an in-memory database for development, zero setup
 - **Validation** — request validation annotations
 - **Spring Boot DevTools** — auto-restart on change, like nodemon
@@ -907,7 +997,8 @@ public class Post {
 
   @Id                      // primary key...
   @GeneratedValue(strategy = GenerationType.IDENTITY)   // ...auto-increment
-  private Long id;
+  private Long id;         // Long (object), not long (primitive):
+                           // it must be null before the DB assigns one
 
   @NotBlank                    // validation: reject blank (via @Valid later)
   @Column(nullable = false)    // schema constraint: NOT NULL in the database
@@ -1121,7 +1212,7 @@ curl -i http://localhost:8080/api/posts/3
 # HTTP/1.1 404
 ```
 
-A complete CRUD API: controller → service → repository → database, in four files.
+A complete CRUD (create, read, update, delete) API: controller → service → repository → database, in four files.
 
 ## Step 6: Validation and a global error handler
 
@@ -1271,6 +1362,8 @@ class PostControllerTest {
     // the DataSeeder from Step 4 runs for tests too
     mockMvc.perform(get("/api/posts"))
       .andExpect(status().isOk())
+      // jsonPath queries the response JSON: $ is the root,
+      // $.title a field, $[0].title the first element's field
       .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(2))));
   }
 
@@ -1355,7 +1448,7 @@ The shape is close to Jest: `when(...).thenReturn(...)` is `mockFn.mockReturnVal
 
 ## Step 9: Package and ship it
 
-A Spring Boot application packages as a single executable JAR with Tomcat inside. Stop the dev server, then:
+A Spring Boot application packages as a single executable JAR (Java archive — essentially a zip of your compiled code and its dependencies) with Tomcat inside. Stop the dev server, then:
 
 ```bash
 ./mvnw clean package
@@ -1364,7 +1457,7 @@ java -jar target/blog-0.0.1-SNAPSHOT.jar
 
 Same app, one file, runs anywhere a JVM exists. That JAR is your deployable artifact — no `node_modules` to ship, no runtime to assemble on the server.
 
-Maven does not generate a lock file the way npm does, but Spring Boot's `spring-boot-starter-parent` BOM pins the versions of hundreds of libraries, which serves a similar purpose: consistent, known-compatible dependency versions across builds.
+Maven does not generate a lock file the way npm does, but Spring Boot's `spring-boot-starter-parent` BOM (bill of materials — a curated list that pins the versions of hundreds of libraries known to work together) serves a similar purpose: consistent, compatible dependency versions across builds.
 
 For containers, either let the build plugin make an image:
 
@@ -1381,7 +1474,7 @@ COPY target/blog-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-For GraalVM native images — faster startup, less memory, ideal for serverless — Spring Boot's AOT processing is built in: add the GraalVM Native Build Tools plugin (`org.graalvm.buildtools.native`) and build with `./mvnw -Pnative native:compile`.
+For GraalVM native images — faster startup, less memory, ideal for serverless — Spring Boot's AOT (ahead-of-time) processing is built in: instead of compiling to bytecode the JVM optimizes while running, the whole app compiles to a native binary up front. Add the GraalVM Native Build Tools plugin (`org.graalvm.buildtools.native`) and build with `./mvnw -Pnative native:compile`.
 
 ## A Look Ahead: Spring Security
 
@@ -1408,9 +1501,9 @@ public class SecurityConfig {
 }
 ```
 
-Spring Security configures a filter chain that runs before your controllers — middleware, in Express terms. For a stateless, token-based API you would replace `httpBasic` with a JWT filter.
+Spring Security configures a filter chain that runs before your controllers — middleware, in Express terms. For a stateless, token-based API you would replace `httpBasic` with a JWT (JSON Web Token) filter.
 
-One caveat on `csrf.disable()`: it is appropriate for a stateless API authenticated with tokens, where there is no session cookie for a cross-site request to ride on. If your application uses session-based authentication — as the `httpBasic` example above can — leave CSRF protection on. Do not copy that line into a session-backed app.
+One caveat on `csrf.disable()`: CSRF is cross-site request forgery — an attack where a malicious site makes requests that ride on your user's logged-in session cookie. Disabling the protection is appropriate for a stateless API authenticated with tokens, where there is no session cookie for a cross-site request to ride on. If your application uses session-based authentication — as the `httpBasic` example above can — leave CSRF protection on. Do not copy that line into a session-backed app.
 
 ---
 
@@ -1474,24 +1567,18 @@ public interface ShortLinkRepository extends JpaRepository<ShortLink, Long> {
 
 ### Request DTO
 
+A data transfer object defining the shape of the POST body — and here's Part 1's "use records for DTOs" advice paying off. Validation annotations sit right on the components:
+
 ```java
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class ShortenRequest {
-  @NotBlank
-  @Size(max = 2048)
-  private String targetUrl;
-
-  public String getTargetUrl() {
-    return targetUrl;
-  }
-
-  public void setTargetUrl(String targetUrl) {
-    this.targetUrl = targetUrl;
-  }
-}
+public record ShortenRequest(
+  @NotBlank @Size(max = 2048) String targetUrl
+) {}
 ```
+
+One line of data shape instead of a class with getters and setters. (Entities must stay classes; DTOs are exactly where records shine.)
 
 ### Service
 
@@ -1546,6 +1633,8 @@ public class ShortLinkService {
   }
 
   private String generateShortCode() {
+    // Strings are immutable, so += in a loop copies the whole string
+    // every pass. StringBuilder is the mutable buffer for building one.
     StringBuilder code = new StringBuilder(CODE_LENGTH);
     for (int i = 0; i < CODE_LENGTH; i++) {
       int index = random.nextInt(ALPHANUM.length());
@@ -1576,7 +1665,7 @@ public class ShortLinkController {
   public ResponseEntity<ShortLink> createShortLink(
     @RequestBody @Valid ShortenRequest request
   ) {
-    ShortLink saved = shortLinkService.shortenUrl(request.getTargetUrl());
+    ShortLink saved = shortLinkService.shortenUrl(request.targetUrl());
     return ResponseEntity.status(HttpStatus.CREATED).body(saved);
   }
 

@@ -1,7 +1,7 @@
 ---
 title: "Java for JavaScript Developers: Fundamentals and Spring Boot"
 date: "2026-09-12"
-excerpt: "A 2026 guide for JavaScript developers learning Java and Spring Boot. Covers modern Java language features, static typing, the Stream API, object-oriented patterns, and building production-ready REST APIs with Spring Boot 3.x."
+excerpt: "A hands-on 2026 code-along for JavaScript developers learning Java and Spring Boot. Learn modern Java from scratch by running every example, compare each concept to the JavaScript you already know, then build a real REST API with Spring Boot 3.x."
 tags: ["Java", "JavaScript", "Spring Boot", "Backend", "Full Stack", "Type Safety", "JVM"]
 category: "Backend Development"
 featured: true
@@ -13,7 +13,9 @@ coverImage: "/blogs/java-for-js-developers-cover.svg"
 
 Java and JavaScript share a name, but they were built for different kinds of software. JavaScript started as a way to make web pages interactive and has become a full-stack ecosystem powered by Node.js, browsers, and frontend frameworks. Java was designed from the beginning for large, long-lived, strongly typed systems that run on the Java Virtual Machine.
 
-If you are a JavaScript developer learning Java and Spring Boot, the shift can feel like trading a dynamically typed, event-loop runtime for a compiled, object-oriented platform with strict conventions. The good news is that modern Java has absorbed many functional programming ideas, and Spring Boot removes much of the historical ceremony that once made Java feel heavy. This guide maps what you already know from JavaScript to Java, then walks through building a real backend with Spring Boot.
+If you are a JavaScript developer learning Java and Spring Boot, the shift can feel like trading a dynamically typed, event-loop runtime for a compiled, object-oriented platform with strict conventions. The good news is that modern Java has absorbed many functional programming ideas, and Spring Boot removes much of the historical ceremony that once made Java feel heavy.
+
+This is a code-along, not a reference. In Part 1 you will set up Java and learn the language by typing and running every example, with the JavaScript equivalent next to each one so you can compare. In Part 2 you will build and run a real REST API with Spring Boot. By the end you will have two working projects on disk and the mental map to build your own.
 
 Version and scope: the examples use Java 21 LTS and Spring Boot 3.x. Java 21 introduced records as a mainstream tool, pattern matching for switch, and virtual threads; Java 25 is the newest long-term support release, and every example here runs unchanged on it. Spring Boot 3.x builds on Spring Framework 6 and the Jakarta EE namespace, and it supports native image compilation with GraalVM.
 
@@ -24,7 +26,16 @@ Version and scope: the examples use Java 21 LTS and Spring Boot 3.x. Java 21 int
 - JavaScript or TypeScript developers who want to learn backend development with Java.
 - Frontend engineers moving into full-stack or platform engineering.
 - Teams evaluating or adopting Java and Spring Boot.
-- Anyone who learns best by comparing a new language to one they already know.
+- Anyone who learns best by comparing a new language to one they already know — and by running code, not just reading it.
+
+## How to Use This Guide
+
+Two conventions make the whole article runnable:
+
+1. **Part 1 (the language)** uses a single scratch file called `Playground.java`. You will create it during setup. Each section gives you code to paste into it and run with `java Playground.java` — most examples include the expected output as a comment so you can check yourself.
+2. **Part 2 (Spring Boot)** builds one project — a blog API — file by file. Each step ends with a `curl` command and the response you should see.
+
+Don't copy-paste passively. Type the examples, break them on purpose, and read the compiler errors. Java's error messages are one of its best teachers.
 
 ---
 
@@ -46,16 +57,99 @@ JavaScript optimizes for flexibility and fast iteration. Java optimizes for corr
 
 ---
 
-## From JavaScript to Java: The Environment
+# Part 1: Learning Java by Running It
 
-Before writing code, install a Java Development Kit. JDK 21 or JDK 25 — both LTS releases — are safe choices for new Spring Boot work. You will also want an IDE. IntelliJ IDEA Community Edition is the standard, though Visual Studio Code with the Extension Pack for Java works well.
+## Setup: From Zero to Running Code
 
-A Java project is usually built with Maven or Gradle. The build file lists dependencies and plugins, and the build tool downloads them from Maven Central. This is similar to `package.json`, except the ecosystem is more conservative and the versions are often pinned by Spring Boot's dependency management.
+By the end of this section you will have Java installed, a program running, and a real Maven project on disk — the same kind of project the Spring Boot half of this guide builds on.
 
-### A minimal Maven project
+### Step 1: Install a JDK
+
+Install a Java Development Kit. JDK 21 or JDK 25 — both LTS releases — are safe choices for new Spring Boot work.
+
+On macOS with Homebrew:
+
+```bash
+brew install --cask temurin@21
+```
+
+On Windows or Linux, download an installer from [Adoptium](https://adoptium.net/), or use [SDKMAN!](https://sdkman.io/) (`sdk install java 21-tem`), which is the closest thing Java has to `nvm` for managing multiple versions.
+
+Verify it worked:
+
+```bash
+java --version
+# openjdk 21.0.x ...
+```
+
+You will also want an IDE. IntelliJ IDEA Community Edition is the standard, though Visual Studio Code with the Extension Pack for Java works well.
+
+### Step 2: Run your first Java program — no build tool required
+
+Coming from `node app.js`, the good news is modern Java can do the same thing. Create a file called `Hello.java` anywhere:
+
+```java
+public class Hello {
+  public static void main(String[] args) {
+    String name = "world";
+    System.out.println("Hello, " + name);
+  }
+}
+```
+
+Run it directly:
+
+```bash
+java Hello.java
+# Hello, world
+```
+
+No compile step, no project file. Since Java 11, the `java` launcher compiles and runs single files in one shot — perfect for experimenting. Two rules to know: the class name must match the file name (`Hello` → `Hello.java`), and `main` is the entry point, like the top level of a Node script.
+
+### Step 3: Create your Playground
+
+This one file is your companion for all of Part 1. Create `Playground.java`:
+
+```java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public class Playground {
+  public static void main(String[] args) throws Exception {
+    System.out.println("ready");
+  }
+}
+```
+
+Run it:
+
+```bash
+java Playground.java
+# ready
+```
+
+The imports at the top cover everything Part 1 uses, so you never have to hunt for them. From here on, when a section says "try it," replace the body of `main` with the example and rerun. When an example defines a new type (a record, class, or interface), add it *below* the closing brace of the `Playground` class, in the same file — Java allows multiple classes per file, and single-file launch handles them all.
+
+### Step 4: Create a real Maven project
+
+Single files don't scale, so real projects use a build tool — usually Maven or Gradle. The build file lists dependencies and plugins, and the build tool downloads them from Maven Central. This is similar to `package.json`, except the ecosystem is more conservative and the versions are often pinned by Spring Boot's dependency management.
+
+Unlike `npm init`, Maven expects a specific directory layout. Create it:
+
+```bash
+mkdir -p hello-java/src/main/java/com/example
+cd hello-java
+```
+
+Create `pom.xml` in the project root (this is your `package.json`):
 
 ```xml
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
   <artifactId>hello-java</artifactId>
@@ -69,13 +163,33 @@ A Java project is usually built with Maven or Gradle. The build file lists depen
 </project>
 ```
 
-Run the build with:
+Create `src/main/java/com/example/App.java`:
+
+```java
+package com.example;
+
+public class App {
+  public static void main(String[] args) {
+    System.out.println("Hello from Maven");
+  }
+}
+```
+
+Note the `package com.example;` line — it must match the folder path under `src/main/java`. This is a hard rule in Java, not a convention.
+
+Install Maven if you don't have it (`brew install maven`, or see [maven.apache.org](https://maven.apache.org/install.html)), then build and run:
 
 ```bash
 mvn clean compile
+java -cp target/classes com.example.App
+# Hello from Maven
 ```
 
-If you prefer Gradle, the equivalent is:
+`mvn clean compile` compiles everything under `src/main/java` into `target/classes`, and `java -cp` runs a class from that output — `-cp` sets the classpath, roughly Java's module resolution path.
+
+### The Gradle equivalent
+
+If you prefer Gradle, `build.gradle` replaces `pom.xml` with the same directory layout:
 
 ```groovy
 plugins {
@@ -94,7 +208,11 @@ repositories {
 }
 ```
 
-Then run `gradle build`.
+Then run `gradle build`. Gradle can also scaffold all of this for you with `gradle init`.
+
+One reassurance before moving on: when we get to Spring Boot, you will not hand-build any of this. The Spring Initializr generates the whole project — layout, build file, and a wrapper script (`./mvnw`) so you don't even need Maven installed globally. The point of this section is that when you open that generated project, nothing in it looks mysterious.
+
+For the rest of Part 1, stay in `Playground.java`.
 
 ---
 
@@ -102,7 +220,7 @@ Then run `gradle build`.
 
 ### Dynamic vs static typing
 
-In JavaScript, a variable can hold any value and change its type at runtime.
+In JavaScript, a variable can hold any value and change its type at runtime:
 
 ```javascript
 let value = "hello";
@@ -110,14 +228,23 @@ value = 42;
 value = { name: "Alice" };
 ```
 
-In Java, every variable has a type that is checked at compile time.
+In Java, every variable has a type that is checked at compile time. Try it — paste this into `main` and run:
 
 ```java
 String value = "hello";
-// value = 42; // compile error
+System.out.println(value);
+// value = 42; // uncomment this line and rerun
 ```
 
-Java has primitive types for numbers and booleans, and reference types for everything else.
+With the line uncommented, the program doesn't even start:
+
+```
+Playground.java:13: error: incompatible types: int cannot be converted to String
+```
+
+That error at *compile time* is the core trade. In JavaScript this bug would ship and surface later as `value.toUpperCase is not a function` in production.
+
+Java has primitive types for numbers and booleans, and reference types for everything else:
 
 ```java
 int count = 42;
@@ -125,11 +252,21 @@ double price = 19.99;
 boolean active = true;
 char grade = 'A';
 String name = "Alice";
+System.out.println(name + " scored " + grade + " with " + count + " points");
+// Alice scored A with 42 points
 ```
 
 ### Strings and text blocks
 
-Java strings are immutable like in JavaScript. Text blocks, introduced in Java 15, make multiline strings readable.
+Java strings are immutable like in JavaScript. Text blocks, introduced in Java 15, are Java's template-literal-style multiline strings:
+
+```javascript
+// JavaScript
+const json = `{
+  "name": "Alice",
+  "active": true
+}`;
+```
 
 ```java
 String json = """
@@ -138,40 +275,64 @@ String json = """
     "active": true
   }
   """;
+System.out.println(json);
+```
+
+One thing text blocks do *not* do is interpolation — there is no `${}`. Use `String.formatted`:
+
+```java
+String name = "Alice";
+String greeting = "Hello, %s! You have %d messages.".formatted(name, 3);
+System.out.println(greeting);
+// Hello, Alice! You have 3 messages.
 ```
 
 ### Type inference with var
 
-Java 10 added `var` for local variables. The type is still static; it is just inferred by the compiler.
+Java 10 added `var` for local variables. It looks like JavaScript's `let`, but the type is still static — it is just inferred by the compiler:
 
 ```java
-var name = "Alice"; // String
-var count = 42;     // int
+var name = "Alice"; // String, forever
+var count = 42;     // int, forever
+// name = 10;       // still a compile error — try it
+System.out.println(name + " / " + count);
 ```
 
 You can use `var` for local variables, but not for fields or method parameters.
 
 ### Records
 
-Records are a compact way to declare immutable data classes. They are similar to TypeScript interfaces or object literals, but they are classes with generated constructors, getters, `equals`, `hashCode`, and `toString`.
+In JavaScript you'd reach for an object literal; in TypeScript, an interface:
 
-```java
-public record User(String name, String email) {}
+```typescript
+interface User { name: string; email: string; }
+const user = { name: "Alice", email: "alice@example.com" };
 ```
 
-Use records for DTOs and value objects.
+Java's equivalent for immutable data is a record — a real class with a generated constructor, accessors, `equals`, `hashCode`, and `toString`. Add this line *below* the `Playground` class (same file, after its closing brace):
+
+```java
+record User(String name, String email) {}
+```
+
+Then in `main`:
 
 ```java
 User user = new User("Alice", "alice@example.com");
-System.out.println(user.name()); // "Alice"
+System.out.println(user.name());
+// Alice
+System.out.println(user);
+// User[name=Alice, email=alice@example.com]
 ```
+
+Notice you got a readable `toString` for free — plain Java classes print as `Playground$User@1b6d3586`-style garbage until you write one. Use records for DTOs and value objects.
 
 ### Pattern matching for switch
 
-Java 21 adds pattern matching for switch, which is similar to TypeScript discriminated unions and switch exhaustiveness.
+Java 21's pattern matching for switch is similar to TypeScript discriminated unions with exhaustiveness checking. Add this method *inside* the `Playground` class, next to `main`:
 
 ```java
-String describe(Object value) {
+static String describe(Object value) {
   return switch (value) {
     case Integer i -> "integer: " + i;
     case String s -> "string: " + s;
@@ -181,105 +342,170 @@ String describe(Object value) {
 }
 ```
 
+And in `main`:
+
+```java
+System.out.println(describe(42));      // integer: 42
+System.out.println(describe("hi"));    // string: hi
+System.out.println(describe(null));    // null
+System.out.println(describe(3.14));   // unknown
+```
+
+**Try it:** add a `case Double d ->` branch and rerun. Then remove the `default` branch and read the compiler error — the compiler tracks whether your switch covers every case.
+
 ---
 
 ## Object-Oriented Java
 
-Java is class-based and object-oriented. Every piece of code lives inside a class.
+Java is class-based and object-oriented. Every piece of code lives inside a class. In JavaScript, classes are one option among many; in Java, they are the unit of everything.
 
 ### Classes and fields
 
+Here is the classic shape of a Java class. Add it below `Playground` (you can delete the `User` record first, or keep both):
+
 ```java
-public class User {
+class Person {
   private String name;
   private String email;
 
-  public User(String name, String email) {
+  Person(String name, String email) {
     this.name = name;
     this.email = email;
   }
 
-  public String getName() {
+  String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  void setName(String name) {
     this.name = name;
   }
 
-  public String getEmail() {
+  String getEmail() {
     return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 }
 ```
 
-Fields are usually `private` and accessed through getters and setters. The JavaBeans convention is common in Spring applications, though records are increasingly used for data transfer.
+In `main`:
+
+```java
+Person p = new Person("Alice", "alice@example.com");
+p.setName("Alicia");
+System.out.println(p.getName() + " <" + p.getEmail() + ">");
+// Alicia <alice@example.com>
+```
+
+Fields are usually `private` and accessed through getters and setters. Coming from JavaScript this feels like ceremony — and it is; that's why records exist for pure data. Use classes when there's mutable state or behavior, records when it's just data. The getter/setter convention (JavaBeans) matters in Spring, where frameworks discover properties through it.
 
 ### Inheritance and overriding
 
 ```java
-public class Animal {
+class Animal {
   private String name;
 
-  public Animal(String name) {
+  Animal(String name) {
     this.name = name;
   }
 
-  public String getName() {
+  String getName() {
     return name;
   }
 
-  public String speak() {
+  String speak() {
     return getName() + " makes a sound";
   }
 }
 
-public class Dog extends Animal {
-  public Dog(String name) {
+class Dog extends Animal {
+  Dog(String name) {
     super(name);
   }
 
   @Override
-  public String speak() {
+  String speak() {
     return getName() + " barks";
   }
 }
 ```
 
-The `@Override` annotation is not required, but it catches mistakes at compile time.
+In `main`:
+
+```java
+Animal generic = new Animal("Rex");
+Animal dog = new Dog("Fido");
+System.out.println(generic.speak()); // Rex makes a sound
+System.out.println(dog.speak());     // Fido barks
+```
+
+The second line is polymorphism: the variable's type is `Animal`, but the *object's* type decides which `speak` runs — same as JavaScript prototypes, but checked at compile time. The `@Override` annotation is not required, but it catches mistakes: **try it** — rename `speak` to `speka` in `Dog` and watch the compiler refuse.
 
 ### Interfaces
 
-Java interfaces are contracts that a class can implement. Unlike JavaScript's duck typing, Java requires an explicit `implements` declaration.
+Java interfaces are contracts. Unlike JavaScript's duck typing ("if it has a `.process` method, call it"), Java requires an explicit `implements` declaration:
 
 ```java
-public interface PaymentService {
-  Payment process(Order order);
+interface Greeter {
+  String greet(String name);
 }
 
-public class StripePaymentService implements PaymentService {
-  public Payment process(Order order) {
-    // implementation
+class FriendlyGreeter implements Greeter {
+  public String greet(String name) {
+    return "Hey there, " + name + "!";
+  }
+}
+
+class FormalGreeter implements Greeter {
+  public String greet(String name) {
+    return "Good day, " + name + ".";
   }
 }
 ```
 
-### Abstract classes
-
-An abstract class can declare methods without implementations. It sits between a concrete class and an interface.
+In `main`:
 
 ```java
-public abstract class Shape {
-  public abstract double area();
+List<Greeter> greeters = List.of(new FriendlyGreeter(), new FormalGreeter());
+for (Greeter g : greeters) {
+  System.out.println(g.greet("Alice"));
+}
+// Hey there, Alice!
+// Good day, Alice.
+```
 
-  public void printArea() {
+This pattern — code against the interface, swap the implementation — is the heart of how Spring works, so it's worth letting it sink in here.
+
+### Abstract classes
+
+An abstract class can declare methods without implementations. It sits between a concrete class and an interface:
+
+```java
+abstract class Shape {
+  abstract double area();
+
+  void printArea() {
     System.out.println("Area: " + area());
   }
 }
+
+class Circle extends Shape {
+  private final double radius;
+
+  Circle(double radius) {
+    this.radius = radius;
+  }
+
+  double area() {
+    return Math.PI * radius * radius;
+  }
+}
+```
+
+In `main`:
+
+```java
+new Circle(2).printArea();
+// Area: 12.566370614359172
 ```
 
 ### Access modifiers
@@ -291,15 +517,22 @@ public abstract class Shape {
 | package-private | yes | yes | no | no |
 | private | yes | no | no | no |
 
-If you omit a modifier, the member is package-private. This is a common source of confusion for JavaScript developers.
+If you omit a modifier, the member is package-private — visible to its neighbors, hidden from everyone else. The playground classes above use it because they all share a file; in a real project you'll write `public` on most things by intent, not by default. This table is a common source of confusion for JavaScript developers, where everything is public unless you use `#private` fields.
 
 ---
 
 ## Functional Java: Lambdas and Streams
 
-Java 8 added lambdas and the Stream API. If you are used to `map`, `filter`, and `reduce` in JavaScript, the Stream API will feel familiar.
+Java 8 added lambdas and the Stream API. If you are used to `map`, `filter`, and `reduce` in JavaScript, this section will feel like home with extra steps.
 
 ### Lambdas
+
+Side by side:
+
+```javascript
+// JavaScript
+const upper = names.map(n => n.toUpperCase());
+```
 
 ```java
 List<String> names = List.of("Alice", "Bob", "Charlie");
@@ -307,9 +540,12 @@ List<String> names = List.of("Alice", "Bob", "Charlie");
 List<String> upper = names.stream()
   .map(String::toUpperCase)
   .toList();
+
+System.out.println(upper);
+// [ALICE, BOB, CHARLIE]
 ```
 
-The `String::toUpperCase` syntax is a method reference, a shorthand for the lambda `s -> s.toUpperCase()`.
+Two differences: Java collections don't have `map` directly — you enter the stream world with `.stream()` and leave it with `.toList()` — and `String::toUpperCase` is a method reference, shorthand for the lambda `s -> s.toUpperCase()`.
 
 ### Common stream operations
 
@@ -319,42 +555,58 @@ List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
 List<Integer> evens = numbers.stream()
   .filter(n -> n % 2 == 0)
   .toList();
+System.out.println(evens);
+// [2, 4, 6]
 
 int sum = numbers.stream()
   .reduce(0, Integer::sum);
+System.out.println(sum);
+// 21
 
 double average = numbers.stream()
   .mapToInt(Integer::intValue)
   .average()
   .orElse(0.0);
+System.out.println(average);
+// 3.5
 ```
 
 ### Collecting
 
 ```java
+List<String> names = List.of("Alice", "Bob", "Charlie");
+
 Set<String> unique = names.stream().collect(Collectors.toSet());
 
 Map<String, Integer> nameLengths = names.stream()
   .collect(Collectors.toMap(Function.identity(), String::length));
+
+System.out.println(nameLengths);
+// {Bob=3, Alice=5, Charlie=7}
 ```
+
+**Try it:** take `List.of("apple", "banana", "cherry", "avocado")` and produce a `Map<Character, List<String>>` grouping words by first letter. (Hint: `Collectors.groupingBy(w -> w.charAt(0))`.)
 
 ### Optional
 
-`Optional` is Java's answer to null safety. It is a container that may or may not hold a value.
+`Optional` is Java's answer to `undefined`-checking. It is a container that may or may not hold a value, and it forces you to acknowledge the empty case. Add this method to `Playground`:
 
 ```java
-public Optional<User> findById(Long id) {
-  // return Optional.of(user) or Optional.empty()
+static Optional<String> findUser(long id) {
+  return id == 1 ? Optional.of("Alice") : Optional.empty();
 }
 ```
 
-Use `Optional` to avoid `null` checks everywhere.
+In `main`:
 
 ```java
-userService.findById(id)
-  .map(User::name)
-  .orElse("Unknown");
+String found = findUser(1).map(String::toUpperCase).orElse("UNKNOWN");
+String missing = findUser(99).map(String::toUpperCase).orElse("UNKNOWN");
+System.out.println(found);   // ALICE
+System.out.println(missing); // UNKNOWN
 ```
+
+Where JavaScript writes `user?.toUpperCase() ?? "UNKNOWN"`, Java chains through the `Optional`. You will see this shape constantly in Spring Data repositories.
 
 ---
 
@@ -362,40 +614,57 @@ userService.findById(id)
 
 ### Null in Java
 
-Java does not have a `?.` optional chaining operator. Calling a method on `null` throws a `NullPointerException`. Modern Java reduces null pain with `Optional`, records, and pattern matching.
+Java does not have a `?.` optional chaining operator. Calling a method on `null` throws a `NullPointerException` — Java's `cannot read properties of undefined`. Try it and watch it explode:
 
 ```java
-String city = user.getAddress().getCity(); // can throw NPE
+String s = null;
+System.out.println(s.length()); // NullPointerException at runtime
 ```
 
-Using `Optional`:
+The modern medicine is `Optional.ofNullable` for values that might be absent:
 
 ```java
-String city = Optional.ofNullable(user.getAddress())
-  .map(Address::getCity)
-  .orElse("Unknown");
+String maybeNull = Math.random() > 0.5 ? "hello" : null;
+
+String result = Optional.ofNullable(maybeNull)
+  .map(String::toUpperCase)
+  .orElse("nothing there");
+
+System.out.println(result);
+// HELLO (or: nothing there)
 ```
 
 ### Exception handling
 
-Java has two families of exceptions: checked and unchecked. Checked exceptions are declared in method signatures and must be caught or propagated. Unchecked exceptions extend `RuntimeException`.
+Java has two families of exceptions: checked and unchecked. Checked exceptions are declared in method signatures and *must* be caught or propagated — the compiler enforces it. Unchecked exceptions extend `RuntimeException` and behave like JavaScript's throw-anything model.
+
+You can feel the difference by reading a file that doesn't exist. Run this:
 
 ```java
 try {
-  Files.readString(Path.of("data.json"));
+  String content = Files.readString(Path.of("data.json"));
+  System.out.println(content);
 } catch (IOException e) {
-  logger.error("Could not read file", e);
-  throw new RuntimeException("Failed to load data", e);
-} finally {
-  // cleanup
+  System.out.println("Could not read file: " + e.getMessage());
 }
+// Could not read file: data.json
 ```
 
-The `try-with-resources` statement automatically closes resources.
+Now create the file and rerun:
+
+```bash
+echo '{"ok": true}' > data.json
+java Playground.java
+# {"ok": true}
+```
+
+**Try it:** delete the `try`/`catch` and call `Files.readString` bare. The program won't compile — `IOException` is checked, and the compiler demands you either catch it or add `throws IOException` to the method. This is the compiler forcing the error-handling conversation that JavaScript lets you skip.
+
+The `try-with-resources` statement automatically closes resources — no `finally` cleanup dance:
 
 ```java
 try (var reader = Files.newBufferedReader(Path.of("data.json"))) {
-  return reader.readLine();
+  System.out.println(reader.readLine());
 } catch (IOException e) {
   throw new RuntimeException(e);
 }
@@ -404,74 +673,135 @@ try (var reader = Files.newBufferedReader(Path.of("data.json"))) {
 ### Custom exceptions
 
 ```java
-public class UserNotFoundException extends RuntimeException {
-  public UserNotFoundException(Long id) {
+class UserNotFoundException extends RuntimeException {
+  UserNotFoundException(long id) {
     super("User not found: " + id);
   }
 }
 ```
 
-In a Spring application, pair custom exceptions with a global exception handler so controllers stay clean. A `@RestControllerAdvice` class is the Spring equivalent of Express error-handling middleware:
+In `main`:
 
 ```java
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-  @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<ProblemDetail> handleNotFound(UserNotFoundException e) {
-    ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
-  }
+try {
+  throw new UserNotFoundException(42);
+} catch (UserNotFoundException e) {
+  System.out.println(e.getMessage());
 }
+// User not found: 42
 ```
 
-Any controller can now throw `UserNotFoundException` and the handler turns it into a proper 404 with an RFC 9457 problem-details body.
+We will put this exact pattern to work in Part 2, where a global handler turns custom exceptions into proper HTTP error responses.
 
 ---
 
 ## Concurrency: From Promises to Threads and Virtual Threads
 
-JavaScript concurrency is single-threaded with an event loop. Java concurrency is multi-threaded.
+JavaScript concurrency is single-threaded with an event loop: nothing runs in parallel in your code, so `count++` can never race. Java concurrency is multi-threaded: things genuinely run at the same time. This buys real parallelism and costs you new failure modes — Part 2's capstone hits one deliberately.
 
 ### Classic threads
 
 ```java
 var thread = new Thread(() -> {
-  System.out.println("Running in a thread");
+  System.out.println("Running in: " + Thread.currentThread());
 });
 thread.start();
+System.out.println("Main keeps going in: " + Thread.currentThread());
+thread.join(); // wait for it, like await
 ```
+
+Run it a few times — the two lines can print in either order. That's parallelism.
 
 ### Virtual threads
 
-Java 21 introduced virtual threads, which are lightweight threads managed by the JVM. They are similar to green threads or goroutines.
+Java 21 introduced virtual threads: lightweight threads managed by the JVM, similar to goroutines. They make plain blocking code scale like async code — no `async`/`await` coloring, no callback chains:
 
 ```java
 try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-  executor.submit(() -> fetchUser(1L));
-  executor.submit(() -> fetchUser(2L));
-}
+  for (int i = 1; i <= 5; i++) {
+    int id = i;
+    executor.submit(() -> {
+      Thread.sleep(1000); // pretend this is a database call
+      System.out.println("fetched user " + id);
+      return id;
+    });
+  }
+} // the try block waits for all tasks
+System.out.println("all done");
 ```
 
-Virtual threads make it easier to write straightforward, blocking code that scales like async code.
+Run it: all five "fetched user" lines appear after roughly *one* second, not five — the sleeps overlapped. Each task blocks, but blocking a virtual thread is nearly free. This is why you can write straightforward sequential code in Spring Boot and still handle heavy traffic.
 
 ### CompletableFuture
 
-For functional composition, `CompletableFuture` is the closest Java equivalent to JavaScript promises.
+For promise-style composition, `CompletableFuture` is the closest Java equivalent:
+
+```javascript
+// JavaScript
+fetchUser(1).then(u => u.name).then(console.log);
+```
 
 ```java
-CompletableFuture.supplyAsync(() -> fetchUser(1L))
-  .thenApply(User::name)
-  .thenAccept(System.out::println);
+CompletableFuture.supplyAsync(() -> "Alice")   // pretend this fetches
+  .thenApply(String::toUpperCase)              // .then(...)
+  .thenAccept(System.out::println)             // .then(...)
+  .join();                                     // block until done (main would exit otherwise)
+// ALICE
 ```
+
+With virtual threads available, much new Java code skips `CompletableFuture` chains and just writes blocking code — but you will see this API everywhere in existing codebases.
 
 ---
 
+# Part 2: Build a Blog API with Spring Boot
+
+Playground closed — now we build something real: a REST API for blog posts with a database, validation, error handling, and tests. Every step ends with something you can run.
+
 ## Spring Boot at a Glance
 
-Spring Boot is an opinionated layer on top of the Spring Framework. It provides auto-configuration, embedded servers, and starter dependencies that group common libraries together.
+Spring Boot is an opinionated layer on top of the Spring Framework. It provides auto-configuration, embedded servers, and starter dependencies that group common libraries together. Where an Express app is you assembling middleware, a Spring Boot app is you filling in blanks in a machine that already knows how to be a web server.
 
-A Spring Boot application begins with a single main class.
+## Step 1: Generate the project
+
+Use the Spring Initializr — either the website at [start.spring.io](https://start.spring.io/) (select Maven, Java 21, Spring Boot 3.x, and the dependencies below), or straight from the terminal:
+
+```bash
+curl https://start.spring.io/starter.zip \
+  -d type=maven-project \
+  -d javaVersion=21 \
+  -d groupId=com.example -d artifactId=blog -d name=blog \
+  -d dependencies=web,data-jpa,h2,validation,devtools \
+  -o blog.zip
+unzip blog.zip -d blog && cd blog
+```
+
+The dependencies:
+
+- **Spring Web** — REST controllers and the embedded Tomcat server
+- **Spring Data JPA** — database access
+- **H2 Database** — an in-memory database for development, zero setup
+- **Validation** — request validation annotations
+- **Spring Boot DevTools** — auto-restart on change, like nodemon
+
+Look at what was generated:
+
+```
+blog/
+  mvnw                  ← Maven wrapper: ./mvnw runs Maven without installing it
+  pom.xml               ← dependencies, like package.json
+  src/
+    main/
+      java/com/example/blog/
+        BlogApplication.java
+      resources/
+        application.properties
+    test/
+      java/com/example/blog/
+```
+
+You recognize all of this from Part 1's setup — Initializr just typed it for you. The package structure matters: Spring scans for components from `BlogApplication`'s package downward, so everything we create goes under `com.example.blog`.
+
+`BlogApplication.java` is the whole entry point:
 
 ```java
 @SpringBootApplication
@@ -482,65 +812,208 @@ public class BlogApplication {
 }
 ```
 
-Add a dependency with a starter:
-
-```xml
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-web</artifactId>
-</dependency>
-```
-
-Run the application:
+Run it:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-The embedded Tomcat server starts on port 8080 by default.
+Watch the log: an embedded Tomcat starts on port 8080. In a second terminal:
 
----
-
-## A Spring Boot Project from Scratch
-
-Use the Spring Initializr at https://start.spring.io/ to generate a project. Select Java 21, Spring Boot 3.3 or later, and the following dependencies:
-
-- Spring Web
-- Spring Data JPA
-- H2 Database (for development)
-- Validation
-- Spring Boot DevTools
-
-A typical project layout:
-
-```
-src/
-  main/
-    java/
-      com/example/blog/
-        BlogApplication.java
-        controller/
-        service/
-        repository/
-        model/
-        config/
-    resources/
-      application.properties
-      application-dev.properties
-  test/
-    java/
-      com/example/blog/
+```bash
+curl http://localhost:8080/anything
+# {"timestamp":"...","status":404,"error":"Not Found","path":"/anything"}
 ```
 
-This layout enforces separation of concerns. The package structure is important because Spring scans for components from the main class downward.
+A 404 with a JSON body — the server is alive; it just has no routes yet. Leave it running: DevTools restarts it automatically as you add files.
 
----
+## Step 2: Your first endpoint
 
-## Building a REST API
-
-A REST controller in Spring Boot combines the route and handler annotations that Express developers split between `app.get` and a callback.
+Create `src/main/java/com/example/blog/controller/HelloController.java`:
 
 ```java
+package com.example.blog.controller;
+
+import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+  @GetMapping("/hello")
+  public Map<String, String> hello() {
+    return Map.of("message", "Hello from Spring Boot");
+  }
+}
+```
+
+(Your IDE will offer to add imports automatically as you type — they're written out here so nothing blocks you.)
+
+```bash
+curl http://localhost:8080/hello
+# {"message":"Hello from Spring Boot"}
+```
+
+Compare with Express: `app.get("/hello", (req, res) => res.json({ message: "..." }))`. Same idea — the route is an annotation, the handler is a method, and returning an object serializes it to JSON automatically.
+
+## Step 3: The Post entity
+
+Now the real model. Create `src/main/java/com/example/blog/model/Post.java`:
+
+```java
+package com.example.blog.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+
+@Entity
+@Table(name = "posts")
+public class Post {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @NotBlank
+  @Column(nullable = false)
+  private String title;
+
+  private String content;
+
+  @NotBlank
+  @Column(nullable = false)
+  private String author;
+
+  @CreationTimestamp
+  private LocalDateTime createdAt;
+
+  public Long getId() { return id; }
+  public String getTitle() { return title; }
+  public void setTitle(String title) { this.title = title; }
+  public String getContent() { return content; }
+  public void setContent(String content) { this.content = content; }
+  public String getAuthor() { return author; }
+  public void setAuthor(String author) { this.author = author; }
+  public LocalDateTime getCreatedAt() { return createdAt; }
+}
+```
+
+`@Entity` maps the class to a database table; each field becomes a column. `@GeneratedValue` is auto-increment, `@CreationTimestamp` fills the date on insert, and `@NotBlank` is validation we'll trigger in Step 6. The getters and setters are the JavaBeans ceremony from Part 1 — this is where it earns its keep, because JPA and Jackson (the JSON serializer) discover properties through it. (Records cannot be JPA entities in the current specification, so entities stay classes.)
+
+## Step 4: Repository and seed data
+
+Create `src/main/java/com/example/blog/repository/PostRepository.java`:
+
+```java
+package com.example.blog.repository;
+
+import com.example.blog.model.Post;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PostRepository extends JpaRepository<Post, Long> {
+  List<Post> findAllByOrderByCreatedAtDesc();
+  List<Post> findByAuthorIgnoreCase(String author);
+}
+```
+
+That's the entire data layer. No implementation — Spring Data JPA reads the *method names*, derives the SQL, and generates the class at startup. `findByAuthorIgnoreCase` becomes `WHERE LOWER(author) = LOWER(?)`. It feels like magic the first time; it's really a naming DSL.
+
+So we have something to look at, seed two posts. Create `src/main/java/com/example/blog/config/DataSeeder.java`:
+
+```java
+package com.example.blog.config;
+
+import com.example.blog.model.Post;
+import com.example.blog.repository.PostRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class DataSeeder {
+
+  @Bean
+  CommandLineRunner seed(PostRepository posts) {
+    return args -> {
+      if (posts.count() == 0) {
+        Post first = new Post();
+        first.setTitle("Hello Java");
+        first.setContent("First post, seeded at startup");
+        first.setAuthor("BJ");
+        posts.save(first);
+
+        Post second = new Post();
+        second.setTitle("Hello Spring Boot");
+        second.setContent("Second post, seeded at startup");
+        second.setAuthor("BJ");
+        posts.save(second);
+      }
+    };
+  }
+}
+```
+
+A `CommandLineRunner` runs once at startup — and notice it's just a lambda, straight from Part 1. Notice also what we *didn't* do: connect to a database. H2 is on the classpath, so Spring Boot auto-configured an in-memory database and pointed JPA at it. That's auto-configuration in one sentence.
+
+## Step 5: Service and controller
+
+The service layer holds business logic between the controller and the repository. Create `src/main/java/com/example/blog/service/PostService.java`:
+
+```java
+package com.example.blog.service;
+
+import com.example.blog.model.Post;
+import com.example.blog.repository.PostRepository;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
+
+@Service
+public class PostService {
+
+  private final PostRepository postRepository;
+
+  public PostService(PostRepository postRepository) {
+    this.postRepository = postRepository;
+  }
+
+  public List<Post> findAll() {
+    return postRepository.findAllByOrderByCreatedAtDesc();
+  }
+
+  public Optional<Post> findById(Long id) {
+    return postRepository.findById(id);
+  }
+
+  public Post save(Post post) {
+    return postRepository.save(post);
+  }
+
+  public void deleteById(Long id) {
+    postRepository.deleteById(id);
+  }
+}
+```
+
+Nobody ever calls `new PostService(...)`. Spring sees the `@Service` annotation, constructs it, and hands it the repository through the constructor — dependency injection, the interface-driven pattern from Part 1 running the show.
+
+Now the real controller. Create `src/main/java/com/example/blog/controller/PostController.java` (and feel free to delete `HelloController`):
+
+```java
+package com.example.blog.controller;
+
+import com.example.blog.model.Post;
+import com.example.blog.service.PostService;
+import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -577,99 +1050,105 @@ public class PostController {
 }
 ```
 
-Key annotations:
+Key annotations: `@RestController` marks a web controller; `@RequestMapping` sets the base path; `@GetMapping`/`@PostMapping`/`@DeleteMapping` map HTTP methods; `@PathVariable` binds URL segments; `@RequestBody` deserializes JSON into a `Post`; `@Valid` triggers the `@NotBlank` rules from the entity. `ResponseEntity` controls status and headers explicitly. And look at `getPostById` — that's the `Optional` chain from Part 1, mapped straight onto HTTP: present → 200, empty → 404.
 
-- `@RestController` marks the class as a web controller.
-- `@RequestMapping` sets a base path.
-- `@GetMapping`, `@PostMapping`, `@DeleteMapping` map HTTP methods.
-- `@PathVariable` binds URL variables.
-- `@RequestBody` deserializes JSON to a Java object.
-- `@Valid` triggers Bean Validation.
+Now exercise all of it:
 
-The `ResponseEntity` type lets you control the response status and headers explicitly.
+```bash
+curl http://localhost:8080/api/posts
+# [{"id":2,"title":"Hello Spring Boot",...},{"id":1,"title":"Hello Java",...}]
 
----
+curl -X POST http://localhost:8080/api/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Written from curl","content":"It lives","author":"BJ"}'
+# {"id":3,"title":"Written from curl",...}   ← note the 201 and generated id
 
-## Data Access with Spring Data JPA
+curl http://localhost:8080/api/posts/3
+# {"id":3,"title":"Written from curl",...}
 
-Spring Data JPA removes boilerplate. You define an entity and a repository interface; Spring generates the implementation.
+curl -i -X DELETE http://localhost:8080/api/posts/3
+# HTTP/1.1 204
 
-### Entity
-
-```java
-@Entity
-@Table(name = "posts")
-public class Post {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Column(nullable = false)
-  private String title;
-
-  private String content;
-
-  @Column(nullable = false)
-  private String author;
-
-  @CreationTimestamp
-  private LocalDateTime createdAt;
-
-  // getters, setters, equals, hashCode, toString
-}
+curl -i http://localhost:8080/api/posts/3
+# HTTP/1.1 404
 ```
 
-Records cannot be JPA entities in the current specification, so use a class for entities.
+A complete CRUD API: controller → service → repository → database, in four files.
 
-### Repository
+## Step 6: Validation and a global error handler
 
-```java
-public interface PostRepository extends JpaRepository<Post, Long> {
-  List<Post> findAllByOrderByCreatedAtDesc();
-  List<Post> findByAuthorIgnoreCase(String author);
-}
+Send an invalid post:
+
+```bash
+curl -i -X POST http://localhost:8080/api/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title":"","author":""}'
+# HTTP/1.1 400
 ```
 
-### Service
+`@Valid` + `@NotBlank` already rejected it. But our 404s are still bare. Let's wire up the custom-exception pattern from Part 1. Create `src/main/java/com/example/blog/exception/PostNotFoundException.java`:
 
 ```java
-@Service
-public class PostService {
+package com.example.blog.exception;
 
-  private final PostRepository postRepository;
-
-  public PostService(PostRepository postRepository) {
-    this.postRepository = postRepository;
-  }
-
-  public List<Post> findAll() {
-    return postRepository.findAllByOrderByCreatedAtDesc();
-  }
-
-  public Optional<Post> findById(Long id) {
-    return postRepository.findById(id);
-  }
-
-  public Post save(Post post) {
-    return postRepository.save(post);
-  }
-
-  public void deleteById(Long id) {
-    postRepository.deleteById(id);
+public class PostNotFoundException extends RuntimeException {
+  public PostNotFoundException(Long id) {
+    super("Post not found: " + id);
   }
 }
 ```
 
-Spring creates the `PostRepository` implementation automatically and injects it through the constructor. This is dependency injection in action.
+And `src/main/java/com/example/blog/exception/GlobalExceptionHandler.java` — the Spring equivalent of Express error-handling middleware:
 
----
+```java
+package com.example.blog.exception;
 
-## Configuration and Profiles
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-Configuration lives in `application.properties` or `application.yml`. Profiles let you vary configuration by environment.
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+  @ExceptionHandler(PostNotFoundException.class)
+  public ProblemDetail handleNotFound(PostNotFoundException e) {
+    return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+  }
+}
+```
+
+Update `getPostById` in the controller to throw instead of building the 404 by hand:
+
+```java
+@GetMapping("/{id}")
+public Post getPostById(@PathVariable Long id) {
+  return postService.findById(id)
+    .orElseThrow(() -> new PostNotFoundException(id));
+}
+```
+
+```bash
+curl http://localhost:8080/api/posts/999
+# {"type":"about:blank","title":"Not Found","status":404,"detail":"Post not found: 999",...}
+```
+
+Any controller can now throw `PostNotFoundException` and the handler turns it into a proper 404 with an RFC 9457 problem-details body. Controllers stay clean; error formatting lives in one place.
+
+## Step 7: Configuration and profiles
+
+Configuration lives in `application.properties` (or `application.yml`). Add to `src/main/resources/application.properties`:
+
+```properties
+spring.jpa.show-sql=true
+```
+
+Restart and hit an endpoint — the log now shows every SQL statement Hibernate runs. Useful while learning; noisy in production. Which raises the question: how do you vary config by environment?
+
+Profiles. A file named `application-dev.yml` overrides the base config when the `dev` profile is active. A realistic production setup looks like:
 
 ```yaml
+# application.yml — base config
 server:
   port: 8080
 
@@ -678,19 +1157,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/blog
     username: blog
     password: blog
-
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
-
-  profiles:
-    active: dev
 ```
 
-Profile-specific files like `application-dev.yml` override the base file when the `dev` profile is active.
-
 ```yaml
+# application-dev.yml — active only with the dev profile
 spring:
   datasource:
     url: jdbc:h2:mem:blogdb
@@ -700,23 +1174,159 @@ spring:
     show-sql: true
 ```
 
-Use `@Value` to inject a property into a bean.
+Inject a property into code with `@Value`:
 
 ```java
-@Service
-public class FeatureService {
-  @Value("${feature.new-dashboard:false}")
-  private boolean newDashboard;
+@Value("${feature.new-dashboard:false}")
+private boolean newDashboard;
+```
+
+Or use `@ConfigurationProperties` for type-safe configuration. This is roughly `.env` files plus `NODE_ENV` branching, but structured and type-checked.
+
+## Step 8: Tests
+
+Spring Boot includes JUnit 5, Mockito, and AssertJ. Replace the generated test or create `src/test/java/com/example/blog/PostControllerTest.java`:
+
+```java
+package com.example.blog;
+
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class PostControllerTest {
+
+  @Autowired
+  private MockMvc mockMvc;
+
+  @Test
+  void shouldReturnSeededPosts() throws Exception {
+    // the DataSeeder from Step 4 runs for tests too
+    mockMvc.perform(get("/api/posts"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(2))));
+  }
+
+  @Test
+  void shouldCreatePost() throws Exception {
+    String json = """
+      {
+        "title": "Hello from a test",
+        "content": "Text blocks make JSON fixtures pleasant",
+        "author": "BJ"
+      }
+      """;
+
+    mockMvc.perform(post("/api/posts")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+      .andExpect(status().isCreated())
+      .andExpect(jsonPath("$.title").value("Hello from a test"));
+  }
+
+  @Test
+  void shouldRejectBlankTitle() throws Exception {
+    mockMvc.perform(post("/api/posts")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{\"title\":\"\",\"author\":\"BJ\"}"))
+      .andExpect(status().isBadRequest());
+  }
 }
 ```
 
-Or use `@ConfigurationProperties` for type-safe configuration.
+Run them:
 
----
+```bash
+./mvnw test
+# ...
+# Tests run: 3, Failures: 0
+```
 
-## Security with Spring Security
+`@SpringBootTest` boots the real application context; `MockMvc` fires requests at it without a network. Note the text block holding the JSON fixture — Part 1 paying off again.
 
-Spring Security configures a filter chain that runs before your controllers.
+For fast unit tests without the Spring context, mock the repository with Mockito:
+
+```java
+package com.example.blog;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import com.example.blog.model.Post;
+import com.example.blog.repository.PostRepository;
+import com.example.blog.service.PostService;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+class PostServiceTest {
+
+  @Mock
+  private PostRepository postRepository;
+
+  @InjectMocks
+  private PostService postService;
+
+  @Test
+  void shouldFindAllPosts() {
+    when(postRepository.findAllByOrderByCreatedAtDesc())
+      .thenReturn(List.of(new Post()));
+
+    List<Post> result = postService.findAll();
+
+    assertThat(result).hasSize(1);
+  }
+}
+```
+
+The shape is close to Jest: `when(...).thenReturn(...)` is `mockFn.mockReturnValue(...)`, `@InjectMocks` is manual constructor wiring you'd do yourself in JS.
+
+## Step 9: Package and ship it
+
+A Spring Boot application packages as a single executable JAR with Tomcat inside. Stop the dev server, then:
+
+```bash
+./mvnw clean package
+java -jar target/blog-0.0.1-SNAPSHOT.jar
+```
+
+Same app, one file, runs anywhere a JVM exists. That JAR is your deployable artifact — no `node_modules` to ship, no runtime to assemble on the server.
+
+Maven does not generate a lock file the way npm does, but Spring Boot's `spring-boot-starter-parent` BOM pins the versions of hundreds of libraries, which serves a similar purpose: consistent, known-compatible dependency versions across builds.
+
+For containers, either let the build plugin make an image:
+
+```bash
+./mvnw spring-boot:build-image
+```
+
+Or write a small Dockerfile:
+
+```dockerfile
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY target/blog-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+For GraalVM native images — faster startup, less memory, ideal for serverless — Spring Boot's AOT processing is built in: add the GraalVM Native Build Tools plugin (`org.graalvm.buildtools.native`) and build with `./mvnw -Pnative native:compile`.
+
+## A Look Ahead: Spring Security
+
+We deliberately did not add security to the code-along — the moment the `spring-security` starter lands on the classpath, *every* endpoint requires authentication and all your curl commands start returning 401s. But you should know what it looks like, because you'll meet it in any real codebase:
 
 ```java
 @Configuration
@@ -739,127 +1349,22 @@ public class SecurityConfig {
 }
 ```
 
-For a stateless, token-based API, you would replace `httpBasic` with a JWT filter. Spring Security 6 and later use `Customizer.withDefaults()` and lambda-style configuration for all security settings.
+Spring Security configures a filter chain that runs before your controllers — middleware, in Express terms. For a stateless, token-based API you would replace `httpBasic` with a JWT filter.
 
 One caveat on `csrf.disable()`: it is appropriate for a stateless API authenticated with tokens, where there is no session cookie for a cross-site request to ride on. If your application uses session-based authentication — as the `httpBasic` example above can — leave CSRF protection on. Do not copy that line into a session-backed app.
 
 ---
 
-## Testing
+# Capstone: Build a URL Shortener
 
-Spring Boot includes JUnit 5, Mockito, and AssertJ. The `@SpringBootTest` annotation loads the application context for integration tests.
+You now know enough to build a service from scratch. Before reading the solution, try it yourself in a fresh Initializr project (same dependencies as the blog). Requirements:
 
-```java
-@SpringBootTest
-@AutoConfigureMockMvc
-class PostControllerTest {
+1. `POST /api/links` with `{"targetUrl": "https://..."}` creates a short link with a random 7-character code and returns it.
+2. `GET /{shortCode}` responds with an HTTP 302 redirect to the target URL and counts the click.
+3. `GET /api/links/{shortCode}/stats` returns the link with its click count.
+4. Short codes must be unique, and click counting must survive concurrent requests.
 
-  @Autowired
-  private MockMvc mockMvc;
-
-  @Test
-  void shouldReturnAllPosts() throws Exception {
-    // assumes two posts were seeded, e.g. via @Sql or a data.sql fixture
-    mockMvc.perform(get("/api/posts"))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$", hasSize(2)));
-  }
-
-  @Test
-  void shouldCreatePost() throws Exception {
-    String json = """
-      {
-        "title": "Hello Java",
-        "content": "Spring Boot is great",
-        "author": "Alice"
-      }
-      """;
-
-    mockMvc.perform(post("/api/posts")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(json))
-      .andExpect(status().isCreated())
-      .andExpect(jsonPath("$.title").value("Hello Java"));
-  }
-}
-```
-
-Unit tests in Java use the Mockito extension.
-
-```java
-@ExtendWith(MockitoExtension.class)
-class PostServiceTest {
-
-  @Mock
-  private PostRepository postRepository;
-
-  @InjectMocks
-  private PostService postService;
-
-  @Test
-  void shouldFindAllPosts() {
-    when(postRepository.findAllByOrderByCreatedAtDesc())
-      .thenReturn(List.of(new Post()));
-
-    List<Post> result = postService.findAll();
-
-    assertThat(result).hasSize(1);
-  }
-}
-```
-
----
-
-## Build Tools and Packaging
-
-A Spring Boot application is packaged as an executable JAR with an embedded Tomcat. You can run it anywhere a JVM is installed.
-
-```bash
-./mvnw clean package
-java -jar target/blog-1.0.0.jar
-```
-
-For Gradle:
-
-```bash
-./gradlew bootJar
-java -jar build/libs/blog-1.0.0.jar
-```
-
-Maven does not generate a lock file the way npm does, but Spring Boot's `spring-boot-starter-parent` or `spring-boot-dependencies` BOM pins the versions of hundreds of libraries, which serves a similar purpose: consistent, known-compatible dependency versions across builds.
-
----
-
-## Deployment and Native Images
-
-Spring Boot 3.x supports native images through GraalVM. A native image starts faster and uses less memory, which is ideal for containers and serverless functions.
-
-You can build a Docker image with the Spring Boot Maven plugin:
-
-```bash
-./mvnw spring-boot:build-image
-```
-
-Or write a small Dockerfile:
-
-```dockerfile
-FROM eclipse-temurin:21-jdk-alpine
-WORKDIR /app
-COPY target/blog-1.0.0.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-For GraalVM native images, Spring Boot's AOT processing is built in — add the GraalVM Native Build Tools plugin (`org.graalvm.buildtools.native`) and build with the `native` Maven profile:
-
-```bash
-./mvnw -Pnative native:compile
-```
-
----
-
-## Complete Example: URL Shortener
-
-The following is a small but realistic URL shortener service. It shows custom short-code generation, unique constraints, HTTP 302 redirects, and basic click analytics.
+Requirement 4 is the trap — and it's a trap that doesn't exist in single-threaded Node. Attempt it, then compare below.
 
 ### Entity
 
@@ -883,11 +1388,12 @@ public class ShortLink {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  // constructors, getters, setters
+  // getters and setters for all fields — generate them with your IDE
+  // (IntelliJ: Code → Generate → Getter and Setter)
 }
 ```
 
-The `unique = true` on the column generates a unique constraint (and, on most databases, a backing index), so a separate `@Index` declaration is unnecessary here.
+The `unique = true` on the column generates a unique constraint (and, on most databases, a backing index) — that constraint is about to do real work.
 
 ### Repository
 
@@ -981,7 +1487,7 @@ public class ShortLinkService {
 }
 ```
 
-Two concurrency details are worth calling out, because they are exactly the kind of bug that a single-threaded JavaScript mental model hides. First, the click counter is incremented with an atomic `update` query instead of read-modify-write; loading the entity, bumping the count in Java, and saving it back would lose clicks when two requests interleave. Second, checking `existsByShortCode` before saving cannot guarantee uniqueness — two threads can both pass the check with the same code — so the service leans on the database's unique constraint and retries on `DataIntegrityViolationException`. In a multi-threaded runtime, the database is the arbiter of uniqueness, not application code.
+Two concurrency details are worth calling out, because they are exactly the kind of bug that a single-threaded JavaScript mental model hides. First, the click counter is incremented with an atomic `update` query instead of read-modify-write; loading the entity, bumping the count in Java, and saving it back would lose clicks when two requests interleave. Second, checking existence before saving cannot guarantee uniqueness — two threads can both pass the check with the same code — so the service leans on the database's unique constraint and retries on `DataIntegrityViolationException`. In a multi-threaded runtime, the database is the arbiter of uniqueness, not application code.
 
 ### Controller
 
@@ -1023,7 +1529,28 @@ public class ShortLinkController {
 }
 ```
 
-This example is more realistic than a task list because it covers custom short-code generation, unique constraints, HTTP redirects, and analytics while keeping the same controller, service, and repository flow.
+### Try it end to end
+
+```bash
+curl -X POST http://localhost:8080/api/links \
+  -H "Content-Type: application/json" \
+  -d '{"targetUrl":"https://billieheidelberg.com"}'
+# {"id":1,"shortCode":"aB3xK9p","targetUrl":"https://billieheidelberg.com","clickCount":0,...}
+
+curl -iL http://localhost:8080/aB3xK9p
+# HTTP/1.1 302 → follows to the target
+
+curl http://localhost:8080/api/links/aB3xK9p/stats
+# {"shortCode":"aB3xK9p","clickCount":1,...}
+```
+
+Hammer the redirect in a loop and check that no click goes missing — that's your concurrency fix visibly working:
+
+```bash
+for i in $(seq 1 50); do curl -s -o /dev/null http://localhost:8080/aB3xK9p & done; wait
+curl http://localhost:8080/api/links/aB3xK9p/stats
+# clickCount is exactly 51
+```
 
 ---
 
@@ -1057,6 +1584,8 @@ Choose Java when:
 
 ## Conclusion
 
-Moving from JavaScript to Java means trading some flexibility for predictability and scale. Java's type system, the JVM, and the Spring ecosystem give you powerful tools for building long-lived, maintainable backends. Modern Java features like records, pattern matching, and virtual threads, combined with Spring Boot's auto-configuration, make the transition less intimidating than it once was.
+Look at what's on your disk now: a playground where you ran modern Java feature by feature, a blog API with a database, validation, error handling, and passing tests, and — if you took the capstone — a URL shortener that survives concurrent traffic. That's not "read about Java"; that's built with Java.
 
-Start with the fundamentals, build a small Spring Boot project, and compare each Java concept to its JavaScript equivalent. The mental model takes time to shift, but the patterns are closer than the syntax suggests.
+Moving from JavaScript to Java means trading some flexibility for predictability and scale. Java's type system, the JVM, and the Spring ecosystem give you powerful tools for building long-lived, maintainable backends — and modern features like records, pattern matching, and virtual threads make the language feel far closer to home than its reputation suggests.
+
+Where to go next: add an update endpoint (`@PutMapping`) to the blog API, swap H2 for PostgreSQL using the profiles from Step 7, or give the shortener custom vanity codes. The mental model takes time to shift, but you've already made the hardest move — from reading to running.
